@@ -21,11 +21,11 @@ All projects in this repository are built using **Visual Studio 2022**.
 ### 3. phoxo_core_lib
 - C++20 header-only library for high-performance image processing on Windows.  
 - Used by **all projects**.  
-- GitHub: [https://github.com/phoxo/phoxo_core_lib](https://github.com/phoxo/phoxo_core_lib)  
+- GitHub: [https://github.com/atphoxo/phoxo-core-lib](https://github.com/atphoxo/phoxo-core-lib)  
 - **Note:** Add this library to Visual Studio's **C++ Common Include Directories** before building.
 
 ### 4. UIStone
 - C++20 header-only library for Win32 SDK and MFC, providing extended utilities for efficiency.  
 - Used by **all projects**.  
-- GitHub: [https://github.com/phoxo/UIStone](https://github.com/phoxo/UIStone)  
+- GitHub: [https://github.com/atphoxo/UIStone](https://github.com/atphoxo/UIStone)  
 - **Note:** Add this library to Visual Studio's **C++ Common Include Directories** before building.
