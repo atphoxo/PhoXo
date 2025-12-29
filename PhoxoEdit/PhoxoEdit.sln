@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhoxoEdit", "PhoxoEdit.vcxproj", "{959242E6-E148-6631-4461-59AC3AFB30C4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "phoxo_shared", "..\phoxo_shared\phoxo_shared.vcxitems", "{B834979A-7D6B-41AE-9AF2-79B3672368E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{959242E6-E148-6631-4461-59AC3AFB30C4}.Debug|x64.ActiveCfg = Debug|x64
+		{959242E6-E148-6631-4461-59AC3AFB30C4}.Debug|x64.Build.0 = Debug|x64
+		{959242E6-E148-6631-4461-59AC3AFB30C4}.Release|x64.ActiveCfg = Release|x64
+		{959242E6-E148-6631-4461-59AC3AFB30C4}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {515E214D-7EE7-4E53-84CB-937637EF1ECD}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\phoxo_shared\phoxo_shared.vcxitems*{959242e6-e148-6631-4461-59ac3afb30c4}*SharedItemsImports = 4
+		..\phoxo_shared\phoxo_shared.vcxitems*{b834979a-7d6b-41ae-9af2-79b3672368e7}*SharedItemsImports = 9
+	EndGlobalSection
+EndGlobal

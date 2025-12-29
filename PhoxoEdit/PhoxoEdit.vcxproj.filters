@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\top_toolbar">
+      <UniqueIdentifier>{fea60a3f-b3d2-4192-8903-3db2af3f8825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\right_tab_bar">
+      <UniqueIdentifier>{2f27b711-673a-4f75-9654-1d4279de62c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\base">
+      <UniqueIdentifier>{e944e7da-d174-4445-a257-bc7b77ff8c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\canvas">
+      <UniqueIdentifier>{4db081f6-fe06-45ea-9d24-02f647133935}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_doc.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_frame.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_view.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhoxoEdit.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="top_toolbar\wnd_top_toolbar.h">
+      <Filter>Source Files\top_toolbar</Filter>
+    </ClInclude>
+    <ClInclude Include="right_tab_bar\wnd_right_tab_bar.h">
+      <Filter>Source Files\right_tab_bar</Filter>
+    </ClInclude>
+    <ClInclude Include="app_config.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\canvas.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\layer.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="base\app_define.h">
+      <Filter>Source Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\canvas_draw_target.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\viewport_composer.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="top_toolbar\zoom_slider_mapper.h">
+      <Filter>Source Files\top_toolbar</Filter>
+    </ClInclude>
+    <ClInclude Include="main_frame_utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\zoom_mapper.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\layer_manager.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\canvas_viewport.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\mfc_scroll_view_draw_target.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\mfc_scroll_view_anchor_restore.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="main_view_welcome.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main_doc_manager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PhoxoEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_doc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="top_toolbar\wnd_top_toolbar.cpp">
+      <Filter>Source Files\top_toolbar</Filter>
+    </ClCompile>
+    <ClCompile Include="right_tab_bar\wnd_right_tab_bar.cpp">
+      <Filter>Source Files\right_tab_bar</Filter>
+    </ClCompile>
+    <ClCompile Include="app_config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\canvas.cpp">
+      <Filter>Source Files\canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\layer.cpp">
+      <Filter>Source Files\canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="main_frame_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\canvas_viewport.cpp">
+      <Filter>Source Files\canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="main_doc_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main_view_zoom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PhoxoEdit.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\PhoxoEdit.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\top_toolbar_icons.svg" />
+    <None Include="res\right_tab_bar.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\PhoxoEditDoc.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\PhoxoEdit.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

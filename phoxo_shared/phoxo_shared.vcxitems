@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{b834979a-7d6b-41ae-9af2-79b3672368e7}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)image_file_io.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_image_open_dialog.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_image_save_dialog.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_scroll_view.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_shared.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)image_file_io.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)phoxo_scroll_view.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)phoxo_scroll_view_mfc_modified.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)phoxo_utils.cpp" />
+  </ItemGroup>
+</Project>

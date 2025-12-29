@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package
+	xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+	xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+	xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+	xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+	xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+	xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+	xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
+	xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+	xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
+	xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+	xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+	IgnorableNamespaces="uap uap2 uap3 rescap desktop desktop2 desktop4 desktop5 uap10 com">
+
+  <Identity Name="PhoXo.ExplorerMenu" ProcessorArchitecture="x64" Publisher="CN=FU LI, O=FU LI, S=Nova Scotia, C=CA" Version="1.0.0.0" />
+
+  <Properties>
+    <DisplayName>PhoXo</DisplayName>
+    <PublisherDisplayName>FU LI</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+    <uap10:AllowExternalContent>true</uap10:AllowExternalContent>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19000.0" MaxVersionTested="10.0.22000.160" />
+  </Dependencies>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="unvirtualizedResources"/>
+  </Capabilities>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+
+    <Application Id="PhoXo" Executable="phoxosee.exe" uap10:TrustLevel="mediumIL" uap10:RuntimeBehavior="win32App">
+
+      <uap:VisualElements DisplayName="PhoXoExplorerMenu" Description="phoxosee.exe" AppListEntry="none" BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
+      </uap:VisualElements>
+
+      <Extensions>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:SurrogateServer DisplayName="PhoXo">
+              <com:Class Id="613AE322-C278-4970-B5F9-6A70EB0B896B" Path="ExplorerMenu.dll" ThreadingModel="STA"/>
+            </com:SurrogateServer>
+          </com:ComServer>
+        </com:Extension>
+
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <desktop5:ItemType Type="*">
+              <desktop5:Verb Id="PhoXo" Clsid="613AE322-C278-4970-B5F9-6A70EB0B896B" />
+            </desktop5:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+      </Extensions>
+      
+    </Application>
+    
+  </Applications>
+  
+</Package>

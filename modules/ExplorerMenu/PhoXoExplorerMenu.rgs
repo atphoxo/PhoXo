@@ -1,0 +1,16 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {613ae322-c278-4970-b5f9-6a70eb0b896b} = s 'PhoXoExplorerMenu class'
+		{
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{a91b92ba-e47c-4917-830b-4694af670684}'
+			Version = s '1.0'
+		}
+	}
+}

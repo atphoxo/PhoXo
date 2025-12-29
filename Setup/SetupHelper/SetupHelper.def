@@ -1,0 +1,3 @@
+LIBRARY SetupHelper
+EXPORTS
+    RunBeforeInstall

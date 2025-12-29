@@ -1,0 +1,15 @@
+HKCR
+{
+	NoRemove CLSID
+	{
+		ForceRemove {880f023b-2d20-411a-9ff3-2c19e1adf3b5} = s 'PhoXo.Explorer.Thumbnail'
+		{
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{3533d239-e6f8-4377-9038-eb773fc05215}'
+			Version = s '1.0'
+		}
+	}
+}

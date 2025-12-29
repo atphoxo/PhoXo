@@ -1,0 +1,36 @@
+// ExplorerMenu.idl : IDL source for ExplorerMenu
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ExplorerMenu.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(1709c0d7-7144-46b7-a05e-519c04a351f8),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IPhoXoExplorerMenu : IDispatch
+{
+};
+[
+	uuid(a91b92ba-e47c-4917-830b-4694af670684),
+	version(1.0),
+]
+library ExplorerMenuLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(613ae322-c278-4970-b5f9-6a70eb0b896b)
+	]
+	coclass PhoXoExplorerMenu
+	{
+		[default] interface IPhoXoExplorerMenu;
+	};
+};
+
+import "shobjidl.idl";

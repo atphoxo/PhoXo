@@ -1,0 +1,23 @@
+{
+  "name": "image",
+  "version-string": "0.0.1",
+  "dependencies": [
+    "libheif",
+    "libwebp",
+    "lunasvg",
+    "stb",
+    "tinyexr",
+    "openjpeg"
+  ],
+  "builtin-baseline": "120deac3062162151622ca4860575a33844ba10b",
+  "overrides": [
+    {
+      "name": "libheif",
+      "version": "1.19.8"
+    },
+    {
+      "name": "lunasvg",
+      "version": "3.3.0"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36717.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegisterShellMenu11", "RegisterShellMenu11.vcxproj", "{BFC1C8A2-3236-45D4-BEC3-42508991773A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFC1C8A2-3236-45D4-BEC3-42508991773A}.Debug|x64.ActiveCfg = Debug|x64
+		{BFC1C8A2-3236-45D4-BEC3-42508991773A}.Debug|x64.Build.0 = Debug|x64
+		{BFC1C8A2-3236-45D4-BEC3-42508991773A}.Release|x64.ActiveCfg = Release|x64
+		{BFC1C8A2-3236-45D4-BEC3-42508991773A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F587B364-90B9-409D-8833-78D880F50DAE}
+	EndGlobalSection
+EndGlobal
