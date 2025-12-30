@@ -34,3 +34,5 @@ using phoxo::Layer;
 
 #include "phoxo_shared.h"
 #include "resource.h"       // main symbols
+
+#pragma comment (lib, "../modules/image/bin/image.lib")

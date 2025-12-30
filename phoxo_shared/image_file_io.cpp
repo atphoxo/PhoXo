@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "image_file_io.h"
 #include "../modules/image/caller_imagedll.h"
-#pragma comment (lib, "../modules/image/bin/image.lib")
 
 using namespace phoxo;
 
