@@ -18,14 +18,14 @@ All projects in this repository are built using **Visual Studio 2022**.
 - Only the `PhoXoEdit` project depends on **BCGControlBar Pro**.  
 - You can download an **evaluation version** from the official website.
 
-### 3. phoxo_core_lib
-- C++20 header-only library for high-performance image processing on Windows.  
-- Used by **all projects**.  
-- GitHub: [https://github.com/atphoxo/phoxo-core-lib](https://github.com/atphoxo/phoxo-core-lib)  
-- **Note:** Add this library to Visual Studio's **C++ Common Include Directories** before building.
 
-### 4. UIStone
-- C++20 header-only library for Win32 SDK and MFC, providing extended utilities for efficiency.  
-- Used by **all projects**.  
-- GitHub: [https://github.com/atphoxo/UIStone](https://github.com/atphoxo/UIStone)  
-- **Note:** Add this library to Visual Studio's **C++ Common Include Directories** before building.
+## Clone with Submodules
+
+This repository has **two submodules**: `phoxo-core-lib` and `UIStone`.  
+
+> ⚠️ **Important:** When cloning, **check "recursive"** to get submodules.  
+
+Or via command line:
+
+```bash
+git clone --recursive git@github.com:atphoxo/PhoXo.git
