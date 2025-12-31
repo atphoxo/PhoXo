@@ -1,9 +1,10 @@
 
 # PhoXo
 
-![PhoXo](https://img.shields.io/badge/PhoXo-Windows-blue)
+![OS](https://img.shields.io/badge/OS-Windows%2010%2F11-blue)
 ![C++](https://img.shields.io/badge/C%2B%2B-MFC-orange)
-![UI](https://img.shields.io/badge/UI-BCGControlBar%20Pro-lightgrey)
+![UI](https://img.shields.io/badge/UI-BCGControlBar-lightgrey)
+![License](https://img.shields.io/badge/License-MPL--2.0-green)
 
 Native **Windows MFC** application.
 
