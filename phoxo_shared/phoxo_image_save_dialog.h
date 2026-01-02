@@ -55,7 +55,7 @@ private:
         t.Append(L"TGA|*.tga|");
         t.Append(L"DirectDraw Surface (DDS)|*.dds|");
 
-        if (!WIC::IsEncoderMissing(WIC::GUID_ContainerFormat_Jxl))
+        if (!WIC::IsEncoderMissing(GUID_ContainerFormatJpegXL))
             t.Append(L"JXL|*.jxl|");
 
         t += L"|";
