@@ -14,6 +14,7 @@ public:
     const WndTopToolbar& TopToolbar() const { return m_top_toolbar; }
 
 private:
+    afx_msg void OnClose();
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
     // commands

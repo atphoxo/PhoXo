@@ -2,23 +2,35 @@
 #include "panel_manager.h"
 #include "function_panels/wnd_panel_crop_rotate.h"
 
+UINT PanelManager::CurrentTabID() const
+{
+    if (m_current_panel)
+    {
+        return m_panel_tab_map.at(m_current_panel->GetDlgCtrlID());
+    }
+    return 0;
+}
+
 void PanelManager::OnClickTab(CBCGPFrameWnd& main_wnd, UINT tab_id)
 {
-    m_current_tab_id = tab_id;
-
     auto   pos = m_func_panel.find(tab_id);
     if (pos != m_func_panel.end())
     {
         auto   dst_panel = pos->second.get();
         if (m_current_panel == dst_panel)
-            return;
-
-//         if (m_current_panel)
-//         {
-//             m_current_panel->ShowControlBar(FALSE, TRUE, FALSE);
-//         }
-//         dst_panel->ShowControlBar(TRUE, TRUE, FALSE);
-//         m_current_panel = dst_panel;
+        {
+            m_current_panel->ShowControlBar(FALSE, TRUE, FALSE);
+            m_current_panel = nullptr;
+        }
+        else
+        {
+//             if (m_current_panel)
+//             {
+//                 m_current_panel->ShowControlBar(FALSE, TRUE, FALSE);
+//             }
+            dst_panel->ShowControlBar(TRUE, TRUE, TRUE);
+            m_current_panel = dst_panel;
+        }
     }
     else
     {
@@ -48,6 +60,7 @@ CBCGPDockingControlBar* PanelManager::CreatePanel(CWnd* parent, UINT tab_id)
     {
         auto   dlg = new WndPanelCropRotate;
         dlg->Create(parent);
+        m_panel_tab_map[dlg->GetDlgCtrlID()] = tab_id;
         return dlg;
     }
     //     if (tab_id == ID_FUNC_TAB_ROTATE)

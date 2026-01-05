@@ -173,6 +173,30 @@
     <None Include="res\top_toolbar_icons.svg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\crop_1_1.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_2_3.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_3_2.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_4_3.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_9_16.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_16_9.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_free.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\crop_original.svg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\PhoxoEditDoc.ico">

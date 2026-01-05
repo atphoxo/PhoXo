@@ -10,6 +10,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
     ON_WM_CREATE()
     ON_WM_GETMINMAXINFO()
     ON_WM_SIZE()
+    ON_WM_CLOSE()
     ON_MESSAGE(MSG_POST_LOAD_FIRST, OnPostLoadFirst)
     // right tab group
     ON_COMMAND_RANGE(ID_TAB_CROP_ROTATE, ID_TAB_LAST_ID, OnRightTab)
@@ -74,4 +75,10 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
     {
         SendMessage(WM_COMMAND, ID_TOP_ZOOM_FIT_WINDOW);
     }
+}
+
+void CMainFrame::OnClose()
+{
+    theConfig.Save();
+    __super::OnClose();
 }

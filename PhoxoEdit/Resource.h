@@ -6,6 +6,14 @@
 #define IDR_PhoxoEditTYPE               130
 #define IDSVG_TOP_TOOLBAR_ICONS         500
 #define IDSVG_RIGHT_TAB_ICONS           501
+#define IDSVG_CROP_FREE                 502
+#define IDSVG_CROP_ORIGINAL             503
+#define IDSVG_CROP_1_1                  504
+#define IDSVG_CROP_16_9                 505
+#define IDSVG_CROP_3_2                  506
+#define IDSVG_CROP_4_3                  507
+#define IDSVG_CROP_9_16                 508
+#define IDSVG_CROP_2_3                  509
 #define IDD_PANEL_CROP_ROTATE           700
 #define ID_NEW_FROM_CLIPBOARD           7000
 #define ID_CREATE_IMAGE                 7001
@@ -35,7 +43,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        312
 #define _APS_NEXT_COMMAND_VALUE         32777
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

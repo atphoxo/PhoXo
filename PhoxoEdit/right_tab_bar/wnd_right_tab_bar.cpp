@@ -32,7 +32,8 @@ void WndRightTabBar::ButtonPanel::GetMessageString(UINT nID, CString& desp) cons
 void WndRightTabBar::Create(CWnd* parent)
 {
     int   init_width = globalUtils.ScaleByDPI(BAR_WIDTH, this);
-    CBCGPOutlookBar::Create(L"TAB", parent, CRect(0, 0, init_width, init_width), ID_RIGHT_TAB_BAR, WS_CHILD | WS_VISIBLE | CBRS_RIGHT, 0);
+    DWORD   dock = (theConfig.m_panel_dock == PanelDock::Right) ? CBRS_RIGHT : CBRS_LEFT;
+    CBCGPOutlookBar::Create(L"", parent, CRect(0, 0, init_width, init_width), ID_RIGHT_TAB_BAR, WS_CHILD | WS_VISIBLE | dock, 0);
 
     auto   container = DYNAMIC_DOWNCAST(CBCGPOutlookWnd, GetUnderlinedWindow());
     container->HideSingleTab(true);
@@ -40,7 +41,6 @@ void WndRightTabBar::Create(CWnd* parent)
     // Create first page:
     m_panel.Create(this, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_HIDE_INPLACE, ID_RIGHT_TAB_BAR_PANEL);
     m_panel.SetOwner(parent);
-    m_panel.EnableDocking(CBRS_ALIGN_RIGHT);
     m_panel.SetButtonFullRowWidth(CBCGPOutlookBarPane::ButtonFullRowWidth_Enabled);
 
     m_panel.LoadIcons(IDSVG_RIGHT_TAB_ICONS, BUTTON_SIZE);
