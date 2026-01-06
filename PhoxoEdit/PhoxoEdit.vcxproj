@@ -177,6 +177,17 @@
     <ResourceCompile Include="PhoxoEdit.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\crop_16_9.svg" />
+    <None Include="res\crop_1_1.svg" />
+    <None Include="res\crop_2_3.svg" />
+    <None Include="res\crop_3_2.svg" />
+    <None Include="res\crop_4_3.svg" />
+    <None Include="res\crop_9_16.svg" />
+    <None Include="res\crop_apply.svg" />
+    <None Include="res\crop_free.svg" />
+    <None Include="res\crop_link.svg" />
+    <None Include="res\crop_original.svg" />
+    <None Include="res\crop_unlink.svg" />
     <None Include="res\PhoxoEdit.rc2" />
     <None Include="res\right_tab_bar.svg" />
     <None Include="res\top_toolbar_icons.svg" />

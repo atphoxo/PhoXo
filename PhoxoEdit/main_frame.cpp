@@ -24,6 +24,8 @@ namespace
 // SetPersistantFrame(false); // 不要设置，否则不能保存位置了
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
+    DPICalculator::g_current_dpi() = GetDpiForWindow(m_hWnd);
+
     int   ret = __super::OnCreate(lpCreateStruct);
 
     m_top_toolbar.Create(this);

@@ -28,7 +28,7 @@ CPhoxoEditApp::CPhoxoEditApp()
     m_bAfxStoreDockSate = FALSE; // ½ûÖ¹±£´æ MFC ¿ò¼ÜµÄÍ£¿¿´°¿Ú×´Ì¬ Settings\ControlBars-Summary
 
 	EnableLoadKeyboardAccelerators(FALSE);
-    SetVisualTheme(BCGP_VISUAL_THEME_VS_2026_LIGHT);
+    SetVisualTheme(BCGP_VISUAL_THEME_VS_2026_LIGHT); // BCGP_VISUAL_THEME_VS_2026_DARK
 
 //	SetApplicationLookMenu(ID_APP_ABOUT, BCGP_THEMES_LIST_SCENIC | BCGP_THEMES_LIST_OFFICE_2013 | BCGP_THEMES_LIST_OFFICE_2016 | BCGP_THEMES_LIST_OFFICE_2019 | BCGP_THEMES_LIST_OFFICE_2022);
 }

@@ -56,3 +56,9 @@ void PhoxoUtils::WIAPopScanImageDialog(PCWSTR savefile)
     }
     catch (_com_error&) { assert(false); }
 }
+
+FCImage PhoxoUtils::LoadSvgWithDpi(UINT res_id, CSize original_size, std::optional<FCColor> fill_color)
+{
+    FCResource   svg(res_id, L"SVG");
+    return svg.LoadSvgWithDpi(original_size, fill_color);
+}

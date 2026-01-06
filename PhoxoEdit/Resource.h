@@ -14,6 +14,9 @@
 #define IDSVG_CROP_4_3                  507
 #define IDSVG_CROP_9_16                 508
 #define IDSVG_CROP_2_3                  509
+#define IDSVG_CROP_APPLY                515
+#define IDSVG_CROP_LINK                 516
+#define IDSVG_CROP_UNLINK               517
 #define IDD_PANEL_CROP_ROTATE           700
 #define ID_NEW_FROM_CLIPBOARD           7000
 #define ID_CREATE_IMAGE                 7001

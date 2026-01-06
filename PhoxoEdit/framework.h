@@ -11,6 +11,7 @@
 #include "BCGCBProInc.h"
 
 #include "../3rd/phoxo-core-lib/src/phoxo_core.h"
+#include "../3rd/phoxo-core-lib/optional/svg_drawer.h"
 
 #define PHOXO_LANGUAGE_BASE_FOLDER LR"(language\edit\)";
 #include "../3rd/UIStone/UIStone.h"

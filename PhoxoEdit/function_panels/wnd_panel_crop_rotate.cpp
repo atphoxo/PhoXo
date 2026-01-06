@@ -16,10 +16,15 @@ namespace
         ID_CROP_2_3 = 3007,
         ID_CROP_END = 3010,
 
+        ID_APPLY_CROP = 3050,
+        ID_KEEP_ASPECT = 3051,
+
         IDC_CROP_WIDTH = 3100,
         IDC_CROP_HEIGHT = 3101,
 
         IDC_PRESETS_COMBO = 3200,
+
+        ID_POST_UPDATE_KEEP_ASPECT = 4000,
     };
 
     CString LoadText(PCWSTR key)
@@ -27,38 +32,52 @@ namespace
         return LanguageText::Get(L"panel_crop", key);
     }
 
-    class RatioButton : public CBCGPButton
+    FCColor IconColor(ThemeMode theme = ThemeMode::FollowBCG)
     {
-    public:
-        //CBCGPVisualManager::GetInstance()->IsDarkTheme()
-
-        void OnDrawText(CDC* pDC, const CRect& rect, const CString& strText, UINT uiDTFlags, UINT uiState) override
-        {
-            CRect   rc = rect;
-            rc.top = 0;
-            //rc.bottom -= globalUtils.ScaleByDPI(5, this);
-
-            uiDTFlags = (uiDTFlags & ~DT_VCENTER) | DT_BOTTOM;
-
-            __super::OnDrawText(pDC, rc, strText, uiDTFlags, uiState);
-        }
-    };
+        using enum ThemeMode;
+        if (theme == FollowBCG)
+            theme = CBCGPVisualManager::GetInstance()->IsDarkTheme() ? Dark : Light;
+        else if (theme == InverseBCG)
+            theme = CBCGPVisualManager::GetInstance()->IsDarkTheme() ? Light : Dark;
+        return FCColor{ (theme == Dark) ? 0xEEEEEE : 0x333333 };
+    }
 }
 
 BEGIN_MESSAGE_MAP(WndPanelCropRotate, CBCGPDialogBar)
     ON_COMMAND_RANGE(ID_CROP_BEGIN, ID_CROP_END, OnRatioButton)
+    ON_COMMAND(ID_KEEP_ASPECT, OnKeepAspect)
+    ON_COMMAND(ID_POST_UPDATE_KEEP_ASPECT, OnPostUpdateKeepAspect)
 END_MESSAGE_MAP()
 
 WndPanelCropRotate::WndPanelCropRotate()
 {
-    for (int id = ID_CROP_FREE; id <= ID_CROP_2_3; ++id)
+    std::pair<int, int>   buttons[] =
     {
-        auto   btn = make_unique<RatioButton>();
-        btn->m_bTopImage = TRUE;
-        btn->m_bDrawFocus = FALSE;
-        btn->m_bHighlightChecked = TRUE;
-        m_ratio_buttons.try_emplace(id, std::move(btn));
+        { ID_CROP_FREE,     IDSVG_CROP_FREE },
+        { ID_CROP_ORIGINAL, IDSVG_CROP_ORIGINAL },
+        { ID_CROP_1_1,      IDSVG_CROP_1_1 },
+        { ID_CROP_16_9,     IDSVG_CROP_16_9 },
+        { ID_CROP_3_2,      IDSVG_CROP_3_2 },
+        { ID_CROP_4_3,      IDSVG_CROP_4_3 },
+        { ID_CROP_9_16,     IDSVG_CROP_9_16 },
+        { ID_CROP_2_3,      IDSVG_CROP_2_3 },
+    };
+
+    for (auto [id, svg] : buttons)
+    {
+        auto&   btn = AddImageButton(id);
+        btn.m_bTopImage = true;
+        btn.SetImageEx(PhoxoUtils::LoadSvgWithDpi(svg, { 32,32 }, IconColor()));
     }
+
+    AddImageButton(ID_KEEP_ASPECT);
+
+    auto&   btn = AddImageButton(ID_APPLY_CROP);
+    btn.m_always_default_status = true;
+    btn.SetIcon(PhoxoUtils::LoadSvgWithDpi(IDSVG_CROP_APPLY, { 18,18 }, IconColor(ThemeMode::InverseBCG)));
+
+    m_width_edit.SetVerticalAlignment(TA_CENTER);
+    m_height_edit.SetVerticalAlignment(TA_CENTER);
 }
 
 void WndPanelCropRotate::Create(CWnd* parent)
@@ -74,31 +93,29 @@ void WndPanelCropRotate::Create(CWnd* parent)
     );
     InitSizeEdit();
 
-    m_presets_combo.SetItemHeight(-1, globalUtils.ScaleByDPI(20, this));
+    m_image_buttons[ID_CROP_FREE]->SetWindowText(LoadText(L"1"));
+    m_image_buttons[ID_CROP_ORIGINAL]->SetWindowText(LoadText(L"2"));
+    m_image_buttons[ID_APPLY_CROP]->SetWindowText(LoadText(L"3"));
+    UpdateKeepAspectButton();
+
+    m_presets_combo.SetItemHeight(-1, DPICalculator::Cast(20));
     ResetPresetsCombo();
-
-    m_ratio_buttons[ID_CROP_FREE]->SetImage(IDSVG_CROP_FREE);
-    m_ratio_buttons[ID_CROP_ORIGINAL]->SetImage(IDSVG_CROP_ORIGINAL);
-    m_ratio_buttons[ID_CROP_1_1]->SetImage(IDSVG_CROP_1_1);
-    m_ratio_buttons[ID_CROP_16_9]->SetImage(IDSVG_CROP_16_9);
-    m_ratio_buttons[ID_CROP_3_2]->SetImage(IDSVG_CROP_3_2);
-    m_ratio_buttons[ID_CROP_4_3]->SetImage(IDSVG_CROP_4_3);
-    m_ratio_buttons[ID_CROP_9_16]->SetImage(IDSVG_CROP_9_16);
-    m_ratio_buttons[ID_CROP_2_3]->SetImage(IDSVG_CROP_2_3);
-
-    // EnableDocking(CBRS_ALIGN_RIGHT);
 
     EnableVisualManagerStyle(TRUE);
 }
 
+BCGImageButton& WndPanelCropRotate::AddImageButton(UINT id)
+{
+    auto [it, _] = m_image_buttons.try_emplace(id, make_unique<BCGImageButton>());
+    return *it->second;
+}
+
 void WndPanelCropRotate::InitSizeEdit()
 {
-    m_size_edit_font.CreatePointFont(100, L"Segoe UI");
-
     for (auto ctrl : { &m_width_edit, &m_height_edit })
     {
-        ctrl->SetFont(&m_size_edit_font);
         ctrl->SetLimitText(6);
+        ctrl->SetVerticalAlignment(TA_CENTER);
     }
     ResetSizeEdit();
 }
@@ -113,6 +130,17 @@ void WndPanelCropRotate::ResetSizeEdit()
     }
 }
 
+void WndPanelCropRotate::UpdateKeepAspectButton()
+{
+    LanguageTextGroup   stat(L"panel_crop", L"5");
+    UINT   svg = m_keep_aspect ? IDSVG_CROP_LINK : IDSVG_CROP_UNLINK;
+
+    auto&   btn = *m_image_buttons[ID_KEEP_ASPECT];
+    btn.SetTooltip(m_keep_aspect ? stat[0] : stat[1], LoadText(L"4"), TRUE);
+    btn.SetImageEx(PhoxoUtils::LoadSvgWithDpi(svg, { 20,20 }, IconColor()));
+    btn.Invalidate();
+}
+
 void WndPanelCropRotate::ResetPresetsCombo()
 {
     m_presets_combo.SetPrompt(LoadText(L"preset"));
@@ -122,7 +150,7 @@ void WndPanelCropRotate::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
 
-    for (auto& [id, btn] : m_ratio_buttons)
+    for (auto& [id, btn] : m_image_buttons)
     {
         DDX_Control(pDX, id, *btn);
     }
@@ -130,9 +158,33 @@ void WndPanelCropRotate::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_PRESETS_COMBO, m_presets_combo);
     DDX_Control(pDX, IDC_CROP_WIDTH, m_width_edit);
     DDX_Control(pDX, IDC_CROP_HEIGHT, m_height_edit);
+    // keep aspect
+    DDX_Check(pDX, ID_KEEP_ASPECT, m_keep_aspect);
+}
+
+void WndPanelCropRotate::OnPostUpdateKeepAspect()
+{
+    UpdateKeepAspectButton();
 }
 
 void WndPanelCropRotate::OnRatioButton(UINT id)
 {
-    Sleep(0);
+    bool   want_keep_aspect = (id != ID_CROP_FREE);
+    if (want_keep_aspect != (bool)m_keep_aspect)
+    {
+        UpdateData();
+        m_keep_aspect = !m_keep_aspect;
+        UpdateKeepAspectButton();
+        UpdateData(FALSE);
+    }
+}
+
+void WndPanelCropRotate::OnKeepAspect()
+{
+    UpdateData();
+    if (!m_keep_aspect)
+        m_ratio_index = 0; // free
+    UpdateData(FALSE);
+
+    PostMessage(WM_COMMAND, ID_POST_UPDATE_KEEP_ASPECT); // 在这里更新tip会闪烁，post后处理
 }

@@ -197,6 +197,9 @@
     <None Include="res\crop_original.svg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\crop_apply.svg" />
+    <None Include="res\crop_link.svg" />
+    <None Include="res\crop_unlink.svg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\PhoxoEditDoc.ico">
