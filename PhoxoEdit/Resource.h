@@ -21,16 +21,12 @@
 #define IDSVG_ROTATE_CCW                519
 #define IDSVG_FLIP_VERT                 520
 #define IDSVG_FLIP_HORZ                 521
-
 #define IDSVG_CROP_SHAPE_RECT           522
 #define IDSVG_CROP_SHAPE_ROUND_RECT     523
 #define IDSVG_CROP_SHAPE_CIRCLE         524
-
 #define IDSVG_GROUP_SHAPE               525
-#define IDSVG_GROUP_ROTATE               526
-
+#define IDSVG_GROUP_ROTATE              526
 #define IDSVG_CROP_CANCEL               527
-
 #define IDD_PANEL_CROP                  700
 #define IDD_PANEL_CROP_SHAPE_PAGE       701
 #define IDD_PANEL_CROP_ROTATE_PAGE      702
@@ -63,7 +59,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        312
 #define _APS_NEXT_COMMAND_VALUE         32777
-#define _APS_NEXT_CONTROL_VALUE         1005
+#define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

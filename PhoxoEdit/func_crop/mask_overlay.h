@@ -16,7 +16,7 @@ namespace crop
         struct DrawParams
         {
             CropShape   shape;
-            float   rounded_rect_radius_percent = 0.25f;
+            float   rounded_rect_radius_percent; // in [0, 1]
             bool   draw_grid = true;
         };
 

@@ -12,18 +12,18 @@ private:
     std::optional<crop::MoveStrategy>   m_move_strategy;
 
 public:
-    static inline CRect   s_crop_on_canvas;
-    static inline CropShape   s_crop_shape = CropShape::Rectangle;
-    static inline crop::CropAspectRatio   s_aspect_ratio;
-
     static constexpr std::wstring_view   TOOL_NAME = L"crop";
 
-    ToolCrop();
+    static inline CRect   s_crop_on_canvas;
+    static inline CropShape   s_crop_shape = CropShape::Rectangle;
+    static inline int   s_roundness = 20; // 圆角百分比，0-100默认 20%
+    static inline crop::CropAspectRatio   s_aspect_ratio;
 
     static bool HasCropRect() { return !s_crop_on_canvas.IsRectEmpty(); }
     static void SetCropOnCanvas(const CRect& rc);
     static void ApplyCropAspectRatio(int width, int height);
 
+    ToolCrop();
     std::wstring_view GetToolName() const override { return TOOL_NAME; }
     HCURSOR GetToolCursor(const ViewportContext& ctx) override;
     void OnLButtonDown(const ViewportContext& ctx, UINT nFlags, CPoint point) override;

@@ -115,6 +115,7 @@ void ToolCrop::OnDrawToolOverlay(HDC hdc, const ViewportContext& ctx)
 
     MaskOverlay::DrawParams   params{
         .shape = s_crop_shape,
+        .rounded_rect_radius_percent = (float)s_roundness / 100.f,
         .draw_grid = m_move_strategy.has_value()
     };
 

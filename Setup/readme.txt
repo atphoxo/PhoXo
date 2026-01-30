@@ -1,1 +1,0 @@
-For a more thorough removal (temporary files, registry), please run the  >>portable_uninstall.bat<<  before uninstalling.

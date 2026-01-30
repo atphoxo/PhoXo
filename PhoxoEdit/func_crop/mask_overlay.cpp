@@ -29,7 +29,7 @@ namespace
     {
         float   width = rc.right - rc.left;
         float   height = rc.bottom - rc.top;
-        float   max_radius = (std::min)(width, height) / 2.0f;
+        float   max_radius = (std::min)(width, height) / 2.0f; // half of the shorter side
         float   r = pct * max_radius;
         return { rc, r, r };
     }
