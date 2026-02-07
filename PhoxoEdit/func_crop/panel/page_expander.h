@@ -6,8 +6,5 @@ namespace crop
     {
     public:
         void Create(CWnd* parent, UINT placeholder_id);
-
-    private:
-        void OnSetupDelayedGroup(int nGroupIndex) override;
     };
 }

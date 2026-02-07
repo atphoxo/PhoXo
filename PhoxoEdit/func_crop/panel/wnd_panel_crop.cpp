@@ -105,6 +105,7 @@ void WndPanelCrop::Create(CWnd* parent)
     SetTextAndTooltip(*m_image_buttons[ID_CROP_FREE], 1);
     SetTextAndTooltip(*m_image_buttons[ID_CROP_ORIGINAL], 2);
     m_image_buttons[ID_APPLY_CROP]->SetWindowText(PanelCropText(3));
+    m_image_buttons[ID_CANCEL_CROP]->SetTooltip(PanelCropText(21));
     InitSizeEdit();
     UpdateKeepAspectButton();
 
@@ -158,8 +159,7 @@ void WndPanelCrop::OnEventCanvasReloaded()
     UpdateSizeEdit();
 
     m_ratio_index = 0;
-    m_lock_aspect = FALSE;
-    ToolCrop::s_aspect_ratio.Unlock();
+    m_lock_aspect = FALSE; ASSERT(!ToolCrop::s_aspect_ratio.IsLocked());
     UpdateKeepAspectButton();
     UpdateData(FALSE);
 }
@@ -231,8 +231,7 @@ void WndPanelCrop::OnKeepAspect()
     UpdateData();
     if (!m_lock_aspect)
     {
-        if (m_ratio_index >= 1) // exclude -1, 0
-            m_ratio_index = 0;
+        m_ratio_index = 0;
         ToolCrop::s_aspect_ratio.Unlock();
     }
     else
@@ -241,6 +240,10 @@ void WndPanelCrop::OnKeepAspect()
         {
             CRect   rc = ToolCrop::s_crop_on_canvas;
             ToolCrop::s_aspect_ratio.Lock(rc.Width(), rc.Height()); // lock current ratio
+        }
+        else
+        {
+            m_lock_aspect = FALSE; // 没有crop rect可锁定，保持原状态
         }
     }
     UpdateData(FALSE);

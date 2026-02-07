@@ -58,6 +58,7 @@ BOOL CMainDoc::OnOpenDocument(LPCTSTR filepath)
         CString   key = PathFileExists(filepath) ? L"load_error" : L"not_exist";
         ::BCGPMessageLightBox(filepath, MB_OK | MB_ICONWARNING, NULL, NULL, LanguageText::Get(L"FILE", key));
         UpdateAllViews(NULL);
+        SetPathName(filepath, FALSE);
         PostCanvasReloadedToMainWnd();
         return FALSE;
     }

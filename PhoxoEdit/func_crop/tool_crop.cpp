@@ -132,7 +132,6 @@ void ToolCrop::OnCanvasReloaded()
 void ToolCrop::ResetForNewImage()
 {
     s_crop_on_canvas = {};
-    s_crop_shape = CropShape::Rectangle;
     s_aspect_ratio.Unlock();
 
     if (auto canvas = theRuntime.GetCurrentCanvas())

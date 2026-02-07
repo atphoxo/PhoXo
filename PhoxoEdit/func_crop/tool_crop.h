@@ -15,9 +15,9 @@ public:
     static constexpr std::wstring_view   TOOL_NAME = L"crop";
 
     static inline CRect   s_crop_on_canvas;
+    static inline crop::CropAspectRatio   s_aspect_ratio;
     static inline CropShape   s_crop_shape = CropShape::Rectangle;
     static inline int   s_roundness = 20; // 圆角百分比，0-100默认 20%
-    static inline crop::CropAspectRatio   s_aspect_ratio;
 
     static bool HasCropRect() { return !s_crop_on_canvas.IsRectEmpty(); }
     static void SetCropOnCanvas(const CRect& rc);

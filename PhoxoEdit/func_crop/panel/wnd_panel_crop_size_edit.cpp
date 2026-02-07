@@ -10,7 +10,8 @@ namespace
     {
         CString   str;
         wnd.GetWindowText(str);
-        return StrToInt(str);
+        int   v = StrToInt(str);
+        return (v > 0) ? v : 0;
     }
 
     bool HandleOversize(int width, int height, CSize canvas_size)
@@ -37,19 +38,18 @@ void WndPanelCrop::InitSizeEdit()
 
 void WndPanelCrop::UpdateSizeEdit()
 {
-    if (CRect rc = ToolCrop::s_crop_on_canvas; !rc.IsRectEmpty())
+    if (ToolCrop::HasCropRect())
     {
+        CRect   rc = ToolCrop::s_crop_on_canvas;
         m_width_edit.SetWindowText(FCString::From(rc.Width()));
         m_height_edit.SetWindowText(FCString::From(rc.Height()));
     }
     else
     {
-        LanguageTextGroup   text(PanelCropText(0));
-        for (auto ctrl : { &m_width_edit, &m_height_edit })
-        {
-            ctrl->SetWindowText(L"");
-            ctrl->SetPrompt(text.PopFront());
-        }
+        m_width_edit.SetWindowText(L"");
+        m_width_edit.SetPrompt(PanelCropText(60));
+        m_height_edit.SetWindowText(L"");
+        m_height_edit.SetPrompt(PanelCropText(61));
     }
 }
 
@@ -59,48 +59,50 @@ void WndPanelCrop::ApplyCropSizeFromSingleEdit(HWND edit_ctrl)
     if (!canvas)
         return;
 
-    const CSize   canvas_size = canvas->Size();
-
     CRect   rc = ToolCrop::s_crop_on_canvas;
     if (edit_ctrl == m_width_edit)
     {
-        if (int width = GetEditInt(m_width_edit); width > 0)
+        if (int width = GetEditInt(m_width_edit))
         {
             rc.right = rc.left + width;
             if (ToolCrop::s_aspect_ratio.IsLocked())
             {
-                int   height = std::max<int>(1, (int)(width / ToolCrop::s_aspect_ratio.Value()));
+                int   height = (std::max)(1, (int)(width / ToolCrop::s_aspect_ratio.Value()));
                 rc.bottom = rc.top + height;
-                if (HandleOversize(width, height, canvas_size))
+                if (HandleOversize(width, height, canvas->Size()))
                     return;
             }
-
-            if (rc.Height() == 0)
-                rc.bottom = rc.top + width; // 没有选区设置正方形
+            else
+            {
+                if (rc.Height() == 0)
+                    rc.bottom = rc.top + width; // 没有选区设置正方形
+            }
         }
     }
     else
     {
-        if (int height = GetEditInt(m_height_edit); height > 0)
+        if (int height = GetEditInt(m_height_edit))
         {
             rc.bottom = rc.top + height;
             if (ToolCrop::s_aspect_ratio.IsLocked())
             {
-                int   width = std::max<int>(1, (int)(height * ToolCrop::s_aspect_ratio.Value()));
+                int   width = (std::max)(1, (int)(height * ToolCrop::s_aspect_ratio.Value()));
                 rc.right = rc.left + width;
-                if (HandleOversize(width, height, canvas_size))
+                if (HandleOversize(width, height, canvas->Size()))
                     return;
             }
-
-            if (rc.Width() == 0)
-                rc.right = rc.left + height;
+            else
+            {
+                if (rc.Width() == 0)
+                    rc.right = rc.left + height;
+            }
         }
     }
 
     // 推回canvas内
-    FCWnd::MoveRectInside(rc, canvas_size);
+    FCWnd::MoveRectInside(rc, canvas->Size());
 
-    // 必须调用，如果用户输入无效值，则恢复显示当前值
+    // 必须调用，如果用户输入无效值或空，则恢复显示当前值
     ToolCrop::SetCropOnCanvas(rc);
 }
 

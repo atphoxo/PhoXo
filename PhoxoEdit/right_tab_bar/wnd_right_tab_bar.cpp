@@ -45,7 +45,8 @@ void WndRightTabBar::Create(CWnd* parent)
 
     m_panel.LoadIcons(IDSVG_RIGHT_TAB_ICONS, BUTTON_SIZE);
 
-    for (int idx = 0; UINT id : {ID_TAB_CROP_ROTATE, ID_TAB_TEXT, ID_TAB_ADJUST, ID_TAB_EFFECT, ID_TAB_WIDGET, ID_TAB_FRAME})
+    //for (int idx = 0; UINT id : {ID_TAB_CROP_ROTATE, ID_TAB_TEXT, ID_TAB_ADJUST, ID_TAB_EFFECT, ID_TAB_WIDGET, ID_TAB_FRAME})
+    for (int idx = 0; UINT id : {ID_TAB_CROP_ROTATE})
     {
         m_panel.AddButton(L"", id, idx++);
     }

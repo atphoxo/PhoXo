@@ -36,9 +36,9 @@ void ShapePage::InitRoundnessSlider()
 {
     m_roundness.SetRange(0, 100);
     m_roundness.EnableProgressMode();
+    m_roundness.SetPositionOnClick();
     m_roundness.SetPos(ToolCrop::s_roundness);
     m_roundness.m_bDrawFocus = FALSE;
-    m_roundness.SetPositionOnClick();
     UpdateRoundnessValue();
 }
 
@@ -67,10 +67,10 @@ void ShapePage::UpdateRoundnessValue()
 
 void ShapePage::UpdateRoundRectControlsVisibility()
 {
-    bool   show = (m_shape_index == 1);
+    bool   show = (m_shape_index == (int)CropShape::RoundedRect);
     for (int id : { IDC_ROUND_RECT_TEXT, IDC_ROUND_RECT_NUMBER, IDC_ROUND_RECT_SLIDER })
     {
-        GetDlgItem(id)->ShowWindow(show ? SW_SHOW : SW_HIDE);
+        GetDlgItem(id)->ShowWindow(show ? SW_SHOWNA : SW_HIDE);
     }
 }
 
@@ -80,14 +80,15 @@ void ShapePage::DoDataExchange(CDataExchange * pDX)
     DDX_Control(pDX, IDC_SHAPE_RECT, m_rect);
     DDX_Control(pDX, IDC_SHAPE_ROUND_RECT, m_round_rect);
     DDX_Control(pDX, IDC_SHAPE_CIRCLE, m_circle);
-    DDX_Radio(pDX, IDC_SHAPE_RECT, m_shape_index);
     DDX_Control(pDX, IDC_ROUND_RECT_SLIDER, m_roundness);
+    DDX_Radio(pDX, IDC_SHAPE_RECT, m_shape_index);
 }
 
 void ShapePage::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
     __super::OnHScroll(nSBCode, nPos, pScrollBar);
 
+    ASSERT(m_shape_index == 1);
     ToolCrop::s_roundness = m_roundness.GetPos();
     UpdateRoundnessValue();
     theRuntime.InvalidateView();
