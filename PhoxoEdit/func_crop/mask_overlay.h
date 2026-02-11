@@ -17,7 +17,7 @@ namespace crop
         {
             CropShape   shape;
             float   rounded_rect_radius_percent; // in [0, 1]
-            bool   draw_grid = true;
+            bool   is_interacting;
         };
 
         MaskOverlay();

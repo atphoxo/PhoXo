@@ -11,10 +11,10 @@ namespace
     int GripThickness() { return DPICalculator::Cast(3); }
     int BorderGap() { return DPICalculator::Cast(2); }
 
-    void CenterSpan(LONG& begin, LONG& end, int center)
+    void CenterSpan(LONG& begin, LONG& end, LONG center)
     {
-        begin = center - GripLength();
-        end = begin + GripLength() * 2;
+        begin = center - GripLength() / 2;
+        end = begin + GripLength();
     }
 
     void CutH(CRect& rc, bool from_left)
@@ -30,8 +30,8 @@ namespace
     class GripBorder
     {
     private:
-        CRect   top, bottom, left, right;
         CPoint   center;
+        CRect   top, bottom, left, right, outer;
 
     public:
         GripBorder(const CRect& crop_on_view) : center{ crop_on_view.CenterPoint() }
@@ -39,7 +39,7 @@ namespace
             CRect   inner = crop_on_view;
             inner.InflateRect(BorderGap(), BorderGap());
 
-            CRect   outer = inner;
+            outer = inner;
             outer.InflateRect(GripThickness(), GripThickness());
 
             top = bottom = left = right = outer;
@@ -66,6 +66,7 @@ namespace
                     CenterSpan(rc.top, rc.bottom, center.y);
                     break;
             }
+            rc.IntersectRect(rc, outer);
             return rc;
         }
 
@@ -92,6 +93,8 @@ namespace
                 CutH(r1 = bottom, false);
                 CutV(r2 = right, false);
             }
+            r1.IntersectRect(r1, outer);
+            r2.IntersectRect(r2, outer);
             return { r1,r2 };
         }
     };
@@ -149,9 +152,15 @@ namespace
     }
 }
 
+bool GripHandle::IsInnerMoveOnly(const CRect& crop_on_view)
+{
+    int   limit = 4 * GripLength();
+    return (crop_on_view.Width() < limit) || (crop_on_view.Height() < limit);
+}
+
+// rc is cropped rect on view
 CRect GripHandle::GetHitZone(const CRect& rc) const
 {
-    // rc is cropped rect on view
     CPoint   tl{ rc.TopLeft() }, tr{ rc.right, rc.top };
     CPoint   bl{ rc.left, rc.bottom }, br{ rc.BottomRight() };
     switch (m_type)
@@ -168,9 +177,18 @@ CRect GripHandle::GetHitZone(const CRect& rc) const
     return {};
 }
 
-bool GripHandle::UpdateHoverState(CPoint cursor_on_view, const CRect& crop_on_view)
+bool GripHandle::UpdateHoverState(CPoint cursor_on_view, const CRect& crop_on_view, GripHandle* first_hover)
 {
     bool   hovered = GetHitZone(crop_on_view).PtInRect(cursor_on_view);
+
+    // 特化规则 1：crop 太小，inner 区域不算 grip
+    if (IsInnerMoveOnly(crop_on_view) && crop_on_view.PtInRect(cursor_on_view))
+        hovered = false;
+
+    // 特化规则 2：只允许第一个 hittest hovering，防止很小的 crop 都命中
+    if (first_hover)
+        hovered = false;
+
     if (hovered != m_hovered)
     {
         m_hovered = hovered;

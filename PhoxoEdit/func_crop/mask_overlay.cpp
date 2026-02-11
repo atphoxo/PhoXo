@@ -60,7 +60,8 @@ void MaskOverlay::UpdateOverlayMask(const CRect& crop_on_view, const DrawParams&
 
     // 裁剪区域draw，然后处理alpha
     m_target->BeginDraw();
-    m_target->Clear(ColorF(ColorF::Black, 0.5f)); // mask透明度
+    float   alpha = 0.4f; // 动态效果不喜欢：params.is_interacting ? 0.6f : 0.3f;
+    m_target->Clear(ColorF(ColorF::Black, alpha)); // mask透明度
     FillShapeMask(crop_on_view, params);
     m_target->EndDraw();
 
@@ -70,7 +71,7 @@ void MaskOverlay::UpdateOverlayMask(const CRect& crop_on_view, const DrawParams&
         pv.ForEachPixel([](auto& px) { px.a = 0xFF - px.a; });
     }
 
-    if (params.draw_grid)
+    if (params.is_interacting)
     {
         DrawGridLines(crop_on_view);
     }
