@@ -37,19 +37,14 @@ void PhoXoScrollViewBase::OnMouseLeave()
 
 BOOL PhoXoScrollViewBase::OnScroll(UINT nScrollCode, UINT nPos, BOOL bDoScroll)
 {
-    class AccessMemberProxy : public CBCGPScrollBarImpl
-    {
-        friend class PhoXoScrollViewBase;
-    };
-
     // 处理超过 32K 的滚动范围，SB_THUMBTRACK 时 nPos 只支持到16bit
     if (LOBYTE(nScrollCode) == SB_THUMBTRACK)
     {
-        nPos = ((AccessMemberProxy&)m_ScrollHorz).m_TrackPos;
+        nPos = GetScrollBarTrackPos(SB_HORZ);
     }
     else if (HIBYTE(nScrollCode) == SB_THUMBTRACK)
     {
-        nPos = ((AccessMemberProxy&)m_ScrollVert).m_TrackPos;
+        nPos = GetScrollBarTrackPos(SB_VERT);
     }
     return __super::OnScroll(nScrollCode, nPos, bDoScroll);
 }

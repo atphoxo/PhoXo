@@ -105,7 +105,11 @@ void WndPanelCrop::Create(CWnd* parent)
     SetTextAndTooltip(*m_image_buttons[ID_CROP_FREE], 1);
     SetTextAndTooltip(*m_image_buttons[ID_CROP_ORIGINAL], 2);
     m_image_buttons[ID_APPLY_CROP]->SetWindowText(PanelCropText(3));
-    m_image_buttons[ID_CANCEL_CROP]->SetTooltip(PanelCropText(21));
+
+    CString   tip = PanelCropText(21);
+    tip.Replace(LR"(\n)", L"\n");
+    m_image_buttons[ID_CANCEL_CROP]->SetTooltip(tip);
+
     InitSizeEdit();
     UpdateKeepAspectButton();
 

@@ -171,16 +171,16 @@ namespace
     auto DetermineCorner(GPointF cur, GPointF anchor)
     {
         if (cur.X < anchor.X && cur.Y < anchor.Y)
-            return std::make_pair(GripType::TopLeft, CSize(-1, -1));
+            return std::make_pair(TopLeft, CSize(-1, -1));
 
         if (cur.X >= anchor.X && cur.Y < anchor.Y)
-            return std::make_pair(GripType::TopRight, CSize(1, -1));
+            return std::make_pair(TopRight, CSize(1, -1));
 
         if (cur.X < anchor.X && cur.Y >= anchor.Y)
-            return std::make_pair(GripType::BottomLeft, CSize(-1, 1));
+            return std::make_pair(BottomLeft, CSize(-1, 1));
 
         // cur.X >= anchor.X && cur.Y >= anchor.Y
-        return std::make_pair(GripType::BottomRight, CSize(1, 1));
+        return std::make_pair(BottomRight, CSize(1, 1));
     }
 }
 

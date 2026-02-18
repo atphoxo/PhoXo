@@ -9,9 +9,8 @@ namespace
     void ZoomForCropMode(const Canvas& canvas)
     {
         CMainView&   view = *theRuntime.GetActiveView();
-        CSize   margin{ DPICalculator::Cast(10), DPICalculator::Cast(10) };
         CRect   rc = FCWnd::GetClientRect(view);
-        rc.DeflateRect(margin);
+        rc.DeflateRect(DPICalculator::Cast(10), DPICalculator::Cast(10)); // margin
         float   ratio = phoxo::Utils::CalcFitZoomRatio(rc.Size(), canvas.Size());
         view.UpdateZoomRatio(ratio, ZoomChangedBy::Other);
     }
@@ -40,7 +39,7 @@ void ToolCrop::SetCropOnCanvas(const CRect& rc)
         s_crop_on_canvas = {};
     }
 
-    // rc 可能无效，但仍会触发刷新/事件以便 UI 恢复显示
+    // 用户可能输入一个无效的rc，但仍会触发刷新/事件以便 UI 恢复显示
     theRuntime.InvalidateView();
     IEventObserverBase::FireEvent(AppEvent::CropRectChanged);
 }

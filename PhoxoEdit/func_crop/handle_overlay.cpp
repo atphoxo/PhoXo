@@ -64,7 +64,7 @@ namespace
 HCURSOR HandleOverlay::GetCursor(CPoint cursor_on_view, const CRect& crop_on_view) const
 {
     auto   type = HitTest(cursor_on_view, crop_on_view);
-    return (type != GripType::None) ? GripCursorByType(type) : NULL;
+    return GripCursorByType(type);
 }
 
 void HandleOverlay::Draw(HDC hdc, const CRect& crop_on_view) const
@@ -75,7 +75,7 @@ void HandleOverlay::Draw(HDC hdc, const CRect& crop_on_view) const
     rc.InflateRect(1, 1);
     ::FrameRect(hdc, rc, (HBRUSH)GetStockObject(WHITE_BRUSH));
 
-    // 先画normal把手，再画hover把手，crop很小的时候hover要画出来
+    // 先画normal把手，最后画hover把手，这样crop很小的时候hover在最上
     for (const auto& handle : m_grip_handles)
     {
         if (!handle.IsHovered())

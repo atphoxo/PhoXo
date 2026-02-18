@@ -9,7 +9,7 @@ namespace
 {
     int GripLength() { return DPICalculator::Cast(30); }
     int GripThickness() { return DPICalculator::Cast(3); }
-    int BorderGap() { return DPICalculator::Cast(2); }
+    int BorderGap() { return 2; }
 
     void CenterSpan(LONG& begin, LONG& end, LONG center)
     {

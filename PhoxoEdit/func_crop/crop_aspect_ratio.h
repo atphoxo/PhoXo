@@ -2,12 +2,14 @@
 
 namespace crop
 {
-    struct CropAspectRatio
+    class CropAspectRatio
     {
+    private:
         // Aspect ratio (e.g. 16:9, 4:3, 1:1). Default 0 means ratio is not locked.
         double   m_width = 0;
         double   m_height = 0;
 
+    public:
         bool IsLocked() const
         {
             return (m_width > 0) && (m_height > 0);
