@@ -3,13 +3,11 @@
 class AppConfig : public FCSingleton<AppConfig>
 {
 public:
-    // int   m_startup_page; // 启动页
     PanelDock   m_panel_dock = PanelDock::Right;
     int       m_follow_phoxosee_theme = true;
     int       m_max_zoom_ratio = 8;
     RenderPreference   m_render_preference = RenderPreference::Speed;
     //int  svg询问打开尺寸
-    //int  undolevel,gimp是undo内存
 
     AppConfig();
 

@@ -2,6 +2,8 @@
 #include "local.h"
 #include "wnd_panel_crop.h"
 #include "../tool_crop.h"
+#include "main_doc.h"
+#include "../cmd_rect_crop.h"
 using namespace crop;
 
 namespace
@@ -46,9 +48,9 @@ namespace
 
     void SetTextAndTooltip(BCGImageButton& btn, int key)
     {
-        LanguageTextGroup   text(PanelCropText(key));
-        btn.SetWindowText(text[0]);
-        btn.SetTooltip(text[1]);
+        LanguageTextSplitter   text(PanelCropText(key));
+        btn.SetWindowText(text.Next());
+        btn.SetTooltip(text.Next());
     }
 
     DWORD DockStyle()
@@ -61,6 +63,7 @@ BEGIN_MESSAGE_MAP(WndPanelCrop, CBCGPDialogBar)
     ON_COMMAND_RANGE(ID_CROP_FREE, ID_CROP_2_3, OnRatioButton)
     ON_COMMAND(ID_KEEP_ASPECT, OnKeepAspect)
     ON_COMMAND(ID_CANCEL_CROP, OnCancelCrop)
+    ON_COMMAND(ID_APPLY_CROP, OnApplyCrop)
     ON_COMMAND(ID_POST_UPDATE_KEEP_ASPECT, OnPostUpdateKeepAspect)
     ON_EN_KILLFOCUS(IDC_CROP_WIDTH, OnWidthEditKillFocus)
     ON_EN_KILLFOCUS(IDC_CROP_HEIGHT, OnHeightEditKillFocus)
@@ -74,6 +77,8 @@ END_MESSAGE_MAP()
 
 WndPanelCrop::WndPanelCrop()
 {
+    s_panel = this;
+
     EnableVisualManagerStyle();
 
     // 构造的时候不能设置text and tip
@@ -116,6 +121,51 @@ void WndPanelCrop::Create(CWnd* parent)
     m_shape_panel.Create(this, ID_CROP_EXPAND_HOLDER);
 }
 
+namespace
+{
+    void MoveCrop(int dx, int dy)
+    {
+        if (::GetKeyState(VK_SHIFT) & 0x8000)
+        {
+            dx *= 10; dy *= 10; // Hold Shift to move 10 times faster
+        }
+
+        if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && ToolCrop::HasCropRect())
+        {
+            CRect   rc = ToolCrop::s_crop_on_canvas;
+            rc.OffsetRect(dx, dy);
+            FCWnd::MoveRectInside(rc, canvas->Size());
+            ToolCrop::SetCropOnCanvas(rc);
+        }
+    }
+}
+
+void WndPanelCrop::OnViewKeyDown(UINT nChar)
+{
+    switch (nChar)
+    {
+        case VK_RETURN: OnApplyCrop();  break;
+        case VK_ESCAPE: OnCancelCrop(); break;
+        case VK_LEFT:  MoveCrop(-1, 0); break;
+        case VK_RIGHT: MoveCrop(1, 0);  break;
+        case VK_UP:    MoveCrop(0, -1); break;
+        case VK_DOWN:  MoveCrop(0, 1);  break;
+    }
+}
+
+void WndPanelCrop::OnViewContextMenu(CPoint pt)
+{
+    LanguageTextSplitter   text(PanelCropText(22));
+    CMenu   menu;
+    menu.CreatePopupMenu();
+    menu.AppendMenu(MF_STRING, ID_APPLY_CROP, text.Next());
+    menu.AppendMenu(MF_STRING, ID_CANCEL_CROP, text.Next());
+
+    auto   popmenu = new CBCGPPopupMenu;
+    popmenu->SetAutoDestroy(FALSE);
+    popmenu->Create(this, pt.x, pt.y, menu.GetSafeHmenu(), FALSE, TRUE);
+}
+
 BCGImageButton& WndPanelCrop::AddImageButton(int id)
 {
     auto [it, _] = m_image_buttons.try_emplace(id, make_unique<BCGImageButton>());
@@ -156,6 +206,14 @@ void WndPanelCrop::OnObserveEvent(ObservedEvent& event)
     {
         OnEventCanvasReloaded();
     }
+    else if (event.m_type == (int)AppEvent::CropUndoCompleted)
+    {
+        UpdateData();
+        m_ratio_index = (int)event.m_param; // cmd里传递的ratio index
+        m_lock_aspect = ToolCrop::s_aspect_ratio.IsLocked();
+        UpdateData(FALSE);
+        UpdateKeepAspectButton();
+    }
 }
 
 void WndPanelCrop::OnEventCanvasReloaded()
@@ -180,7 +238,15 @@ void WndPanelCrop::OnEnableIfCanvasValid(CCmdUI* pCmdUI)
 
 void WndPanelCrop::OnEnableIfCropValid(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(theRuntime.GetCurrentCanvas() && ToolCrop::HasCropRect());
+    BOOL   enable = FALSE;
+    if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && ToolCrop::HasCropRect())
+    {
+        if (ToolCrop::s_crop_shape == CropShape::Rectangle)
+            enable = (CRect({}, canvas->Size()) != ToolCrop::s_crop_on_canvas);
+        else
+            enable = TRUE; // Non-rectangular crops are always valid if a crop region exists
+    }
+    pCmdUI->Enable(enable);
 }
 
 namespace
@@ -258,4 +324,15 @@ void WndPanelCrop::OnKeepAspect()
 void WndPanelCrop::OnCancelCrop()
 {
     ToolCrop::SetCropOnCanvas(CRect());
+}
+
+void WndPanelCrop::OnApplyCrop()
+{
+    if (!ToolCrop::HasCropRect())
+        return;
+
+    if (auto doc = theRuntime.GetActiveDoc())
+    {
+        doc->Execute(make_unique<cmd::CmdRectCrop>(ToolCrop::s_crop_on_canvas, *doc->GetCanvas(), m_ratio_index));
+    }
 }

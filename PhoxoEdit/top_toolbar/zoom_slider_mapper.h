@@ -3,7 +3,7 @@
 class ZoomSliderMapper
 {
 private:
-    // slider 固定缩放比例
+    // Fixed zoom ratios for the slider
     static inline const std::vector<double>   m_ticks = {
         0.05,   // 1/20
         0.10,   // 1/10
@@ -31,18 +31,18 @@ public:
         return (int)m_ticks.size() - 1;
     }
 
-    // 给定 slider pos，返回对应缩放比例
+    // Return the zoom ratio corresponding to the given slider position
     static double RatioAtSlider(int pos)
     {
         pos = std::clamp(pos, 0, slider_range_max());
         return m_ticks[pos];
     }
 
-    // 返回最接近slider pos
+    // Return the slider position nearest to the given ratio
     static int NearestSliderPos(double ratio)
     {
-        auto it = std::ranges::min_element(m_ticks, [ratio](auto& a, auto& b) {
-            return std::abs(a - ratio) < std::abs(b - ratio); // 计算距离最近的
+        auto it = std::ranges::min_element(m_ticks, [ratio](double a, double b) {
+            return std::abs(a - ratio) < std::abs(b - ratio); // Find the closest value to the given ratio 
         });
         return (int)(it - m_ticks.begin());
     }

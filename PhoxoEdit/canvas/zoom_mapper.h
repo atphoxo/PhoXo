@@ -2,7 +2,7 @@
 
 _PHOXO_BEGIN
 
-class ZoomMapper
+class ZoomMapper final
 {
 private:
     double   m_ratio = 1;

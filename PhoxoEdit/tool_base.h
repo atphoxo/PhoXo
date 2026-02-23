@@ -6,16 +6,16 @@ public:
     virtual ~ToolBase() = default;
 
     //----------------------------------------
-    // Tool 生命周期
+    // Tool lifecycle
     //----------------------------------------
-//     virtual void OnEnterTool() {} 暂时没用上，以后需要时再加
+//     virtual void OnEnterTool() {} // Not used yet, will add when needed
 //     virtual void OnLeaveTool() {}
 
     virtual std::wstring_view GetToolName() const = 0;
-    virtual void OnCanvasReloaded() {} // 画布变化
+    virtual void OnCanvasReloaded() {} // Canvas changed
 
     //----------------------------------------
-    // 光标：不能返回NULL
+    // Cursor: cannot return NULL
     //----------------------------------------
     virtual HCURSOR GetToolCursor(const ViewportContext& ctx)
     {
@@ -23,17 +23,27 @@ public:
     }
 
     //----------------------------------------
-    // 鼠标事件
+    // Mouse events
     //----------------------------------------
     virtual void OnLButtonDown(const ViewportContext& ctx, UINT nFlags, CPoint point) {}
     virtual void OnLButtonUp(const ViewportContext& ctx, UINT nFlags, CPoint point) {}
     virtual void OnMouseMove(const ViewportContext& ctx, UINT nFlags, CPoint point) {}
 
-    // capture 变化时调用
+    //----------------------------------------
+    // Keyboard events
+    //----------------------------------------
+    virtual bool OnKeyDown(UINT nChar, UINT nFlags) { return false; }
+
+    // Called when capture changes
     virtual void OnCaptureChanged() {}
 
     //----------------------------------------
-    // 绘制 Tool 的覆盖层（辅助线 / 选框 / mask等）
+    // Draw tool overlay (guides / selection box / mask, etc.)
     //----------------------------------------
     virtual void OnDrawToolOverlay(HDC hdc, const ViewportContext& ctx) {}
+
+    //----------------------------------------
+    // Context menu
+    //----------------------------------------
+    virtual void OnContextMenu(CPoint point) {}
 };

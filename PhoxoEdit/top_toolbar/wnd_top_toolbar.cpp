@@ -2,6 +2,7 @@
 #include "PhoxoEdit.h"
 #include "wnd_top_toolbar.h"
 #include "zoom_slider_mapper.h"
+#include "undo_button.h"
 
 namespace
 {
@@ -13,25 +14,27 @@ namespace
 
     enum
     {
-        IMAGE_OPEN = 0,
-        IMAGE_NEW = 1,
-        IMAGE_PASTE = 2,
-        IMAGE_ZOOM_OUT = 4,
-        IMAGE_ZOOM_IN = 5,
-        IMAGE_FIT_VIEW = 6,
-        IMAGE_ACTUAL = 7,
-        IMAGE_SCANNER = 8,
-        IMAGE_DELETE = 9,
-        IMAGE_SAVE = 10,
-        IMAGE_SAVE_AS = 11,
-        IMAGE_COPY = 12,
-        IMAGE_PRINT = 13,
+        IMAGE_OPEN = 0, // 图标顺序和svg一致
+        IMAGE_NEW,
+        IMAGE_PASTE,
+        IMAGE_ZOOM_OUT,
+        IMAGE_ZOOM_IN,
+        IMAGE_FIT_VIEW,
+        IMAGE_ACTUAL,
+        IMAGE_SCANNER,
+        IMAGE_DELETE,
+        IMAGE_SAVE,
+        IMAGE_SAVE_AS,
+        IMAGE_COPY,
+        IMAGE_PRINT,
+        IMAGE_UNDO,
+        IMAGE_REDO,
     };
 
     auto CreateButton(UINT id, int image_index, ButtonText show_text = ButtonText::Show)
     {
-        LanguageTextGroup   text(L"TOPBAR", id);
-        CString   label = (text.size() == 3) ? text[2] : text[0];
+        LanguageTextSplitter   text(L"TOPBAR", id);
+        const CString   label = text.Next();
         auto   btn = new CBCGPRibbonButton(
             id,
             label,
@@ -41,17 +44,17 @@ namespace
             (show_text == ButtonText::Show) ? CBCGPRibbonButton::RibbonSimplifiedOnScreenFull : CBCGPRibbonButton::RibbonSimplifiedOnScreenCompact);
 
         // 只有一项就是没有tip
-        if (text.size() >= 2)
+        if (CString tip = text.Next(); !tip.IsEmpty())
         {
-            btn->SetToolTipText(text[0]);
-            btn->SetDescription(text[1]);
+            btn->SetToolTipText(label);
+            btn->SetDescription(tip);
         }
         return btn;
     }
 
     auto CreateNewButton()
     {
-        auto   btn = CreateButton(ID_CREATE_IMAGE, IMAGE_NEW, ButtonText::Show);
+        auto   btn = CreateButton(ID_CREATE_IMAGE, IMAGE_NEW);
         btn->AddSubItem(CreateButton(ID_NEW_FROM_CLIPBOARD, IMAGE_PASTE));
         btn->AddSubItem(CreateButton(ID_NEW_FROM_SCANNER, IMAGE_SCANNER));
         return btn;
@@ -71,9 +74,9 @@ namespace
 
     auto CreateSaveButton()
     {
-        auto   btn = CreateButton(ID_FILE_SAVE, IMAGE_SAVE);
+        auto   btn = CreateButton(ID_FILE_SAVE_AS, IMAGE_SAVE_AS);
         btn->SetDefaultCommand();
-        btn->AddSubItem(CreateButton(ID_FILE_SAVE_AS, IMAGE_SAVE_AS));
+        btn->AddSubItem(CreateButton(ID_FILE_SAVE, IMAGE_SAVE));
         btn->AddSubItem(new CBCGPRibbonSeparator());
         btn->AddSubItem(CreateButton(ID_EDIT_COPY, IMAGE_COPY));
         btn->AddSubItem(CreateButton(ID_FILE_PRINT, IMAGE_PRINT));
@@ -110,11 +113,26 @@ namespace
         }
         return ctl;
     }
+
+    auto CreateUndoButton()
+    {
+        LanguageTextSplitter   undostr(L"TOPBAR", L"undo");
+        CString   str0 = undostr.Next();
+        CString   str1 = undostr.Next();
+        CString   str2 = undostr.Next();
+
+        auto   btn = new topbar::UndoButton(ID_EDIT_UNDO, L"", IMAGE_UNDO, -1, str0, str1, str2, CBCGPRibbonButton::RibbonSimplifiedOnScreenFull);
+        LanguageTextSplitter   text(L"TOPBAR", btn->GetID());
+        btn->SetToolTipText(text.Next());
+        btn->SetDescription(text.Next());
+        return btn;
+    }
 }
 
 WndTopToolbar::WndTopToolbar()
     : m_zoom_combobox{ CreateZoomRatioCombobox() }
     , m_zoom_slider{ CreateZoomSlider() }
+    , m_undo_button{ CreateUndoButton() }
 {
     //SetQuickAccessToolbarVisible(FALSE); // 不显示左上角那几个QAT
     //HideSingleTab(TRUE); // 就一个 Category，隐藏
@@ -123,7 +141,7 @@ WndTopToolbar::WndTopToolbar()
 void WndTopToolbar::Create(CWnd* parent)
 {
     __super::Create(parent);
-    EnableKeyTips(FALSE); // 禁止:按住Alt出现字符
+    EnableKeyTips(FALSE); // Disable key tips (Alt shortcuts display)
 
     auto   category = AddCategory(L"Top", IDSVG_TOP_TOOLBAR_ICONS, 0);
     AddFileGroup(*category->AddPanel(L""));
@@ -163,8 +181,8 @@ void WndTopToolbar::AddZoomGroup(CBCGPRibbonPanel& panel)
 
 void WndTopToolbar::AddUndoGroup(CBCGPRibbonPanel& panel)
 {
-    CBCGPRibbonUndoButton* pBtn1 = new CBCGPRibbonUndoButton(5343, _T("Undo"), 4, -1, L"11", L"22", L"33", CBCGPRibbonButton::RibbonSimplifiedOnScreenFull);
-    panel.Add(pBtn1);
+    panel.Add(m_undo_button);
+    panel.Add(CreateButton(ID_EDIT_REDO, IMAGE_REDO, ButtonText::Hide));
 }
 
 void WndTopToolbar::OnZoomRatioChanged(ZoomChangedBy sender)

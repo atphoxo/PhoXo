@@ -23,13 +23,13 @@ enum class ZoomChangedBy
     InitView,
     ZoomButton,
     MouseWheel,
-    Other
+    Other,
 };
 
 enum class ZoomDirection
 {
     ZoomIn,
-    ZoomOut
+    ZoomOut,
 };
 
 // index与界面按钮的顺序对应
@@ -37,13 +37,13 @@ enum class CropShape
 {
     Rectangle = 0,
     RoundedRect = 1,
-    Ellipse = 2
+    Ellipse = 2,
 };
 
 enum class RenderPreference
 {
     Quality = 0, // 高质量：Box 平均
-    Speed = 1    // 高速：最近邻采样
+    Speed = 1,   // 高速：最近邻采样
 };
 
 namespace AppDefine
@@ -56,5 +56,11 @@ enum class AppEvent
 {
     ZoomRatioChanged,
     CanvasReloaded,
-    CropRectChanged
+    CropRectChanged,
+
+//     CommandExecuted,
+//     UndoExecuted,
+//     RedoExecuted,
+
+    CropUndoCompleted,
 };

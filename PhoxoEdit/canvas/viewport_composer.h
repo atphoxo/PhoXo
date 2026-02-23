@@ -19,7 +19,7 @@ public:
     void Process(CPoint pt, Color& px) const
     {
         GPointF   canvas_pt = m_canvas.ZoomMapper().ToOriginal(pt + m_scroll_pos);
-        for (auto& layer : m_canvas.AllLayers())
+        for (auto& layer : m_canvas.LayerMgr().all())
         {
             layer->RenderPixel(canvas_pt, px, m_canvas.ZoomRatio());
         }

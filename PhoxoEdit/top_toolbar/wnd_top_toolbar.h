@@ -6,6 +6,7 @@ class WndTopToolbar : public CBCGPRibbonBar,
 private:
     CBCGPRibbonComboBox*   m_zoom_combobox{};
     CBCGPRibbonSlider*   m_zoom_slider{};
+    CBCGPRibbonUndoButton*   m_undo_button{};
 
 public:
     WndTopToolbar();
@@ -13,6 +14,8 @@ public:
 
     double GetComboDisplayedRatio() const;
     double GetRatioFromSlider() const;
+
+    int UndoCount() const { return (std::max)(1, m_undo_button->GetActionNumber()); }
 
 private:
     void AddFileGroup(CBCGPRibbonPanel& panel);

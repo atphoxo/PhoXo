@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "PhoxoEdit.h"
+#include "main_frame.h"
 #include "main_doc.h"
 
 IMPLEMENT_DYNCREATE(CMainDoc, CDocument)
 BEGIN_MESSAGE_MAP(CMainDoc, CDocument)
+    ON_COMMAND(ID_EDIT_UNDO, OnUndo)
+    ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateUndo)
+    ON_COMMAND(ID_EDIT_REDO, OnRedo)
+    ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateRedo)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, OnUpdateFileSave)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS, OnUpdateFileSave)
 END_MESSAGE_MAP()
@@ -16,6 +21,14 @@ namespace
         if (auto w = AfxGetMainWnd())
             w->PostMessageW(MSG_POST_CANVAS_RELOADED);
     }
+}
+
+void CMainDoc::Execute(unique_ptr<phoxo::Command>&& cmd, phoxo:: IProgressListener* progress)
+{
+    CWaitCursor   waitcursor;
+    if (m_canvas)
+        m_canvas->Execute(std::move(cmd), progress);
+    UpdateAllViews(NULL);
 }
 
 BOOL CMainDoc::OnNewDocument()
@@ -88,6 +101,36 @@ BOOL CMainDoc::OnSaveDocument(LPCTSTR filepath)
 
     ::BCGPMessageLightBox(filepath + error_text, MB_OK | MB_ICONWARNING, NULL, NULL, LanguageText::Get(L"FILE", L"save_error"));
     return FALSE;
+}
+
+void CMainDoc::OnUndo()
+{
+    CWaitCursor   waitcursor;
+    int   count = ((CMainFrame*)AfxGetMainWnd())->TopToolbar().UndoCount();
+    for (int i = 0; i < count; i++)
+    {
+        if (m_canvas)
+            m_canvas->Undo();
+    }
+    UpdateAllViews(NULL);
+}
+
+void CMainDoc::OnUpdateUndo(CCmdUI* ui)
+{
+    ui->Enable(m_canvas && m_canvas->CommandMgr().CanUndo());
+}
+
+void CMainDoc::OnRedo()
+{
+    CWaitCursor   waitcursor;
+    if (m_canvas)
+        m_canvas->Redo();
+    UpdateAllViews(NULL);
+}
+
+void CMainDoc::OnUpdateRedo(CCmdUI* ui)
+{
+    ui->Enable(m_canvas && m_canvas->CommandMgr().CanRedo());
 }
 
 void CMainDoc::OnUpdateFileSave(CCmdUI* ui)

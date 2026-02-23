@@ -38,18 +38,18 @@ namespace crop
         }
 
         // Returns the computed crop rectangle
-        CRect HandleMouseMove(GPointF cur, const CropAspectRatio& ratio);
+        CRect HandleMouseMove(GPointF cur, const FixedAspectRatio& ratio);
 
     private:
-        CRect CreateCrop(GPointF cur, const CropAspectRatio& ratio);
+        CRect CreateCrop(GPointF cur, const FixedAspectRatio& ratio);
 
         CRect MoveCrop(GPointF delta) const;
         int ClampEdge(double v, GripType edge) const;
         void MoveSingleEdge(CRect& rc, GPointF delta, GripType edge) const;
         void BackCalculateEdge(CRect& rc, double ratio, GripType edge) const;
-        CRect ResizeEdge(GPointF delta, GripType edge, const CropAspectRatio& ratio, GripType fixed_side) const;
+        CRect ResizeEdge(GPointF delta, GripType edge, const FixedAspectRatio& ratio, GripType fixed_side) const;
 
-        CRect ResizeCornerLocked(GPointF delta, const CropAspectRatio& ratio) const;
+        CRect ResizeCornerLocked(GPointF delta, const FixedAspectRatio& ratio) const;
         CRect ResizeCornerUnlocked(GPointF delta) const;
     };
 }

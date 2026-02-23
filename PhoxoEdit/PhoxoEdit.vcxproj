@@ -126,9 +126,16 @@
   <ItemGroup>
     <ClInclude Include="base\app_config.h" />
     <ClInclude Include="base\app_define.h" />
+    <ClInclude Include="base\fixed_aspect_ratio.h" />
     <ClInclude Include="base\runtime_context.h" />
     <ClInclude Include="canvas\canvas.h" />
     <ClInclude Include="canvas\canvas_all.h" />
+    <ClInclude Include="canvas\command.h" />
+    <ClInclude Include="canvas\commands\mfc_set_doc_modified.h" />
+    <ClInclude Include="canvas\commands\modify_layer_image.h" />
+    <ClInclude Include="canvas\commands\move_layer.h" />
+    <ClInclude Include="canvas\commands\set_canvas_size.h" />
+    <ClInclude Include="canvas\command_manager.h" />
     <ClInclude Include="canvas\mfc_scroll_view_anchor_restore.h" />
     <ClInclude Include="canvas\viewport_composer.h" />
     <ClInclude Include="canvas\viewport_context.h" />
@@ -137,7 +144,7 @@
     <ClInclude Include="canvas\layer_manager.h" />
     <ClInclude Include="canvas\zoom_mapper.h" />
     <ClInclude Include="framework\main_doc_manager.h" />
-    <ClInclude Include="func_crop\crop_aspect_ratio.h" />
+    <ClInclude Include="func_crop\cmd_rect_crop.h" />
     <ClInclude Include="func_crop\grip_handle.h" />
     <ClInclude Include="func_crop\handle_overlay.h" />
     <ClInclude Include="func_crop\mask_overlay.h" />
@@ -159,6 +166,7 @@
     <ClInclude Include="right_tab_bar\wnd_right_tab_bar.h" />
     <ClInclude Include="tool_base.h" />
     <ClInclude Include="tool_manager.h" />
+    <ClInclude Include="top_toolbar\undo_button.h" />
     <ClInclude Include="top_toolbar\wnd_top_toolbar.h" />
     <ClInclude Include="top_toolbar\zoom_slider_mapper.h" />
   </ItemGroup>
@@ -169,6 +177,7 @@
     <ClCompile Include="canvas\canvas_viewport.cpp" />
     <ClCompile Include="canvas\layer.cpp" />
     <ClCompile Include="canvas\viewport_context.cpp" />
+    <ClCompile Include="func_crop\cmd_rect_crop.cpp" />
     <ClCompile Include="func_crop\grip_handle.cpp" />
     <ClCompile Include="func_crop\handle_overlay.cpp" />
     <ClCompile Include="func_crop\mask_overlay.cpp" />
@@ -191,12 +200,14 @@
     <ClCompile Include="PhoxoEdit.cpp" />
     <ClCompile Include="right_tab_bar\wnd_right_tab_bar.cpp" />
     <ClCompile Include="tool_manager.cpp" />
+    <ClCompile Include="top_toolbar\undo_button.cpp" />
     <ClCompile Include="top_toolbar\wnd_top_toolbar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PhoxoEdit.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="res\crop_16_9.svg" />
     <None Include="res\crop_1_1.svg" />
     <None Include="res\crop_2_3.svg" />

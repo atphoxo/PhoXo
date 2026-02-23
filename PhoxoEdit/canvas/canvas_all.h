@@ -5,3 +5,8 @@
 
 using phoxo::ViewportContext;
 using phoxo::ScrollViewAnchorRestore;
+
+#include "commands/set_canvas_size.h"
+#include "commands/move_layer.h"
+#include "commands/mfc_set_doc_modified.h"
+#include "commands/modify_layer_image.h"

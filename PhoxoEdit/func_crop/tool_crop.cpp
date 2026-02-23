@@ -2,6 +2,7 @@
 #include "PhoxoEdit.h"
 #include "tool_crop.h"
 #include "main_view.h"
+#include "panel/wnd_panel_crop.h"
 using namespace crop;
 
 namespace
@@ -101,6 +102,13 @@ void ToolCrop::OnMouseMove(const ViewportContext& ctx, UINT, CPoint point)
     }
 }
 
+bool ToolCrop::OnKeyDown(UINT nChar, UINT nFlags)
+{
+    if (WndPanelCrop::s_panel)
+        WndPanelCrop::s_panel->OnViewKeyDown(nChar);
+    return true;
+}
+
 void ToolCrop::OnCaptureChanged()
 {
     // ASSERT(!m_move_strategy.has_value());
@@ -114,7 +122,7 @@ void ToolCrop::OnDrawToolOverlay(HDC hdc, const ViewportContext& ctx)
 
     MaskOverlay::DrawParams   params{
         .shape = s_crop_shape,
-        .rounded_rect_radius_percent = (float)s_roundness / 100.f,
+        .rounded_rect_radius_percent = s_roundness,
         .is_interacting = m_move_strategy.has_value()
     };
 
@@ -126,6 +134,12 @@ void ToolCrop::OnDrawToolOverlay(HDC hdc, const ViewportContext& ctx)
 void ToolCrop::OnCanvasReloaded()
 {
     ResetForNewImage();
+}
+
+void ToolCrop::OnContextMenu(CPoint point)
+{
+    if (WndPanelCrop::s_panel)
+        WndPanelCrop::s_panel->OnViewContextMenu(point);
 }
 
 void ToolCrop::ResetForNewImage()

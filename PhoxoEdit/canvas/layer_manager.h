@@ -4,12 +4,17 @@
 _PHOXO_BEGIN
 using std::shared_ptr;
 
-class LayerManager
+class LayerManager final
 {
 private:
-    std::deque<shared_ptr<Layer>>   m_layers;
+    std::vector<shared_ptr<Layer>>   m_layers;
 
 public:
+    bool inRange(int index) const
+    {
+        return (index >= 0) && (index < (int)m_layers.size());
+    }
+
     void add(const shared_ptr<Layer>& layer, int index)
     {
         if (index == -1)
@@ -27,12 +32,13 @@ public:
 
     Layer* at(int index) const
     {
-        try
+        if (!inRange(index))
         {
-            return m_layers.at(index).get();
+            assert(false);
+            return nullptr;
         }
-        catch (const std::out_of_range&) { assert(false); }
-        return nullptr;
+
+        return m_layers[index].get();
     }
 
     const auto& all() const

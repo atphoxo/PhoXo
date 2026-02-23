@@ -33,7 +33,7 @@ void MoveStrategy::BackCalculateEdge(CRect& rc, double ratio, GripType edge) con
     else if (edge == Right)   rc.right = ClampEdge(rc.left + rc.Height() * ratio, edge);
 }
 
-CRect MoveStrategy::ResizeEdge(GPointF delta, GripType edge, const CropAspectRatio& ratio, GripType fixed_side) const
+CRect MoveStrategy::ResizeEdge(GPointF delta, GripType edge, const FixedAspectRatio& ratio, GripType fixed_side) const
 {
     CRect   rc = m_begin;
     MoveSingleEdge(rc, delta, edge);
@@ -90,7 +90,7 @@ CRect MoveStrategy::MoveCrop(GPointF delta) const
     return rc;
 }
 
-CRect MoveStrategy::ResizeCornerLocked(GPointF delta, const CropAspectRatio& ratio) const
+CRect MoveStrategy::ResizeCornerLocked(GPointF delta, const FixedAspectRatio& ratio) const
 {
     switch (m_type)
     {
@@ -141,7 +141,7 @@ CRect MoveStrategy::ResizeCornerUnlocked(GPointF delta) const
     return {};
 }
 
-CRect MoveStrategy::HandleMouseMove(GPointF cur, const CropAspectRatio& ratio)
+CRect MoveStrategy::HandleMouseMove(GPointF cur, const FixedAspectRatio& ratio)
 {
     if (m_action == Action::Create)
         return CreateCrop(cur, ratio);
@@ -184,7 +184,7 @@ namespace
     }
 }
 
-CRect MoveStrategy::CreateCrop(GPointF cur, const CropAspectRatio& ratio)
+CRect MoveStrategy::CreateCrop(GPointF cur, const FixedAspectRatio& ratio)
 {
     auto [corner, size] = DetermineCorner(cur, m_anchor);
 

@@ -15,7 +15,7 @@ public:
     static constexpr std::wstring_view   TOOL_NAME = L"crop";
 
     static inline CRect   s_crop_on_canvas;
-    static inline crop::CropAspectRatio   s_aspect_ratio;
+    static inline FixedAspectRatio   s_aspect_ratio;
     static inline CropShape   s_crop_shape = CropShape::Rectangle;
     static inline int   s_roundness = 20; // 圆角百分比，0-100默认 20%
 
@@ -29,9 +29,11 @@ public:
     void OnLButtonDown(const ViewportContext& ctx, UINT nFlags, CPoint point) override;
     void OnLButtonUp(const ViewportContext& ctx, UINT nFlags, CPoint point) override;
     void OnMouseMove(const ViewportContext& ctx, UINT nFlags, CPoint point) override;
+    bool OnKeyDown(UINT nChar, UINT nFlags) override;
     void OnCaptureChanged() override;
     void OnDrawToolOverlay(HDC hdc, const ViewportContext& ctx) override;
     void OnCanvasReloaded() override;
+    void OnContextMenu(CPoint point) override;
 
 private:
     void ResetForNewImage();

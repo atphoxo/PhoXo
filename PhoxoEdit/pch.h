@@ -39,8 +39,10 @@ using phoxo::Layer;
 #include "phoxo_shared.h"
 
 #include "base/app_define.h"
+#include "base/fixed_aspect_ratio.h"
 #include "base/runtime_context.h"
 #include "base/app_config.h"
+
 #include "tool_base.h"
 
 #include "resource.h"       // main symbols

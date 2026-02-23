@@ -1,5 +1,4 @@
 #pragma once
-#include "crop_aspect_ratio.h"
 
 namespace crop
 {

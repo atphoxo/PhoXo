@@ -15,8 +15,13 @@ private:
     crop::PageExpander   m_shape_panel;
 
 public:
+    static inline WndPanelCrop*   s_panel = nullptr; // global pointer
+
     WndPanelCrop();
+    ~WndPanelCrop() { s_panel = nullptr; }
     void Create(CWnd* parent);
+    void OnViewKeyDown(UINT nChar);
+    void OnViewContextMenu(CPoint point);
 
 private:
     BOOL PreTranslateMessage(MSG* pMsg) override;
@@ -40,5 +45,6 @@ private:
     afx_msg void OnRatioButton(UINT id);
     afx_msg void OnKeepAspect();
     afx_msg void OnCancelCrop();
+    afx_msg void OnApplyCrop();
     DECLARE_MESSAGE_MAP()
 };

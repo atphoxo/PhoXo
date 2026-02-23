@@ -30,6 +30,9 @@
     <Filter Include="Source Files\framework">
       <UniqueIdentifier>{971f0dc6-01a6-4e5b-b334-a53b37ddaedb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\canvas\commands">
+      <UniqueIdentifier>{e2c28199-a63f-48d7-9107-8af5dc06bdfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main_doc.h">
@@ -140,8 +143,32 @@
     <ClInclude Include="func_crop\move_strategy.h">
       <Filter>Source Files\func_crop</Filter>
     </ClInclude>
-    <ClInclude Include="func_crop\crop_aspect_ratio.h">
+    <ClInclude Include="canvas\command.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\command_manager.h">
+      <Filter>Source Files\canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\set_canvas_size.h">
+      <Filter>Source Files\canvas\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\move_layer.h">
+      <Filter>Source Files\canvas\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\mfc_set_doc_modified.h">
+      <Filter>Source Files\canvas\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="top_toolbar\undo_button.h">
+      <Filter>Source Files\top_toolbar</Filter>
+    </ClInclude>
+    <ClInclude Include="base\fixed_aspect_ratio.h">
+      <Filter>Source Files\base</Filter>
+    </ClInclude>
+    <ClInclude Include="func_crop\cmd_rect_crop.h">
       <Filter>Source Files\func_crop</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\modify_layer_image.h">
+      <Filter>Source Files\canvas\commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +250,12 @@
     <ClCompile Include="func_crop\panel\wnd_panel_crop_size_edit.cpp">
       <Filter>Source Files\func_crop\panel</Filter>
     </ClCompile>
+    <ClCompile Include="top_toolbar\undo_button.cpp">
+      <Filter>Source Files\top_toolbar</Filter>
+    </ClCompile>
+    <ClCompile Include="func_crop\cmd_rect_crop.cpp">
+      <Filter>Source Files\func_crop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PhoxoEdit.rc">
@@ -299,7 +332,10 @@
     <None Include="res\rotate_cw.svg">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\crop_cancel.svg" />
+    <None Include="cpp.hint" />
+    <None Include="res\crop_cancel.svg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\PhoxoEditDoc.ico">

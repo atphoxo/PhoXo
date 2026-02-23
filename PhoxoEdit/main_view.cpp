@@ -14,6 +14,7 @@ BEGIN_MESSAGE_MAP(CMainView, PhoXoScrollViewBase)
     ON_WM_LBUTTONUP()
     ON_WM_SETCURSOR()
     ON_WM_MOUSELEAVE()
+    ON_WM_KEYDOWN()
     ON_MESSAGE(WM_CAPTURECHANGED, OnCaptureChanged)
     // top toolbar zoom
     ON_COMMAND(ID_TOP_ZOOM_SLIDER, OnTopZoomSlider)
@@ -128,6 +129,7 @@ void CMainView::OnEditCopy()
 {
     if (auto canvas = GetCanvas())
     {
+        CWaitCursor   wait_cursor;
         auto   img = canvas->BuildCanvasImage();
         phoxo::effect::CopyToClipboard   fx;
         img.ApplyEffect(fx);
@@ -141,10 +143,13 @@ void CMainView::OnUpdateIfCanvasValid(CCmdUI* ui)
 
 void CMainView::OnContextMenu(CWnd*, CPoint point)
 {
-    if (CBCGPPopupMenu::GetSafeActivePopupMenu() != NULL)
+    if (CBCGPPopupMenu::GetActiveMenu() != NULL)
         return;
 
-    //    theApp.ShowPopupMenu(IDR_CONTEXT_MENU, point, this);
+    if (auto tool = theToolManager.GetActiveTool())
+    {
+        tool->OnContextMenu(point);
+    }
 }
 
 void CMainView::OnLButtonDown(UINT nFlags, CPoint point)
@@ -216,4 +221,14 @@ void CMainView::OnMouseLeave()
         tool->OnMouseMove(*ctx, 0, { -0xFFFFFF,-0xFFFFFF });
     }
     __super::OnMouseLeave();
+}
+
+void CMainView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+    if (auto tool = theToolManager.GetActiveTool())
+    {
+        if (tool->OnKeyDown(nChar, nFlags))
+            return;
+    }
+    __super::OnKeyDown(nChar, nRepCnt, nFlags);
 }

@@ -5,12 +5,17 @@
 namespace
 {
     constexpr int   BAR_WIDTH = 56;
-    const CSize   BUTTON_SIZE(30, 64);
+    constexpr SIZE   BUTTON_SIZE{ 30, 64 };
 
     CString LoadTip(UINT id, int sub_index)
     {
         LanguageTextGroup   group(L"TAB", id - ID_TAB_CROP_ROTATE);
-        return group[sub_index];
+        CString   t = group[sub_index];
+        if (sub_index == 1) // tooltip may contain \n, which needs to be replaced with actual newlines
+        {
+            t.Replace(LR"(\n)", L"\n");
+        }
+        return t;
     }
 }
 

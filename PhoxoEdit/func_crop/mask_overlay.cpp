@@ -25,30 +25,30 @@ void MaskOverlay::Draw(HDC dc, const CRect& crop_on_view, CSize view_size, const
 
 namespace
 {
-    D2D1_ROUNDED_RECT MakeRoundedRectByPercent(const CD2DRectF& rc, float pct)
+    D2D1_ROUNDED_RECT MakeRoundedRectByPercent(const CD2DRectF& rc, int pct)
     {
         float   width = rc.right - rc.left;
         float   height = rc.bottom - rc.top;
         float   max_radius = (std::min)(width, height) / 2.0f; // half of the shorter side
-        float   r = pct * max_radius;
+        float   r = (float)pct / 100.0f * max_radius;
         return { rc, r, r };
     }
 }
 
-void MaskOverlay::FillShapeMask(CD2DRectF crop_on_view, const DrawParams& params)
+void MaskOverlay::FillShapeMask(ID2D1RenderTarget* target, ID2D1Brush* brush, CD2DRectF crop_on_view, CropShape shape, int rounded_rect_radius_percent)
 {
-    switch (params.shape)
+    switch (shape)
     {
         case CropShape::Rectangle:
-            m_target->FillRectangle(crop_on_view, m_black_brush);
+            target->FillRectangle(crop_on_view, brush);
             break;
 
         case CropShape::RoundedRect:
-            m_target->FillRoundedRectangle(MakeRoundedRectByPercent(crop_on_view, params.rounded_rect_radius_percent), m_black_brush);
+            target->FillRoundedRectangle(MakeRoundedRectByPercent(crop_on_view, rounded_rect_radius_percent), brush);
             break;
 
         case CropShape::Ellipse:
-            m_target->FillEllipse(CD2DEllipse(crop_on_view), m_black_brush);
+            target->FillEllipse(CD2DEllipse(crop_on_view), brush);
             break;
     }
 }
@@ -62,7 +62,7 @@ void MaskOverlay::UpdateOverlayMask(const CRect& crop_on_view, const DrawParams&
     m_target->BeginDraw();
     float   alpha = 0.4f; // 动态效果不喜欢：params.is_interacting ? 0.6f : 0.3f;
     m_target->Clear(ColorF(ColorF::Black, alpha)); // mask透明度
-    FillShapeMask(crop_on_view, params);
+    FillShapeMask(m_target, m_black_brush, crop_on_view, params.shape, params.rounded_rect_radius_percent);
     m_target->EndDraw();
 
     // 翻转alpha，让挖空的地方露出来

@@ -11,15 +11,14 @@ _PHOXO_BEGIN
 class Layer
 {
 private:
-    CString   m_name; // 图层名字
-    CPoint   m_pos; // 图层在画布中的偏移位置
-    Image   m_image; // path等矢量类图层也会有raster渲染image
-    BYTE   m_opacity = 100; // 透明度 0~100
-    bool   m_visible = true; // 是否显示
+    CString   m_name; // layer name
+    CPoint   m_pos; // layer offset on the canvas
+    Image   m_image; // raster image (vector layers may also render to raster)
+    BYTE   m_opacity = 100; // opacity 0–100
+    bool   m_visible = true; // visibility flag
 
 public:
     Layer(const Layer&) = delete;
-    Layer& operator=(const Layer&) = delete;
 
     Layer(Image&& img)
         : m_image{ std::move(img) }
@@ -30,9 +29,13 @@ public:
 
     int Opacity() const { return m_opacity; }
     void SetOpacity(int opacity) { m_opacity = (BYTE)opacity; }
+
     CPoint Position() const { return m_pos; }
     void SetPosition(CPoint pos) { m_pos = pos; }
+    CRect Bounds() const { return CRect(m_pos, m_image.Size()); }
+
     const Image& RasterImage() const { return m_image; }
+    Image& ImageRef() { return m_image; }
 
     void RenderPixel(GPointF canvas_pt, Color& target, double ratio) const;
 

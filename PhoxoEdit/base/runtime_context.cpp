@@ -23,11 +23,14 @@ RuntimeContext::RuntimeContext()
 
 CMainView* RuntimeContext::GetActiveView() const
 {
-    if (auto main = (CFrameWnd*)AfxGetMainWnd())
-    {
-        return (CMainView*)main->GetActiveView();
-    }
-    return nullptr;
+    auto   main = (CFrameWnd*)AfxGetMainWnd();
+    return main ? (CMainView*)main->GetActiveView() : nullptr;
+}
+
+CMainDoc* RuntimeContext::GetActiveDoc() const
+{
+    auto   view = GetActiveView();
+    return view ? (CMainDoc*)view->GetDocument() : nullptr;
 }
 
 void RuntimeContext::InvalidateView() const

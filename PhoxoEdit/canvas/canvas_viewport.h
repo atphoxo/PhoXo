@@ -16,7 +16,7 @@ private:
     Image   m_cache;
 
 public:
-    CanvasViewport(const Canvas& canvas) : m_canvas(canvas) {}
+    explicit CanvasViewport(const Canvas& canvas) : m_canvas(canvas) {}
 
     void Draw(HDC hdc, HBRUSH background, const ViewportContext& ctx);
 
