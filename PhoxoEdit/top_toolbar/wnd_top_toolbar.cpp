@@ -3,6 +3,7 @@
 #include "wnd_top_toolbar.h"
 #include "zoom_slider_mapper.h"
 #include "undo_button.h"
+#include "theme_menu.h"
 
 namespace
 {
@@ -29,11 +30,16 @@ namespace
         IMAGE_PRINT,
         IMAGE_UNDO,
         IMAGE_REDO,
+        IMAGE_SETTINGS,
+        IMAGE_THEMES,
     };
+
+    CString LoadText(PCWSTR key) { return LanguageText::Get(L"TOPBAR", key); }
+    CString LoadText(int key) { return LoadText(FCString::From(key)); }
 
     auto CreateButton(UINT id, int image_index, ButtonText show_text = ButtonText::Show)
     {
-        LanguageTextSplitter   text(L"TOPBAR", id);
+        LanguageTextSplitter   text(LoadText(id));
         const CString   label = text.Next();
         auto   btn = new CBCGPRibbonButton(
             id,
@@ -83,14 +89,6 @@ namespace
         return btn;
     }
 
-    auto CreateFitViewButton()
-    {
-        auto   btn = CreateButton(ID_TOP_ZOOM_FIT_WINDOW, IMAGE_FIT_VIEW, ButtonText::Hide);
-        btn->SetDefaultCommand();
-        btn->AddSubItem(CreateButton(ID_TOP_ZOOM_ACTUAL, IMAGE_ACTUAL));
-        return btn;
-    }
-
     auto CreateZoomSlider()
     {
         auto   ctl = new CBCGPRibbonSlider(ID_TOP_ZOOM_SLIDER, 100);
@@ -116,15 +114,25 @@ namespace
 
     auto CreateUndoButton()
     {
-        LanguageTextSplitter   undostr(L"TOPBAR", L"undo");
+        LanguageTextSplitter   undostr(LoadText(L"undo"));
         CString   str0 = undostr.Next();
         CString   str1 = undostr.Next();
         CString   str2 = undostr.Next();
 
         auto   btn = new topbar::UndoButton(ID_EDIT_UNDO, L"", IMAGE_UNDO, -1, str0, str1, str2, CBCGPRibbonButton::RibbonSimplifiedOnScreenFull);
-        LanguageTextSplitter   text(L"TOPBAR", btn->GetID());
+        LanguageTextSplitter   text(LoadText(btn->GetID()));
         btn->SetToolTipText(text.Next());
         btn->SetDescription(text.Next());
+        return btn;
+    }
+
+    auto CreateThemeMenu()
+    {
+        topbar::ThemeMenu   menu(LoadText(L"theme"));
+        menu.LoadMenuWithTranslate(IDR_MENU_THEMES);
+
+        auto   btn = CreateButton(ID_APP_THEMES, IMAGE_THEMES, ButtonText::Hide);
+        btn->SetMenu(menu.GetSafeHmenu());
         return btn;
     }
 }
@@ -134,8 +142,8 @@ WndTopToolbar::WndTopToolbar()
     , m_zoom_slider{ CreateZoomSlider() }
     , m_undo_button{ CreateUndoButton() }
 {
-    //SetQuickAccessToolbarVisible(FALSE); // 不显示左上角那几个QAT
-    //HideSingleTab(TRUE); // 就一个 Category，隐藏
+    SetQuickAccessToolbarVisible(FALSE); // 不显示左上角那几个QAT
+    HideSingleTab(TRUE); // 就一个 Category，隐藏
 }
 
 void WndTopToolbar::Create(CWnd* parent)
@@ -147,6 +155,7 @@ void WndTopToolbar::Create(CWnd* parent)
     AddFileGroup(*category->AddPanel(L""));
     AddZoomGroup(*category->AddPanel(L""));
     AddUndoGroup(*category->AddPanel(L""));
+    AddAppGroup(*category->AddPanel(L""));
 
     SetSimplifiedMode(TRUE);
 }
@@ -172,7 +181,8 @@ void WndTopToolbar::AddFileGroup(CBCGPRibbonPanel& panel)
 
 void WndTopToolbar::AddZoomGroup(CBCGPRibbonPanel& panel)
 {
-    panel.Add(CreateFitViewButton());
+    panel.Add(CreateButton(ID_TOP_ZOOM_FIT_WINDOW, IMAGE_FIT_VIEW, ButtonText::Hide));
+    panel.Add(CreateButton(ID_TOP_ZOOM_ACTUAL, IMAGE_ACTUAL, ButtonText::Hide));
     panel.Add(m_zoom_combobox);
     panel.Add(CreateButton(ID_TOP_ZOOM_OUT, IMAGE_ZOOM_OUT, ButtonText::Hide));
     panel.Add(m_zoom_slider);
@@ -183,6 +193,12 @@ void WndTopToolbar::AddUndoGroup(CBCGPRibbonPanel& panel)
 {
     panel.Add(m_undo_button);
     panel.Add(CreateButton(ID_EDIT_REDO, IMAGE_REDO, ButtonText::Hide));
+}
+
+void WndTopToolbar::AddAppGroup(CBCGPRibbonPanel& panel)
+{
+    panel.Add(CreateButton(ID_APP_SETTINGS, IMAGE_SETTINGS, ButtonText::Hide));
+    panel.Add(CreateThemeMenu());
 }
 
 void WndTopToolbar::OnZoomRatioChanged(ZoomChangedBy sender)

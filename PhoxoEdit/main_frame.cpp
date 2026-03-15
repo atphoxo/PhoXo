@@ -2,6 +2,7 @@
 #include "PhoxoEdit.h"
 #include "main_frame.h"
 #include "tool_manager.h"
+#include "dialogs/dlg_settings.h"
 
 static_assert(ID_TAB_CROP_ROTATE == 20000); // ID_TAB_CROP_ROTATE 必须是range第一个
 
@@ -17,6 +18,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
     // right tab group
     ON_COMMAND_RANGE(ID_TAB_CROP_ROTATE, ID_TAB_LAST_ID, OnRightTab)
     ON_UPDATE_COMMAND_UI_RANGE(ID_TAB_CROP_ROTATE, ID_TAB_LAST_ID, OnUpdateRightTab)
+    ON_COMMAND(ID_APP_SETTINGS, OnAppSettings)
+    ON_COMMAND(ID_APP_THEMES, OnAppThemes)
+    ON_COMMAND_RANGE(ID_THEME_01, ID_THEME_10, OnSelectTheme)
+    ON_UPDATE_COMMAND_UI_RANGE(ID_THEME_01, ID_THEME_10, OnUpdateSelectTheme)
 END_MESSAGE_MAP()
 
 // SetPersistantFrame(false); // 不要设置，否则不能保存位置了
@@ -35,6 +40,33 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     OnRightTab(ID_TAB_CROP_ROTATE);
     return 0;
+}
+
+void CMainFrame::OnAppSettings()
+{
+    DlgSettings   dlg;
+    dlg.DoModal();
+
+    if (auto canvas = theRuntime.GetCurrentCanvas())
+    {
+        canvas->InvalidateViewport();
+        theRuntime.InvalidateView();
+    }
+}
+
+void CMainFrame::OnAppThemes()
+{
+}
+
+void CMainFrame::OnSelectTheme(UINT id)
+{
+    int   new_theme_index = id - ID_THEME_01;
+    if (theConfig.m_theme_index == new_theme_index)
+        return;
+
+    theConfig.m_theme_index = new_theme_index;
+    theApp.SetVisualTheme(theConfig.GetVisualTheme());
+    theRuntime.OnThemeChanged();
 }
 
 void CMainFrame::OnRightTab(UINT id)
@@ -82,7 +114,7 @@ namespace
         SystemParametersInfo(SPI_GETWORKAREA, sizeof(RECT), rc, 0);
         rc.DeflateRect(200, 150);
 
-        int   x = (std::min)(DPICalculator::Cast(300), rc.Width()); // 如果屏幕很小的情况下做个保护
+        int   x = (std::min)(DPICalculator::Cast(500), rc.Width()); // 如果屏幕很小的情况下做个保护
         int   y = (std::min)(DPICalculator::Cast(400), rc.Height());
         return { x, y };
     }
@@ -106,6 +138,11 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
     }
 }
 
+BOOL CMainFrame::OnShowPopupMenu(CBCGPPopupMenu* popmenu)
+{
+    return __super::OnShowPopupMenu(popmenu);
+}
+
 void CMainFrame::OnClose()
 {
     theToolManager.Shutdown();
@@ -117,4 +154,10 @@ LRESULT CMainFrame::OnDPIChanged(WPARAM wParam, LPARAM lParam)
 {
     DPICalculator::g_current_dpi() = GetDpiForWindow(m_hWnd);
     return __super::OnDPIChanged(wParam, lParam);
+}
+
+void CMainFrame::OnUpdateSelectTheme(CCmdUI* pCmdUI)
+{
+    int   curr = (int)(pCmdUI->m_nID - ID_THEME_01);
+    pCmdUI->SetCheck(theConfig.m_theme_index == curr);
 }

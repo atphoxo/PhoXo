@@ -12,7 +12,7 @@ enum
 
 enum class PanelDock
 {
-    Right = 0, // 默认停靠右侧
+    Right = 0, // Default dock to right side
     Left = 1,
 };
 
@@ -32,7 +32,7 @@ enum class ZoomDirection
     ZoomOut,
 };
 
-// index与界面按钮的顺序对应
+// Index corresponds to the order of UI buttons
 enum class CropShape
 {
     Rectangle = 0,
@@ -42,8 +42,8 @@ enum class CropShape
 
 enum class RenderPreference
 {
-    Quality = 0, // 高质量：Box 平均
-    Speed = 1,   // 高速：最近邻采样
+    Quality = 0, // High quality: Box averaging
+    Speed = 1,   // High speed: Nearest neighbor sampling
 };
 
 namespace AppDefine

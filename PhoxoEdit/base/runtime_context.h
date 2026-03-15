@@ -14,6 +14,7 @@ public:
     CMainDoc* GetActiveDoc() const;
     void InvalidateView() const;
     Canvas* GetCurrentCanvas() const; // If a canvas exists, an active view and document must exist
+    void OnThemeChanged();
 };
 
 #define theRuntime RuntimeContext::GetInstance()

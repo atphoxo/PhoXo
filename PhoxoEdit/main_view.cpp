@@ -146,7 +146,7 @@ void CMainView::OnContextMenu(CWnd*, CPoint point)
     if (CBCGPPopupMenu::GetActiveMenu() != NULL)
         return;
 
-    if (auto tool = theToolManager.GetActiveTool())
+    if (auto tool = theToolManager.GetActiveTool(); tool && theRuntime.GetCurrentCanvas())
     {
         tool->OnContextMenu(point);
     }

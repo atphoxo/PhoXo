@@ -58,7 +58,7 @@ BOOL CMainDoc::OnOpenDocument(LPCTSTR filepath)
 {
     m_canvas = nullptr;
 
-    if (FCImage img = ImageFileIO::LoadFile(filepath))
+    if (FCImage img = ImageFileIO::LoadFile(filepath, !AppConfig::LoadSeeIgnoreICC()))
     {
         m_canvas = make_unique<Canvas>(img.Size());
         m_canvas->AddLayer(make_shared<Layer>(std::move(img)));
@@ -87,7 +87,7 @@ BOOL CMainDoc::OnSaveDocument(LPCTSTR filepath)
     CWaitCursor   wait_cursor;
     FileSaveAgent   agent(filepath);
     CString   error_text;
-    if (ImageFileIO::SaveFile(agent.GetTempFile(), img))
+    if (ImageFileIO::SaveFile(agent.GetTempFile(), img, AppConfig::LoadSeeJpegQuality()))
     {
         if (agent.CommitReplace(&error_text))
         {

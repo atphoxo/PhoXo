@@ -18,6 +18,7 @@ private:
 public:
     explicit CanvasViewport(const Canvas& canvas) : m_canvas(canvas) {}
 
+    void InvalidateCache() { m_cache.Destroy(); }
     void Draw(HDC hdc, HBRUSH background, const ViewportContext& ctx);
 
 private:

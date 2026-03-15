@@ -21,6 +21,7 @@ private:
     void AddFileGroup(CBCGPRibbonPanel& panel);
     void AddZoomGroup(CBCGPRibbonPanel& panel);
     void AddUndoGroup(CBCGPRibbonPanel& panel);
+    void AddAppGroup(CBCGPRibbonPanel& panel);
 
     void OnZoomRatioChanged(ZoomChangedBy sender);
     void OnObserveEvent(ObservedEvent& event) override;

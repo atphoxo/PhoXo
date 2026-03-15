@@ -143,6 +143,9 @@
     <ClInclude Include="canvas\layer.h" />
     <ClInclude Include="canvas\layer_manager.h" />
     <ClInclude Include="canvas\zoom_mapper.h" />
+    <ClInclude Include="dialogs\dlg_settings.h" />
+    <ClInclude Include="dialogs\dlg_setting_page_general.h" />
+    <ClInclude Include="dialogs\local.h" />
     <ClInclude Include="framework\main_doc_manager.h" />
     <ClInclude Include="func_crop\cmd_rect_crop.h" />
     <ClInclude Include="func_crop\grip_handle.h" />
@@ -166,6 +169,7 @@
     <ClInclude Include="right_tab_bar\wnd_right_tab_bar.h" />
     <ClInclude Include="tool_base.h" />
     <ClInclude Include="tool_manager.h" />
+    <ClInclude Include="top_toolbar\theme_menu.h" />
     <ClInclude Include="top_toolbar\undo_button.h" />
     <ClInclude Include="top_toolbar\wnd_top_toolbar.h" />
     <ClInclude Include="top_toolbar\zoom_slider_mapper.h" />
@@ -177,6 +181,8 @@
     <ClCompile Include="canvas\canvas_viewport.cpp" />
     <ClCompile Include="canvas\layer.cpp" />
     <ClCompile Include="canvas\viewport_context.cpp" />
+    <ClCompile Include="dialogs\dlg_settings.cpp" />
+    <ClCompile Include="dialogs\dlg_setting_page_general.cpp" />
     <ClCompile Include="func_crop\cmd_rect_crop.cpp" />
     <ClCompile Include="func_crop\grip_handle.cpp" />
     <ClCompile Include="func_crop\handle_overlay.cpp" />
@@ -231,6 +237,7 @@
     <None Include="res\right_tab_bar.svg" />
     <None Include="res\rotate_ccw.svg" />
     <None Include="res\rotate_cw.svg" />
+    <None Include="res\setting_icon.svg" />
     <None Include="res\top_toolbar_icons.svg" />
   </ItemGroup>
   <ItemGroup>

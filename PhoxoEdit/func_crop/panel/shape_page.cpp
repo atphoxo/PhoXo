@@ -23,6 +23,7 @@ IMPLEMENT_DYNCREATE(ShapePage, CBCGPDialog)
 
 BEGIN_MESSAGE_MAP(ShapePage, CBCGPDialog)
     ON_WM_HSCROLL()
+    ON_REGISTERED_MESSAGE(BCGM_CHANGEVISUALMANAGER, OnChangeVisualManager)
     ON_COMMAND_RANGE(IDC_SHAPE_RECT, IDC_SHAPE_CIRCLE, OnSelectShape)
 END_MESSAGE_MAP()
 
@@ -42,10 +43,8 @@ void ShapePage::InitRoundnessSlider()
     UpdateRoundnessValue();
 }
 
-BOOL ShapePage::OnInitDialog()
+void ShapePage::LoadButtons()
 {
-    __super::OnInitDialog();
-
     BCGImageButton::ButtonInfo   buttons[] =
     {
         { &m_rect, IDSVG_CROP_SHAPE_RECT, 15 },
@@ -53,6 +52,13 @@ BOOL ShapePage::OnInitDialog()
         { &m_circle, IDSVG_CROP_SHAPE_CIRCLE, 17 },
     };
     InitButtons(buttons);
+}
+
+BOOL ShapePage::OnInitDialog()
+{
+    __super::OnInitDialog();
+
+    LoadButtons();
     SetDlgItemText(IDC_ROUND_RECT_TEXT, PanelCropText(20));
 
     InitRoundnessSlider();
@@ -92,6 +98,12 @@ void ShapePage::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     ToolCrop::s_roundness = m_roundness.GetPos();
     UpdateRoundnessValue();
     theRuntime.InvalidateView();
+}
+
+LRESULT ShapePage::OnChangeVisualManager(WPARAM wp, LPARAM lp)
+{
+    LoadButtons();
+    return __super::OnChangeVisualManager(wp, lp);
 }
 
 void ShapePage::OnSelectShape(UINT id)

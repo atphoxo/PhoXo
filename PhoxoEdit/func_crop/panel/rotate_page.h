@@ -14,9 +14,11 @@ namespace crop
         }
 
     private:
+        void LoadButtons();
         BOOL OnInitDialog() override;
         void DoDataExchange(CDataExchange* pDX) override;
 
+        afx_msg LRESULT OnChangeVisualManager(WPARAM wp, LPARAM lp);
         DECLARE_MESSAGE_MAP()
         DECLARE_DYNCREATE(RotatePage)
     };

@@ -18,12 +18,11 @@ _PHOXO_NAMESPACE(crop)
 IMPLEMENT_DYNCREATE(RotatePage, CBCGPDialog)
 
 BEGIN_MESSAGE_MAP(RotatePage, CBCGPDialog)
+    ON_REGISTERED_MESSAGE(BCGM_CHANGEVISUALMANAGER, OnChangeVisualManager)
 END_MESSAGE_MAP()
 
-BOOL RotatePage::OnInitDialog()
+void RotatePage::LoadButtons()
 {
-    __super::OnInitDialog();
-
     BCGImageButton::ButtonInfo    buttons[] =
     {
         { &m_cw,     IDSVG_ROTATE_CW, 6 },
@@ -32,6 +31,12 @@ BOOL RotatePage::OnInitDialog()
         { &m_mirror, IDSVG_FLIP_HORZ, 9 },
     };
     InitButtons(buttons);
+}
+
+BOOL RotatePage::OnInitDialog()
+{
+    __super::OnInitDialog();
+    LoadButtons();
     return TRUE;
 }
 
@@ -42,6 +47,12 @@ void RotatePage::DoDataExchange(CDataExchange * pDX)
     DDX_Control(pDX, ID_ROTATE_CCW, m_ccw);
     DDX_Control(pDX, ID_FLIP_HORZ, m_mirror);
     DDX_Control(pDX, ID_FLIP_VERT, m_flip);
+}
+
+LRESULT RotatePage::OnChangeVisualManager(WPARAM wp, LPARAM lp)
+{
+    LoadButtons();
+    return __super::OnChangeVisualManager(wp, lp);
 }
 
 _PHOXO_NAMESPACE_END

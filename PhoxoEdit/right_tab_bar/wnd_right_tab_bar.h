@@ -13,4 +13,9 @@ private:
 
 public:
     void Create(CWnd* parent);
+
+    COLORREF GetBorderColor(BOOL) const override
+    {
+        return CLR_NONE; // disable border drawing
+    }
 };

@@ -3,9 +3,8 @@
 
 namespace
 {
-    class ConfigReg : public FCRegKey
+    struct ConfigReg : public FCRegKey
     {
-    public:
         ConfigReg()
         {
             DWORD   disposition = 0;
@@ -13,12 +12,18 @@ namespace
         }
     };
 
+    struct PhoXoSeeConfigReg : public FCRegKey
+    {
+        PhoXoSeeConfigReg()
+        {
+            Open(HKEY_CURRENT_USER, LR"(Software\PhoXoSee\config)");
+        }
+    };
+
     void LoadLanguage()
     {
-        CString   lang = FCRegKey::GetString(HKEY_CURRENT_USER, LR"(Software\PhoXo\config)", L"language_id");
-        if (lang.IsEmpty())
-            lang = FCRegKey::GetString(HKEY_CURRENT_USER, LR"(Software\PhoXoSee\config)", L"language_id");
-
+        CString   lang;
+        PhoXoSeeConfigReg().LoadString(L"language_id", lang);
         if (lang.IsEmpty())
             lang = LanguageText::GetSystemLanguageID();
 
@@ -30,8 +35,7 @@ AppConfig::AppConfig()
 {
     LoadLanguage();
 
-    ConfigReg   k;
-    if (k)
+    if (ConfigReg k{})
     {
         ProcessIntConfigs(k, true);
     }
@@ -41,11 +45,47 @@ AppConfig::AppConfig()
 
 void AppConfig::Save()
 {
-    ConfigReg   k;
-    if (!k)
-        return;
+    if (ConfigReg k{})
+    {
+        ProcessIntConfigs(k, false);
+    }
+}
 
-    ProcessIntConfigs(k, false);
+CBCGPWinApp::BCGP_VISUAL_THEME AppConfig::GetVisualTheme() const
+{
+    switch (m_theme_index)
+    {
+        case 1: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_DARK;
+        case 2: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_SUNNY_DAY;
+        case 3: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_ICY_MINT;
+        case 4: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_SILKY_PINK;
+        case 5: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_JUICY_PLUM;
+        case 6: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_MOONLIGHT_GLOW;
+        case 7: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_MANGO_PARADISE;
+        case 8: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_MYSTICAL_FOREST;
+        case 9: return CBCGPWinApp::BCGP_VISUAL_THEME_VS_2026_COOL_SLATE;
+    }
+    return CBCGPWinApp::BCGP_VISUAL_THEME_OFFICE_2022_WHITE; // default
+}
+
+bool AppConfig::LoadSeeIgnoreICC()
+{
+    int   v = false;
+    if (PhoXoSeeConfigReg k{})
+    {
+        k.LoadInt(L"ignore_embedded_icc", v);
+    }
+    return v;
+}
+
+int AppConfig::LoadSeeJpegQuality()
+{
+    int   v = 80;
+    if (PhoXoSeeConfigReg k{})
+    {
+        k.LoadInt(L"save_jpeg_quality", v);
+    }
+    return v;
 }
 
 void AppConfig::ProcessIntConfigs(FCRegKey& reg, bool is_load)
@@ -59,10 +99,11 @@ void AppConfig::ProcessIntConfigs(FCRegKey& reg, bool is_load)
     Item   items[] =
     {
         { L"max_zoom_ratio",       &m_max_zoom_ratio },
+        { L"theme_index",          &m_theme_index },
 
         // enum / int casts
         { L"panel_dock",           (int*)&m_panel_dock },
-        { L"render_preference",           (int*)&m_render_preference },
+        { L"render_preference",    (int*)&m_render_preference },
     };
 
     for (auto& it : items)

@@ -4,6 +4,7 @@
 //
 #define IDR_MAINFRAME                   128
 #define IDR_PhoxoEditTYPE               130
+#define IDR_MENU_THEMES                 300
 #define IDSVG_TOP_TOOLBAR_ICONS         500
 #define IDSVG_RIGHT_TAB_ICONS           501
 #define IDSVG_CROP_FREE                 502
@@ -27,13 +28,27 @@
 #define IDSVG_GROUP_SHAPE               525
 #define IDSVG_GROUP_ROTATE              526
 #define IDSVG_CROP_CANCEL               527
+#define IDSVG_SETTING_ICON              528
 #define IDD_PANEL_CROP                  700
 #define IDD_PANEL_CROP_SHAPE_PAGE       701
 #define IDD_PANEL_CROP_ROTATE_PAGE      702
+#define IDD_SETTING_GENERAL             703
 #define ID_NEW_FROM_CLIPBOARD           7000
 #define ID_CREATE_IMAGE                 7001
 #define ID_NEW_FROM_SCANNER             7002
 #define ID_CLEAR_RECENT_FILES           7003
+#define ID_APP_SETTINGS                 7004
+#define ID_APP_THEMES                   7005
+#define ID_THEME_01                     7006
+#define ID_THEME_02                     7007
+#define ID_THEME_03                     7008
+#define ID_THEME_04                     7009
+#define ID_THEME_05                     7010
+#define ID_THEME_06                     7011
+#define ID_THEME_07                     7012
+#define ID_THEME_08                     7013
+#define ID_THEME_09                     7014
+#define ID_THEME_10                     7015
 #define ID_RIGHT_TAB_BAR                8000
 #define ID_RIGHT_TAB_BAR_PANEL          8001
 #define ID_TOP_ZOOM_OUT                 8005
@@ -57,9 +72,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        312
+#define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32777
-#define _APS_NEXT_CONTROL_VALUE         1007
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

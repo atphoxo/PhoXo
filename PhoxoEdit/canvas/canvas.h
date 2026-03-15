@@ -49,6 +49,7 @@ public:
     const auto& LayerMgr() const { return m_layer_mgr; }
     void AddLayer(const shared_ptr<Layer>& layer, int index = -1);
 
+    void InvalidateViewport() { m_viewport.InvalidateCache(); }
     void Draw(HDC hdc, HBRUSH background, const ViewportContext& ctx);
 
     // Render full canvas at original size (no zoom, no viewport)

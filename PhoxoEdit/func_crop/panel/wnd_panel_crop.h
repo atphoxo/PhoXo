@@ -24,6 +24,7 @@ public:
     void OnViewContextMenu(CPoint point);
 
 private:
+    void ReloadButtonIcon();
     BOOL PreTranslateMessage(MSG* pMsg) override;
 
     BCGImageButton& AddImageButton(int id);
@@ -36,6 +37,7 @@ private:
     void DoDataExchange(CDataExchange* pDX) override;
     void OnObserveEvent(ObservedEvent& event) override;
     void OnEventCanvasReloaded();
+    // COLORREF GetBorderColor(BOOL) const override{ return globalData.clrBarDkShadow; }
 
     afx_msg void OnWidthEditKillFocus();
     afx_msg void OnHeightEditKillFocus();
@@ -46,5 +48,6 @@ private:
     afx_msg void OnKeepAspect();
     afx_msg void OnCancelCrop();
     afx_msg void OnApplyCrop();
+    afx_msg LRESULT OnChangeVisualManager(WPARAM wp, LPARAM lp);
     DECLARE_MESSAGE_MAP()
 };

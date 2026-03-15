@@ -33,6 +33,9 @@
     <Filter Include="Source Files\canvas\commands">
       <UniqueIdentifier>{e2c28199-a63f-48d7-9107-8af5dc06bdfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dialogs">
+      <UniqueIdentifier>{b367036c-b878-4b4f-b26e-b6ef99aebfff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main_doc.h">
@@ -170,6 +173,18 @@
     <ClInclude Include="canvas\commands\modify_layer_image.h">
       <Filter>Source Files\canvas\commands</Filter>
     </ClInclude>
+    <ClInclude Include="dialogs\dlg_settings.h">
+      <Filter>Source Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogs\dlg_setting_page_general.h">
+      <Filter>Source Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogs\local.h">
+      <Filter>Source Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="top_toolbar\theme_menu.h">
+      <Filter>Source Files\top_toolbar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhoxoEdit.cpp">
@@ -256,6 +271,12 @@
     <ClCompile Include="func_crop\cmd_rect_crop.cpp">
       <Filter>Source Files\func_crop</Filter>
     </ClCompile>
+    <ClCompile Include="dialogs\dlg_settings.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\dlg_setting_page_general.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PhoxoEdit.rc">
@@ -336,6 +357,7 @@
     <None Include="res\crop_cancel.svg">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\setting_icon.svg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\PhoxoEditDoc.ico">

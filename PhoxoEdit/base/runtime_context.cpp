@@ -46,3 +46,9 @@ Canvas* RuntimeContext::GetCurrentCanvas() const
     auto   view = GetActiveView();
     return view ? view->GetCanvas() : nullptr;
 }
+
+void RuntimeContext::OnThemeChanged()
+{
+    m_accent_brush.DeleteObject();
+    m_accent_brush.CreateSolidBrush(CBCGPVisualManager::GetInstance()->GetDefaultAccentColor());
+}

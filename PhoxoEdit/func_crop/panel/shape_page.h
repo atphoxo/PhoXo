@@ -13,6 +13,7 @@ namespace crop
         ShapePage();
 
     private:
+        void LoadButtons();
         void InitRoundnessSlider();
         void UpdateRoundnessValue();
         void UpdateRoundRectControlsVisibility();
@@ -21,6 +22,7 @@ namespace crop
 
         afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
         afx_msg void OnSelectShape(UINT id);
+        afx_msg LRESULT OnChangeVisualManager(WPARAM wp, LPARAM lp);
         DECLARE_MESSAGE_MAP()
         DECLARE_DYNCREATE(ShapePage)
     };

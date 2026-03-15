@@ -26,7 +26,7 @@ namespace
         ID_APPLY_CROP = 3200,  // 应用裁剪
         ID_CANCEL_CROP = 3300, // 取消裁剪
 
-        ID_POST_UPDATE_KEEP_ASPECT = 4000,
+        ID_POST_UPDATE_KEEP_ASPECT = 3310,
         ID_CROP_EXPAND_HOLDER = 6000,
     };
 
@@ -73,7 +73,18 @@ BEGIN_MESSAGE_MAP(WndPanelCrop, CBCGPDialogBar)
     ON_UPDATE_COMMAND_UI(ID_APPLY_CROP, OnEnableIfCropValid)
     ON_UPDATE_COMMAND_UI(ID_CANCEL_CROP, OnEnableIfCanvasValid)
     ON_UPDATE_COMMAND_UI_RANGE(ID_CROP_FREE, ID_CROP_2_3, OnEnableIfCanvasValid)
+    ON_REGISTERED_MESSAGE(BCGM_CHANGEVISUALMANAGER, OnChangeVisualManager)
 END_MESSAGE_MAP()
+
+void WndPanelCrop::ReloadButtonIcon()
+{
+    for (int id = ID_CROP_FREE; id <= ID_CROP_2_3; id++)
+    {
+        m_image_buttons[id]->LoadSvgWithDpi(RatioButtonSvgId(id));
+    }
+    m_image_buttons[ID_CANCEL_CROP]->LoadSvgWithDpi(IDSVG_CROP_CANCEL);
+    m_image_buttons[ID_APPLY_CROP]->LoadSvgWithDpi(IDSVG_CROP_APPLY, ThemeMode::InverseBCG);
+}
 
 WndPanelCrop::WndPanelCrop()
 {
@@ -84,16 +95,13 @@ WndPanelCrop::WndPanelCrop()
     // 构造的时候不能设置text and tip
     for (int id = ID_CROP_FREE; id <= ID_CROP_2_3; id++)
     {
-        auto&   btn = AddImageButton(id);
-        btn.m_bTopImage = true;
-        btn.LoadSvgWithDpi(RatioButtonSvgId(id));
+        AddImageButton(id).m_bTopImage = true;
     }
     AddImageButton(ID_KEEP_ASPECT);
-    AddImageButton(ID_CANCEL_CROP).LoadSvgWithDpi(IDSVG_CROP_CANCEL);
+    AddImageButton(ID_CANCEL_CROP);
+    AddImageButton(ID_APPLY_CROP).m_always_default_status = true;
 
-    auto&   btn = AddImageButton(ID_APPLY_CROP);
-    btn.m_always_default_status = true;
-    btn.LoadSvgWithDpi(IDSVG_CROP_APPLY, ThemeMode::InverseBCG);
+    ReloadButtonIcon();
 }
 
 void WndPanelCrop::Create(CWnd* parent)
@@ -335,4 +343,11 @@ void WndPanelCrop::OnApplyCrop()
     {
         doc->Execute(make_unique<cmd::CmdRectCrop>(ToolCrop::s_crop_on_canvas, *doc->GetCanvas(), m_ratio_index));
     }
+}
+
+LRESULT WndPanelCrop::OnChangeVisualManager(WPARAM wp, LPARAM lp)
+{
+    ReloadButtonIcon();
+    UpdateKeepAspectButton();
+    return __super::OnChangeVisualManager(wp, lp);
 }

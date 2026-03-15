@@ -98,6 +98,7 @@ void CmdRectCrop::Undo(Canvas& canvas)
     ToolCrop::s_aspect_ratio = m_aspect_ratio;
 
     IEventObserverBase::FireEvent(AppEvent::CropUndoCompleted, m_ratio_index);
+    AfxGetMainWnd()->PostMessage(WM_COMMAND, ID_TOP_ZOOM_FIT_WINDOW);
 }
 
 void CmdRectCrop::Redo(Canvas& canvas)

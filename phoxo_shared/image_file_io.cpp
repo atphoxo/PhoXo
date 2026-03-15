@@ -62,9 +62,9 @@ namespace
         return {};
     }
 
-    bool SaveWithWIC(PCWSTR filepath, const Image& img)
+    bool SaveWithWIC(PCWSTR filepath, const Image& img, int jpeg_quality)
     {
-        CWICFileEncoder   encoder(filepath);
+        CWICFileEncoder   encoder(filepath, jpeg_quality);
         return encoder.WriteFile(WIC::CreateBitmapFromHBITMAP(img, WICBitmapUseAlpha));
     }
 }
@@ -74,7 +74,7 @@ void ImageFileIO::Cleanup()
     CImage3rdDLL::Deinit();
 }
 
-Image ImageFileIO::LoadFile(PCWSTR filepath)
+Image ImageFileIO::LoadFile(PCWSTR filepath, bool use_embedded_icc)
 {
     switch (ImageFileExtParser::GetType(filepath))
     {
@@ -88,7 +88,7 @@ Image ImageFileIO::LoadFile(PCWSTR filepath)
             return LoadHeif(filepath);
     }
 
-    if (auto img = CodecWIC::LoadFile(filepath, WICNormal32bpp, true)) // 常见格式 + webp, avif, jxl, raw...
+    if (auto img = CodecWIC::LoadFile(filepath, WICNormal32bpp, use_embedded_icc)) // 常见格式 + webp, avif, jxl, raw...
         return img;
 
     if (auto img = LoadWith3rd(filepath)) // tga, psd...
@@ -97,7 +97,7 @@ Image ImageFileIO::LoadFile(PCWSTR filepath)
     return {};
 }
 
-bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img)
+bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img, int jpeg_quality)
 {
     using enum ImageFormat;
 
@@ -108,13 +108,13 @@ bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img)
         case Png:
         case Gif:
         case Tiff:
-            return CodecGdiplus::SaveFile(filepath, img);
+            return CodecGdiplus::SaveFile(filepath, img, jpeg_quality);
         case Webp:
         case Tga:
             return GetImage3rdDLL().SaveFile(filepath, WIC::CreateBitmapFromHBITMAP(img, WICBitmapUseAlpha));
         case Jxl:
         case Dds:
-            return SaveWithWIC(filepath, img);
+            return SaveWithWIC(filepath, img, jpeg_quality);
         default:
             assert(false);
             break;
