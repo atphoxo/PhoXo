@@ -16,7 +16,7 @@ public:
 private:
     BOOL OnShowPopupMenu(CBCGPPopupMenu* popmenu) override;
 
-    afx_msg void OnClose();
+    afx_msg void OnDestroy();
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
     // commands

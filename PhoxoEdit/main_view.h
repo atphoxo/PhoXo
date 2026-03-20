@@ -7,10 +7,10 @@ private:
     unique_ptr<main_view::WelcomeRender>   m_welcome;
 
 public:
-    Canvas* GetCanvas() const;
     void UpdateZoomRatio(double new_ratio, ZoomChangedBy from, std::optional<CPoint> view_anchor = std::nullopt);
 
 private:
+    Canvas* GetCanvas() const;
     std::optional<ViewportContext> CreateViewportContext() const;
 
 	void OnDraw(CDC* pDC) override;

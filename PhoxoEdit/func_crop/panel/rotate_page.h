@@ -18,6 +18,10 @@ namespace crop
         BOOL OnInitDialog() override;
         void DoDataExchange(CDataExchange* pDX) override;
 
+        afx_msg void OnFlipHorz();
+        afx_msg void OnFlipVert();
+        afx_msg void OnRotateCW();
+        afx_msg void OnRotateCCW();
         afx_msg LRESULT OnChangeVisualManager(WPARAM wp, LPARAM lp);
         DECLARE_MESSAGE_MAP()
         DECLARE_DYNCREATE(RotatePage)

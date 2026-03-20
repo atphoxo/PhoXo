@@ -131,9 +131,11 @@
     <ClInclude Include="canvas\canvas.h" />
     <ClInclude Include="canvas\canvas_all.h" />
     <ClInclude Include="canvas\command.h" />
+    <ClInclude Include="canvas\commands\flip_canvas.h" />
     <ClInclude Include="canvas\commands\mfc_set_doc_modified.h" />
     <ClInclude Include="canvas\commands\modify_layer_image.h" />
     <ClInclude Include="canvas\commands\move_layer.h" />
+    <ClInclude Include="canvas\commands\rotate_canvas.h" />
     <ClInclude Include="canvas\commands\set_canvas_size.h" />
     <ClInclude Include="canvas\command_manager.h" />
     <ClInclude Include="canvas\mfc_scroll_view_anchor_restore.h" />

@@ -11,7 +11,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
     ON_WM_CREATE()
     ON_WM_GETMINMAXINFO()
     ON_WM_SIZE()
-    ON_WM_CLOSE()
+    ON_WM_DESTROY()
     ON_MESSAGE(WM_DPICHANGED, OnDPIChanged)
     ON_MESSAGE(MSG_POST_LOAD_FIRST, OnPostLoadFirst)
     ON_MESSAGE(MSG_POST_CANVAS_RELOADED, OnPostCanvasReloaded)
@@ -143,11 +143,11 @@ BOOL CMainFrame::OnShowPopupMenu(CBCGPPopupMenu* popmenu)
     return __super::OnShowPopupMenu(popmenu);
 }
 
-void CMainFrame::OnClose()
+void CMainFrame::OnDestroy()
 {
     theToolManager.Shutdown();
     theConfig.Save();
-    __super::OnClose();
+    __super::OnDestroy();
 }
 
 LRESULT CMainFrame::OnDPIChanged(WPARAM wParam, LPARAM lParam)

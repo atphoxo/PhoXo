@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "runtime_context.h"
+#include "../main_doc.h"
 #include "../main_view.h"
 
 namespace
@@ -43,8 +44,8 @@ void RuntimeContext::InvalidateView() const
 
 Canvas* RuntimeContext::GetCurrentCanvas() const
 {
-    auto   view = GetActiveView();
-    return view ? view->GetCanvas() : nullptr;
+    auto   doc = GetActiveDoc();
+    return doc ? doc->GetCanvas() : nullptr;
 }
 
 void RuntimeContext::OnThemeChanged()
