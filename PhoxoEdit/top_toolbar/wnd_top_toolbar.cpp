@@ -32,6 +32,8 @@ namespace
         IMAGE_REDO,
         IMAGE_SETTINGS,
         IMAGE_THEMES,
+        IMAGE_MENU,
+        IMAGE_ABOUT,
     };
 
     CString LoadText(PCWSTR key) { return LanguageText::Get(L"TOPBAR", key); }
@@ -132,7 +134,7 @@ namespace
         menu.LoadMenuWithTranslate(IDR_MENU_THEMES);
 
         auto   btn = CreateButton(ID_APP_THEMES, IMAGE_THEMES, ButtonText::Hide);
-        btn->SetMenu(menu.GetSafeHmenu());
+        btn->SetMenu(menu.GetSafeHmenu(), FALSE, FALSE, FALSE, FALSE);
         return btn;
     }
 }
@@ -197,8 +199,15 @@ void WndTopToolbar::AddUndoGroup(CBCGPRibbonPanel& panel)
 
 void WndTopToolbar::AddAppGroup(CBCGPRibbonPanel& panel)
 {
-    panel.Add(CreateButton(ID_APP_SETTINGS, IMAGE_SETTINGS, ButtonText::Hide));
     panel.Add(CreateThemeMenu());
+    panel.Add(CreateButton(ID_APP_SETTINGS, IMAGE_SETTINGS, ButtonText::Hide));
+    panel.Add(CreateButton(ID_APP_ABOUT, IMAGE_ABOUT, ButtonText::Hide));
+
+    /*auto   btn = CreateButton(ID_TOPBAR_MENU, IMAGE_MENU, ButtonText::Hide);
+    btn->SetDefaultCommand(FALSE);
+    btn->AddSubItem(CreateButton(ID_APP_SETTINGS, IMAGE_SETTINGS));
+    btn->SetMenu((HMENU)NULL, FALSE, FALSE, FALSE, FALSE);
+    panel.Add(btn);*/
 }
 
 void WndTopToolbar::OnZoomRatioChanged(ZoomChangedBy sender)

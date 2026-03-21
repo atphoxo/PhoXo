@@ -185,6 +185,11 @@
     <ClInclude Include="top_toolbar\theme_menu.h">
       <Filter>Source Files\top_toolbar</Filter>
     </ClInclude>
+    <ClInclude Include="canvas\commands\flip_canvas.h" />
+    <ClInclude Include="canvas\commands\rotate_canvas.h" />
+    <ClInclude Include="dialogs\dlg_resize_image.h">
+      <Filter>Source Files\dialogs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhoxoEdit.cpp">
@@ -275,6 +280,9 @@
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
     <ClCompile Include="dialogs\dlg_setting_page_general.cpp">
+      <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\dlg_resize_image.cpp">
       <Filter>Source Files\dialogs</Filter>
     </ClCompile>
   </ItemGroup>

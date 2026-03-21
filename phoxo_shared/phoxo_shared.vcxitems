@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)bcg_image_button.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)bcg_utils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)image_file_io.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_app_define.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_image_open_dialog.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)phoxo_utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)bcg_utils.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)image_file_io.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)phoxo_scroll_view.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)phoxo_scroll_view_mfc_modified.cpp" />

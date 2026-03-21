@@ -21,7 +21,7 @@ private:
 
     // commands
     afx_msg void OnAppSettings();
-    afx_msg void OnAppThemes();
+    afx_msg void OnNoOp() {}
     afx_msg void OnSelectTheme(UINT id);
     afx_msg void OnRightTab(UINT id);
     afx_msg void OnUpdateRightTab(CCmdUI* pCmdUI);

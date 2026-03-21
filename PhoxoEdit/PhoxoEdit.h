@@ -15,6 +15,7 @@ private:
     BOOL LoadSysPolicies() override { m_dwPolicies = 0; return TRUE; } // not used
     //CDocument* OpenDocumentFile(LPCTSTR lpszFileName) override;
 
+    afx_msg void OnAppAbout();
     afx_msg void OnClearRecentFiles();
     afx_msg void OnCreateImage();
     afx_msg void OnPasteFromClipboard();

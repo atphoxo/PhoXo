@@ -145,6 +145,7 @@
     <ClInclude Include="canvas\layer.h" />
     <ClInclude Include="canvas\layer_manager.h" />
     <ClInclude Include="canvas\zoom_mapper.h" />
+    <ClInclude Include="dialogs\dlg_resize_image.h" />
     <ClInclude Include="dialogs\dlg_settings.h" />
     <ClInclude Include="dialogs\dlg_setting_page_general.h" />
     <ClInclude Include="dialogs\local.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="canvas\canvas_viewport.cpp" />
     <ClCompile Include="canvas\layer.cpp" />
     <ClCompile Include="canvas\viewport_context.cpp" />
+    <ClCompile Include="dialogs\dlg_resize_image.cpp" />
     <ClCompile Include="dialogs\dlg_settings.cpp" />
     <ClCompile Include="dialogs\dlg_setting_page_general.cpp" />
     <ClCompile Include="func_crop\cmd_rect_crop.cpp" />

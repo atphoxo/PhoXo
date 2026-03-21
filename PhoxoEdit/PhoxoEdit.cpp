@@ -15,6 +15,7 @@ BEGIN_MESSAGE_MAP(CPhoxoEditApp, CBCGPWinApp)
     ON_COMMAND(ID_NEW_FROM_SCANNER, OnNewFromScanner)
     ON_UPDATE_COMMAND_UI(ID_NEW_FROM_SCANNER, OnUpdateNewFromScanner)
     ON_COMMAND(ID_CLEAR_RECENT_FILES, OnClearRecentFiles)
+    ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 END_MESSAGE_MAP()
 
 namespace
@@ -69,6 +70,11 @@ int CPhoxoEditApp::ExitInstance()
     ImageFileIO::Cleanup();
     phoxo::CoreLib::Uninit();
     return __super::ExitInstance();
+}
+
+void CPhoxoEditApp::OnAppAbout()
+{
+    ShellExecute(NULL, L"open", L"https://www.phoxo.com", NULL, NULL, SW_SHOWNORMAL);
 }
 
 void CPhoxoEditApp::OnClearRecentFiles()

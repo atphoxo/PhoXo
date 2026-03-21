@@ -19,7 +19,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
     ON_COMMAND_RANGE(ID_TAB_CROP_ROTATE, ID_TAB_LAST_ID, OnRightTab)
     ON_UPDATE_COMMAND_UI_RANGE(ID_TAB_CROP_ROTATE, ID_TAB_LAST_ID, OnUpdateRightTab)
     ON_COMMAND(ID_APP_SETTINGS, OnAppSettings)
-    ON_COMMAND(ID_APP_THEMES, OnAppThemes)
+    ON_COMMAND(ID_APP_THEMES, OnNoOp)
+    ON_COMMAND(ID_TOPBAR_MENU, OnNoOp)
     ON_COMMAND_RANGE(ID_THEME_01, ID_THEME_10, OnSelectTheme)
     ON_UPDATE_COMMAND_UI_RANGE(ID_THEME_01, ID_THEME_10, OnUpdateSelectTheme)
 END_MESSAGE_MAP()
@@ -52,10 +53,6 @@ void CMainFrame::OnAppSettings()
         canvas->InvalidateViewport();
         theRuntime.InvalidateView();
     }
-}
-
-void CMainFrame::OnAppThemes()
-{
 }
 
 void CMainFrame::OnSelectTheme(UINT id)

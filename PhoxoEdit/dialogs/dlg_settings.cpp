@@ -14,7 +14,9 @@ DlgSettings::DlgSettings() : CBCGPPropertySheet(LoadText(0), NULL)
 
     AddPage(&m_page_general);
 
-    EnableVisualManagerStyle(TRUE, TRUE);
+    BOOL   NCArea = !globalData.bIsWindows11;
+    EnableVisualManagerStyle(TRUE, NCArea); // Use Win32 to set caption for Windows 11 and later
+
     EnablePageTransitionEffect(CBCGPPageTransitionManager::BCGPPageTransitionNone);
 }
 
@@ -22,6 +24,8 @@ BOOL DlgSettings::OnInitDialog()
 {
     ::ShowWindow(::GetDlgItem(m_hWnd, IDOK), SW_HIDE);
     SetDlgItemText(IDCANCEL, theConfig.AppText(L"close"));
+
+    BCGUtils::SyncCaptionWithVisualManager(m_hWnd);
 
     return __super::OnInitDialog();
 }
