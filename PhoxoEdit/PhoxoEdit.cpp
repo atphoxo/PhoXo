@@ -27,6 +27,7 @@ CPhoxoEditApp::CPhoxoEditApp()
     AppConfig::GetInstance(); // init load config
 	m_bSaveState = FALSE; // 不保存界面元素，一堆 BCG... 开头的键值
     m_bAfxStoreDockSate = FALSE; // 禁止保存 MFC 框架的停靠窗口状态 Settings\ControlBars-Summary
+    m_bMSAASupport = FALSE;
 
 	EnableLoadKeyboardAccelerators(FALSE);
     SetVisualTheme(theConfig.GetVisualTheme());
@@ -56,8 +57,8 @@ BOOL CPhoxoEditApp::InitInstance()
     ProcessShellCommand(cmd); // 先打开一个空的
     ParseCommandLine(cmd); // 解析cmd
 
-    // 不管是否有文件都post消息，一些延迟初始化操作也在那里做
-    m_pMainWnd->PostMessage(MSG_POST_LOAD_FIRST, (WPARAM)new CString(cmd.m_strFileName));
+    // Performs some delayed initialization (e.g., opening an image)
+    m_pMainWnd->PostMessage(MSG_MAINWND_POST_INIT, (WPARAM)new CString(cmd.m_strFileName));
 
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);
@@ -70,6 +71,11 @@ int CPhoxoEditApp::ExitInstance()
     ImageFileIO::Cleanup();
     phoxo::CoreLib::Uninit();
     return __super::ExitInstance();
+}
+
+BOOL CPhoxoEditApp::LoadWindowPlacement(CRect& normal, int& nFflags, int& nShowCmd)
+{
+    return __super::LoadWindowPlacement(normal, nFflags, nShowCmd);
 }
 
 void CPhoxoEditApp::OnAppAbout()

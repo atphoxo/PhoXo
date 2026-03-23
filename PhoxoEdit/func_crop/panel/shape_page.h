@@ -20,6 +20,13 @@ namespace crop
         BOOL OnInitDialog() override;
         void DoDataExchange(CDataExchange* pDX) override;
 
+        BOOL PreTranslateMessage(MSG* pMsg) override
+        {
+            if (BCGUtils::ForwardAccelerator(pMsg))
+                return TRUE;
+            return __super::PreTranslateMessage(pMsg);
+        }
+
         afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
         afx_msg void OnSelectShape(UINT id);
         afx_msg LRESULT OnChangeVisualManager(WPARAM wp, LPARAM lp);

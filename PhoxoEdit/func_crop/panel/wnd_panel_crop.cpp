@@ -52,11 +52,6 @@ namespace
         btn.SetWindowText(text.Next());
         btn.SetTooltip(text.Next());
     }
-
-    DWORD DockStyle()
-    {
-        return (theConfig.m_panel_dock == PanelDock::Right) ? CBRS_RIGHT : CBRS_LEFT;
-    }
 }
 
 BEGIN_MESSAGE_MAP(WndPanelCrop, CBCGPDialogBar)
@@ -107,9 +102,9 @@ WndPanelCrop::WndPanelCrop()
 void WndPanelCrop::Create(CWnd* parent)
 {
     CBCGPDialogBar::Create(NULL, parent,
-        FALSE,                             // bHasGripper，是否显示抓手
-        MAKEINTRESOURCE(IDD_PANEL_CROP),   // 对话框资源 ID
-        WS_VISIBLE | WS_CHILD | DockStyle() | CBRS_HIDE_INPLACE, // left/right dock
+        FALSE,                             // bHasGripper: Hide the move gripper
+        MAKEINTRESOURCE(IDD_PANEL_CROP),
+        WS_VISIBLE | WS_CHILD | theConfig.PanelDockStyle() | CBRS_HIDE_INPLACE, // left/right dock
         ID_PANEL_CROP_ROTATE,
         CBRS_BCGP_REGULAR_TABS,
         CBRS_BCGP_AUTOHIDE
@@ -118,10 +113,7 @@ void WndPanelCrop::Create(CWnd* parent)
     SetTextAndTooltip(*m_image_buttons[ID_CROP_FREE], 1);
     SetTextAndTooltip(*m_image_buttons[ID_CROP_ORIGINAL], 2);
     m_image_buttons[ID_APPLY_CROP]->SetWindowText(PanelCropText(3));
-
-    CString   tip = PanelCropText(21);
-    tip.Replace(LR"(\n)", L"\n");
-    m_image_buttons[ID_CANCEL_CROP]->SetTooltip(tip);
+    m_image_buttons[ID_CANCEL_CROP]->SetTooltip(PanelCropText(21));
 
     InitSizeEdit();
     UpdateKeepAspectButton();

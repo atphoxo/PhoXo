@@ -11,7 +11,10 @@ namespace crop
     {
         for (const auto& [btn, svg, tip] : buttons)
         {
-            btn->SetTooltip(PanelCropText(tip));
+            if (tip >= 0)
+            {
+                btn->SetTooltip(PanelCropText(tip));
+            }
             btn->LoadSvgWithDpi(svg);
         }
     }

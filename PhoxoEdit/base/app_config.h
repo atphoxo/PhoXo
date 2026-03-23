@@ -15,6 +15,7 @@ public:
     CString AppText(PCWSTR key) { return LanguageText::Get(L"app", key); }
 
     CBCGPWinApp::BCGP_VISUAL_THEME GetVisualTheme() const;
+    DWORD PanelDockStyle() const { return (m_panel_dock == PanelDock::Right) ? CBRS_RIGHT : CBRS_LEFT; }
 
     static bool LoadSeeIgnoreICC();
     static int LoadSeeJpegQuality();

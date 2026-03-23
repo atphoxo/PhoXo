@@ -21,20 +21,24 @@ private:
         }
     }
 
+    static void ApplyEffect(Image& img)
+    {
+        Effect   fx;
+        fx.EnableParallel();
+        img.ApplyEffect(fx);
+    }
+
 public:
     CmdRotateCanvas(const Canvas& canvas, const CString& desc)
     {
         SetDescription(desc);
 
-        Effect fx;
-        fx.EnableParallel();
-
         const CSize   canvas_size = canvas.Size();
         for (auto& layer : canvas.LayerMgr().all())
         {
             // 1. rotate image
-            Image   dst = layer->RasterImage();
-            dst.ApplyEffect(fx);
+            Image   dst{ layer->RasterImage() };
+            ApplyEffect(dst);
             AddCommand(make_unique<CmdModifyLayerImage>(layer, std::move(dst)));
 
             // 2. move layer position

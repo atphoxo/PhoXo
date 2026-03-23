@@ -7,7 +7,7 @@ DlgSettings::DlgSettings() : CBCGPPropertySheet(LoadText(0), NULL)
 {
     m_psh.dwFlags |= PSH_NOAPPLYNOW; // hide Apply button
 
-    int   list_width = DPICalculator::CastForWindow(160, AfxGetMainWnd());
+    int   list_width = DPICalculator::Cast(160);
     SetLook(CBCGPPropertySheet::PropSheetLook_List, list_width);
 
     SetIconsList(IDSVG_SETTING_ICON, 20, (COLORREF)-1, TRUE /* Auto-scale */);

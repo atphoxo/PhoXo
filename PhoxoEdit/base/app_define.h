@@ -6,7 +6,7 @@
 // ---------------------------------------------------------------------------
 enum
 {
-    MSG_POST_LOAD_FIRST = (WM_APP + 500),
+    MSG_MAINWND_POST_INIT = (WM_APP + 500),
     MSG_POST_CANVAS_RELOADED = (WM_APP + 501),
 };
 

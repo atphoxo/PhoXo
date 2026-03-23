@@ -58,6 +58,42 @@ void PhoxoUtils::WIAPopScanImageDialog(PCWSTR savefile)
     catch (_com_error&) { assert(false); }
 }
 
+namespace
+{
+    void WIAPopPrintModalDialog(PCWSTR image_file)
+    {
+        try
+        {
+            WIA::ICommonDialogPtr   printDlg;
+            printDlg.CreateInstance(L"WIA.CommonDialog");
+
+            WIA::IVectorPtr   imgList;
+            imgList.CreateInstance(L"WIA.Vector");
+            _variant_t   n1(image_file);
+            imgList->Add(&n1, 0);
+
+            _variant_t   n2(imgList.GetInterfacePtr());
+            printDlg->ShowPhotoPrintingWizard(&n2);
+        }
+        catch (_com_error&) { ASSERT(FALSE); }
+    }
+
+    void print_image_thread(BSTR param)
+    {
+        AutoComInitializer   COM_init;
+        CComBSTR   path;
+        path.Attach(param);
+        WIAPopPrintModalDialog(path);
+        ::DeleteFile(path);
+    }
+}
+
+void PhoxoUtils::CreatePrintImageThread(CString imagefile)
+{
+    std::thread   t(print_image_thread, imagefile.AllocSysString());
+    t.detach();
+}
+
 FCImage PhoxoUtils::LoadSvgWithDpi(UINT res_id, std::optional<FCColor> fill_color)
 {
     FCResource   svg(res_id, L"SVG");

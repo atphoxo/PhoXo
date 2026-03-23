@@ -19,6 +19,10 @@ namespace
     }
 }
 
+BEGIN_MESSAGE_MAP(WndRightTabBar, CBCGPOutlookBar)
+    ON_MESSAGE(WM_DPICHANGED_AFTERPARENT, OnDPIChangedAfterParent)
+END_MESSAGE_MAP()
+
 BOOL WndRightTabBar::ButtonPanel::OnUserToolTip(CBCGPToolbarButton* button, CString& tip) const
 {
     if (CString s = LoadTip(button->m_nID, 0); !s.IsEmpty())
@@ -36,9 +40,9 @@ void WndRightTabBar::ButtonPanel::GetMessageString(UINT nID, CString& desp) cons
 
 void WndRightTabBar::Create(CWnd* parent)
 {
-    int   init_width = globalUtils.ScaleByDPI(BAR_WIDTH, this);
-    DWORD   dock = (theConfig.m_panel_dock == PanelDock::Right) ? CBRS_RIGHT : CBRS_LEFT;
-    CBCGPOutlookBar::Create(L"", parent, CRect(0, 0, init_width, init_width), ID_RIGHT_TAB_BAR, WS_CHILD | WS_VISIBLE | dock, 0);
+    int   init_width = DPICalculator::Cast(BAR_WIDTH);
+    DWORD   dock = theConfig.PanelDockStyle();
+    CBCGPOutlookBar::Create(L"", parent, CRect(0, 0, init_width, init_width), ID_RIGHT_TAB_BAR, WS_CHILD | WS_VISIBLE | dock);
 
     auto   container = DYNAMIC_DOWNCAST(CBCGPOutlookWnd, GetUnderlinedWindow());
     container->HideSingleTab(true);
@@ -57,4 +61,9 @@ void WndRightTabBar::Create(CWnd* parent)
     }
 
     container->AddTab(&m_panel, L"", (UINT)-1, FALSE);
+}
+
+LRESULT WndRightTabBar::OnDPIChangedAfterParent(WPARAM w, LPARAM l)
+{
+    return __super::OnDPIChangedAfterParent(w, l);
 }

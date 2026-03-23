@@ -53,7 +53,7 @@ public:
     void Draw(HDC hdc, HBRUSH background, const ViewportContext& ctx);
 
     // Render full canvas at original size (no zoom, no viewport)
-    Image BuildCanvasImage() const;
+    Image BuildCanvasImage(Color background = {}) const;
 };
 
 _PHOXO_NAMESPACE_END

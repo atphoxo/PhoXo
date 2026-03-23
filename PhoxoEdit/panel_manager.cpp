@@ -26,15 +26,17 @@ UINT PanelManager::CurrentTabID() const
     return 0;
 }
 
+// Creating panels internally will call SetRedraw to lock updates.
+// Do NOT call this in MainFrame's OnCreate, or the taskbar icon may not appear.
 void PanelManager::OnClickTab(CBCGPFrameWnd& main_wnd, UINT tab_id)
 {
-    auto   pos = m_func_panel.find(tab_id);
-    if (pos != m_func_panel.end())
+    bool   redraw_mainfrm = false;
+    if (m_func_panel.contains(tab_id))
     {
-        auto   dst_panel = pos->second.get();
+        auto   dst_panel = m_func_panel[tab_id].get();
         if (m_current_panel == dst_panel)
         {
-            m_current_panel->ShowControlBar(FALSE, TRUE, FALSE);
+            m_current_panel->ShowControlBar(FALSE, FALSE, FALSE);
             m_current_panel = nullptr;
         }
         else
@@ -43,13 +45,17 @@ void PanelManager::OnClickTab(CBCGPFrameWnd& main_wnd, UINT tab_id)
             //             {
             //                 m_current_panel->ShowControlBar(FALSE, TRUE, FALSE);
             //             }
-            dst_panel->ShowControlBar(TRUE, TRUE, TRUE);
+            dst_panel->ShowControlBar(TRUE, FALSE, TRUE);
             m_current_panel = dst_panel;
         }
     }
     else
     {
+        main_wnd.SetRedraw(FALSE);
         auto   new_panel = CreatePanel(&main_wnd, tab_id);
+        redraw_mainfrm = true;
+        main_wnd.SetRedraw(TRUE);
+
         if (!m_current_panel)
         {
             main_wnd.DockControlBar(new_panel);
@@ -66,7 +72,12 @@ void PanelManager::OnClickTab(CBCGPFrameWnd& main_wnd, UINT tab_id)
         m_current_panel = new_panel;
         m_func_panel[tab_id].reset(new_panel);
     }
+
     main_wnd.RecalcLayout();
+    if (redraw_mainfrm)
+    {
+        main_wnd.RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+    }
 
     auto   tool_name = ToolNameFromTabId(tab_id);
     if (m_current_panel)
@@ -84,12 +95,7 @@ CBCGPDockingControlBar* PanelManager::CreatePanel(CWnd* parent, UINT tab_id)
         m_panel_tab_map[dlg->GetDlgCtrlID()] = tab_id;
         return dlg;
     }
-    //     if (tab_id == ID_FUNC_TAB_ROTATE)
-    //     {
-    //         auto   dlg = new WndFunctionPanelRotate;
-    //         dlg->Create();
-    //         return dlg;
-    //     }
+
     ASSERT(FALSE);
     return nullptr;
 }

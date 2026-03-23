@@ -9,6 +9,7 @@ public:
 
     CBrush   m_canvas_back;
     CBrush   m_accent_brush;
+    bool   m_post_init_finished = false; // Set to true at the end of CMainFrame::OnPostInit
 
     CMainView* GetActiveView() const;
     CMainDoc* GetActiveDoc() const;

@@ -1,8 +1,9 @@
 #include "pch.h"
-#include "rotate_page.h"
+#include "transform_page.h"
 #include "local.h"
 #include "main_doc.h"
 #include "../tool_crop.h"
+#include "./dialogs/dlg_resize_image.h"
 
 namespace
 {
@@ -17,9 +18,10 @@ namespace
 
 _PHOXO_NAMESPACE(crop)
 
-IMPLEMENT_DYNCREATE(RotatePage, CBCGPDialog)
+IMPLEMENT_DYNCREATE(TransformPage, CBCGPDialog)
 
-BEGIN_MESSAGE_MAP(RotatePage, CBCGPDialog)
+BEGIN_MESSAGE_MAP(TransformPage, CBCGPDialog)
+    ON_COMMAND(ID_RESIZE_IMAGE, OnResizeImage)
     ON_COMMAND(ID_FLIP_HORZ, OnFlipHorz)
     ON_COMMAND(ID_FLIP_VERT, OnFlipVert)
     ON_COMMAND(ID_ROTATE_CW, OnRotateCW)
@@ -27,7 +29,7 @@ BEGIN_MESSAGE_MAP(RotatePage, CBCGPDialog)
     ON_REGISTERED_MESSAGE(BCGM_CHANGEVISUALMANAGER, OnChangeVisualManager)
 END_MESSAGE_MAP()
 
-void RotatePage::LoadButtons()
+void TransformPage::LoadButtons()
 {
     BCGImageButton::ButtonInfo    buttons[] =
     {
@@ -35,33 +37,48 @@ void RotatePage::LoadButtons()
         { &m_ccw,    IDSVG_ROTATE_CCW, 7 },
         { &m_flip,   IDSVG_FLIP_VERT, 8 },
         { &m_mirror, IDSVG_FLIP_HORZ, 9 },
+        { &m_resize, IDSVG_RESIZE, 30 },
     };
     InitButtons(buttons);
 }
 
-BOOL RotatePage::OnInitDialog()
+BOOL TransformPage::OnInitDialog()
 {
     __super::OnInitDialog();
     LoadButtons();
     return TRUE;
 }
 
-void RotatePage::DoDataExchange(CDataExchange * pDX)
+void TransformPage::DoDataExchange(CDataExchange * pDX)
 {
     __super::DoDataExchange(pDX);
     DDX_Control(pDX, ID_ROTATE_CW, m_cw);
     DDX_Control(pDX, ID_ROTATE_CCW, m_ccw);
     DDX_Control(pDX, ID_FLIP_HORZ, m_mirror);
     DDX_Control(pDX, ID_FLIP_VERT, m_flip);
+    DDX_Control(pDX, ID_RESIZE_IMAGE, m_resize);
 }
 
-LRESULT RotatePage::OnChangeVisualManager(WPARAM wp, LPARAM lp)
+LRESULT TransformPage::OnChangeVisualManager(WPARAM wp, LPARAM lp)
 {
     LoadButtons();
     return __super::OnChangeVisualManager(wp, lp);
 }
 
-void RotatePage::OnFlipHorz()
+void TransformPage::OnResizeImage()
+{
+    if (auto canvas = theRuntime.GetCurrentCanvas())
+    {
+        DlgResizeImage   dlg(canvas->Size());
+        if (dlg.DoModal() == IDOK)
+        {
+            ToolCrop::SetCropOnCanvas(CRect());
+            theRuntime.GetActiveDoc()->Execute(make_unique<phoxo::CmdResizeImage>(*canvas, dlg.GetScaledSize(), LanguageText::Get(L"cmd", L"resize")));
+        }
+    }
+}
+
+void TransformPage::OnFlipHorz()
 {
     if (auto canvas = theRuntime.GetCurrentCanvas())
     {
@@ -70,7 +87,7 @@ void RotatePage::OnFlipHorz()
     }
 }
 
-void RotatePage::OnFlipVert()
+void TransformPage::OnFlipVert()
 {
     if (auto canvas = theRuntime.GetCurrentCanvas())
     {
@@ -79,7 +96,7 @@ void RotatePage::OnFlipVert()
     }
 }
 
-void RotatePage::OnRotateCW()
+void TransformPage::OnRotateCW()
 {
     if (auto canvas = theRuntime.GetCurrentCanvas())
     {
@@ -89,7 +106,7 @@ void RotatePage::OnRotateCW()
     }
 }
 
-void RotatePage::OnRotateCCW()
+void TransformPage::OnRotateCCW()
 {
     if (auto canvas = theRuntime.GetCurrentCanvas())
     {

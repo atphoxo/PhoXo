@@ -14,7 +14,7 @@ Native **Windows MFC** application.
 
 ### 1. Visual Studio 2022
 
-All projects in this repository are built using **Visual Studio 2022**  
+All projects in this repository are built with **Visual Studio 2022**  
 
 ---
 

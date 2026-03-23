@@ -135,6 +135,7 @@
     <ClInclude Include="canvas\commands\mfc_set_doc_modified.h" />
     <ClInclude Include="canvas\commands\modify_layer_image.h" />
     <ClInclude Include="canvas\commands\move_layer.h" />
+    <ClInclude Include="canvas\commands\resize_image.h" />
     <ClInclude Include="canvas\commands\rotate_canvas.h" />
     <ClInclude Include="canvas\commands\set_canvas_size.h" />
     <ClInclude Include="canvas\command_manager.h" />
@@ -157,7 +158,7 @@
     <ClInclude Include="func_crop\move_strategy.h" />
     <ClInclude Include="func_crop\panel\local.h" />
     <ClInclude Include="func_crop\panel\page_expander.h" />
-    <ClInclude Include="func_crop\panel\rotate_page.h" />
+    <ClInclude Include="func_crop\panel\transform_page.h" />
     <ClInclude Include="func_crop\panel\shape_page.h" />
     <ClInclude Include="func_crop\panel\wnd_panel_crop.h" />
     <ClInclude Include="func_crop\tool_crop.h" />
@@ -193,7 +194,7 @@
     <ClCompile Include="func_crop\mask_overlay.cpp" />
     <ClCompile Include="func_crop\move_strategy.cpp" />
     <ClCompile Include="func_crop\panel\page_expander.cpp" />
-    <ClCompile Include="func_crop\panel\rotate_page.cpp" />
+    <ClCompile Include="func_crop\panel\transform_page.cpp" />
     <ClCompile Include="func_crop\panel\shape_page.cpp" />
     <ClCompile Include="func_crop\panel\wnd_panel_crop.cpp" />
     <ClCompile Include="func_crop\panel\wnd_panel_crop_size_edit.cpp" />
@@ -238,6 +239,7 @@
     <None Include="res\group_rotate.svg" />
     <None Include="res\group_shape.svg" />
     <None Include="res\PhoxoEdit.rc2" />
+    <None Include="res\resize.svg" />
     <None Include="res\right_tab_bar.svg" />
     <None Include="res\rotate_ccw.svg" />
     <None Include="res\rotate_cw.svg" />

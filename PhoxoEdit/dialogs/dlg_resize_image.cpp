@@ -40,7 +40,7 @@ void DlgResizeImage::EnableOKButton()
 
 BOOL DlgResizeImage::OnInitDialog()
 {
-    BOOL   result = __super::OnInitDialog();
+    __super::OnInitDialog();
 
     SendDlgItemMessage(IDC_WIDTH_INPUT, EM_SETLIMITTEXT, 6, 0);
     SendDlgItemMessage(IDC_HEIGHT_INPUT, EM_SETLIMITTEXT, 6, 0);
@@ -59,7 +59,12 @@ BOOL DlgResizeImage::OnInitDialog()
     EnableVisualManagerStyle(TRUE, NCArea); // Use Win32 to set caption for Windows 11 and later
     BCGUtils::SyncCaptionWithVisualManager(m_hWnd);
 
-    return result;
+    if (auto edit = (CEdit*)GetDlgItem(IDC_WIDTH_INPUT))
+    {
+        edit->SetFocus();
+        edit->SetSel(0, -1);
+    }
+    return FALSE;
 }
 
 void DlgResizeImage::DoDataExchange(CDataExchange* pDX)

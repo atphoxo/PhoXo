@@ -13,7 +13,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPFrameWnd)
     ON_WM_SIZE()
     ON_WM_DESTROY()
     ON_MESSAGE(WM_DPICHANGED, OnDPIChanged)
-    ON_MESSAGE(MSG_POST_LOAD_FIRST, OnPostLoadFirst)
+    ON_MESSAGE(MSG_MAINWND_POST_INIT, OnPostInit)
     ON_MESSAGE(MSG_POST_CANVAS_RELOADED, OnPostCanvasReloaded)
     // right tab group
     ON_COMMAND_RANGE(ID_TAB_CROP_ROTATE, ID_TAB_LAST_ID, OnRightTab)
@@ -28,18 +28,16 @@ END_MESSAGE_MAP()
 // SetPersistantFrame(false); // 不要设置，否则不能保存位置了
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-    DPICalculator::g_current_dpi() = GetDpiForWindow(m_hWnd);
+    DPICalculator::Update(m_hWnd);
 
     __super::OnCreate(lpCreateStruct);
-
-    m_top_toolbar.Create(this);
-    m_right_tab_bar.Create(this);
+    SetMenu(NULL);
 
     ChangeWindowMessageFilterEx(m_hWnd, WM_DROPFILES, MSGFLT_ALLOW, NULL);
-    ChangeWindowMessageFilterEx(m_hWnd, 0x0049, MSGFLT_ALLOW, NULL); // WM_COPYGLOBALDATA, 当自己高权限，允许低限权explorer拖进来
+    ChangeWindowMessageFilterEx(m_hWnd, 0x0049, MSGFLT_ALLOW, NULL); // WM_COPYGLOBALDATA: allow low-privilege Explorer to drag files in when app is running with high privileges
     DragAcceptFiles(TRUE);
 
-    OnRightTab(ID_TAB_CROP_ROTATE);
+    m_top_toolbar.Create(this);
     return 0;
 }
 
@@ -93,33 +91,37 @@ LRESULT CMainFrame::OnPostCanvasReloaded(WPARAM, LPARAM)
     return 0;
 }
 
-LRESULT CMainFrame::OnPostLoadFirst(WPARAM wParam, LPARAM)
+LRESULT CMainFrame::OnPostInit(WPARAM wParam, LPARAM)
 {
+    m_right_tab_bar.Create(this);
+    OnRightTab(ID_TAB_CROP_ROTATE);
+
     unique_ptr<CString>   cmd{ (CString*)wParam };
     if (cmd->GetLength())
     {
         theApp.OpenDocumentFile(*cmd);
     }
-    return 0;
-}
 
-namespace
-{
-    CPoint GetMinMainWndSize()
+    HICON   icon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    SetIcon(icon, TRUE);	// Set big icon
+    SetIcon(icon, FALSE);	// Set small icon
+
+    theRuntime.m_post_init_finished = true;
+
+    // Bug fix: when starting in full-screen mode, failing to refresh the title bar may cause issues
+    if (IsZoomed())
     {
-        CRect   rc;
-        SystemParametersInfo(SPI_GETWORKAREA, sizeof(RECT), rc, 0);
-        rc.DeflateRect(200, 150);
-
-        int   x = (std::min)(DPICalculator::Cast(500), rc.Width()); // 如果屏幕很小的情况下做个保护
-        int   y = (std::min)(DPICalculator::Cast(400), rc.Height());
-        return { x, y };
+        RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
     }
+    return 0;
 }
 
 void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* info)
 {
-    info->ptMinTrackSize = GetMinMainWndSize();
+    // Note: This is called before OnCreate, so the window is not fully initialized yet
+    DPICalculator::Update(m_hWnd);
+
+    info->ptMinTrackSize = { DPICalculator::Cast(600), DPICalculator::Cast(400) };
     __super::OnGetMinMaxInfo(info);
 }
 
@@ -149,7 +151,7 @@ void CMainFrame::OnDestroy()
 
 LRESULT CMainFrame::OnDPIChanged(WPARAM wParam, LPARAM lParam)
 {
-    DPICalculator::g_current_dpi() = GetDpiForWindow(m_hWnd);
+    DPICalculator::Update(m_hWnd);
     return __super::OnDPIChanged(wParam, lParam);
 }
 

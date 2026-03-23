@@ -15,3 +15,4 @@ using phoxo::ScrollViewAnchorRestore;
 // composite commands
 #include "commands/flip_canvas.h"
 #include "commands/rotate_canvas.h"
+#include "commands/resize_image.h"

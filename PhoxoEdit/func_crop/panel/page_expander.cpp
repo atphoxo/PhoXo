@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "page_expander.h"
-#include "rotate_page.h"
+#include "transform_page.h"
 #include "shape_page.h"
 #include "local.h"
 
@@ -26,7 +26,7 @@ void PageExpander::Create(CWnd* parent, UINT placeholder_id)
 {
     CreateOnPlaceHolder(parent, placeholder_id, ID_PANEL_CROP_EXT_PAGES);
 
-    m_group_ids[0] = AddDialog(PanelCropText(11), IDD_PANEL_CROP_ROTATE_PAGE, RUNTIME_CLASS(RotatePage));
+    m_group_ids[0] = AddDialog(PanelCropText(11), IDD_PANEL_CROP_ROTATE_PAGE, RUNTIME_CLASS(TransformPage));
     m_group_ids[1] = AddDialog(PanelCropText(10), IDD_PANEL_CROP_SHAPE_PAGE, RUNTIME_CLASS(ShapePage));
     LoadGroupIcon();
 }

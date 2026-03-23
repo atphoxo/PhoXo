@@ -41,4 +41,13 @@ void BCGUtils::SyncCaptionWithVisualManager(HWND wnd)
     }
 }
 
+bool BCGUtils::ForwardAccelerator(MSG* msg)
+{
+    if (msg->message >= WM_KEYFIRST && msg->message <= WM_KEYLAST)
+    {
+        return AfxGetMainWnd()->PreTranslateMessage(msg);
+    }
+    return false;
+}
+
 #endif

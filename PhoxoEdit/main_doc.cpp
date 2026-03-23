@@ -82,12 +82,15 @@ BOOL CMainDoc::OnSaveDocument(LPCTSTR filepath)
     if (!m_canvas)
         return FALSE;
 
-    const FCImage   img = m_canvas->BuildCanvasImage();
-
     CWaitCursor   wait_cursor;
     FileSaveAgent   agent(filepath);
     CString   error_text;
-    if (ImageFileIO::SaveFile(agent.GetTempFile(), img, AppConfig::LoadSeeJpegQuality()))
+    CString   dst_file = agent.GetTempFile();
+
+    bool   alpha_supported = ImageFileIO::IsAlphaSupported(phoxo::ImageFileExtParser::GetType(dst_file));
+    const FCImage   img = m_canvas->BuildCanvasImage(FCColor(alpha_supported ? 0 : 0xFFFFFFFF));
+
+    if (ImageFileIO::SaveFile(dst_file, img, AppConfig::LoadSeeJpegQuality()))
     {
         if (agent.CommitReplace(&error_text))
         {

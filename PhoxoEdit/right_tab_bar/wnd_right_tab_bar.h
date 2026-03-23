@@ -18,4 +18,8 @@ public:
     {
         return CLR_NONE; // disable border drawing
     }
+
+private:
+    afx_msg LRESULT OnDPIChangedAfterParent(WPARAM, LPARAM);
+    DECLARE_MESSAGE_MAP()
 };

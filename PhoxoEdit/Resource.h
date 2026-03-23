@@ -29,6 +29,7 @@
 #define IDSVG_GROUP_ROTATE              526
 #define IDSVG_CROP_CANCEL               527
 #define IDSVG_SETTING_ICON              528
+#define IDSVG_RESIZE                    529
 #define IDD_PANEL_CROP                  700
 #define IDD_PANEL_CROP_SHAPE_PAGE       701
 #define IDD_PANEL_CROP_ROTATE_PAGE      702
@@ -51,6 +52,7 @@
 #define ID_THEME_09                     7014
 #define ID_THEME_10                     7015
 #define ID_TOPBAR_MENU                  7016
+#define ID_RESIZE_IMAGE                 7017
 #define ID_RIGHT_TAB_BAR                8000
 #define ID_RIGHT_TAB_BAR_PANEL          8001
 #define ID_TOP_ZOOM_OUT                 8005

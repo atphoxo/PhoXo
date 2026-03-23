@@ -106,7 +106,6 @@ bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img, int jpeg_quality)
         case Bmp:
         case Jpeg:
         case Png:
-        case Gif:
         case Tiff:
             return CodecGdiplus::SaveFile(filepath, img, jpeg_quality);
         case Webp:
@@ -114,10 +113,30 @@ bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img, int jpeg_quality)
             return GetImage3rdDLL().SaveFile(filepath, WIC::CreateBitmapFromHBITMAP(img, WICBitmapUseAlpha));
         case Jxl:
         case Dds:
+        case Gif:
             return SaveWithWIC(filepath, img, jpeg_quality);
         default:
             assert(false);
             break;
+    }
+    return false;
+}
+
+bool ImageFileIO::IsAlphaSupported(phoxo::ImageFormat fmt)
+{
+    using enum ImageFormat;
+
+    switch (fmt)
+    {
+        case Gif:
+        case Bmp:
+        case Tiff:
+        case Png:
+        case Tga:
+        case Webp:
+        case Jxl:
+        case Dds:
+            return true;
     }
     return false;
 }

@@ -45,10 +45,16 @@ void Canvas::Draw(HDC hdc, HBRUSH background, const ViewportContext& ctx)
     m_viewport.Draw(hdc, background, ctx);
 }
 
-Image Canvas::BuildCanvasImage() const
+Image Canvas::BuildCanvasImage(Color background) const
 {
     Image   img;
     img.Create(m_canvas_size);
+
+    if (background.val)
+    {
+        ImageFastPixel::FillColor(img, background);
+    }
+
     for (auto& layer : m_layer_mgr.all())
     {
         effect::CompositeStraight   fx(layer->RasterImage(), layer->Position(), layer->Opacity());

@@ -28,7 +28,7 @@ private:
     afx_msg void OnEnableIfCanvasValid(CCmdUI* pCmdUI);
 
     afx_msg LRESULT OnPostCanvasReloaded(WPARAM, LPARAM);
-    afx_msg LRESULT OnPostLoadFirst(WPARAM, LPARAM);
+    afx_msg LRESULT OnPostInit(WPARAM, LPARAM);
     afx_msg void OnGetMinMaxInfo(MINMAXINFO* info);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg LRESULT OnDPIChanged(WPARAM, LPARAM);

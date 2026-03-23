@@ -104,7 +104,7 @@
     <ClInclude Include="func_crop\panel\page_expander.h">
       <Filter>Source Files\func_crop\panel</Filter>
     </ClInclude>
-    <ClInclude Include="func_crop\panel\rotate_page.h">
+    <ClInclude Include="func_crop\panel\transform_page.h">
       <Filter>Source Files\func_crop\panel</Filter>
     </ClInclude>
     <ClInclude Include="func_crop\panel\shape_page.h">
@@ -185,10 +185,17 @@
     <ClInclude Include="top_toolbar\theme_menu.h">
       <Filter>Source Files\top_toolbar</Filter>
     </ClInclude>
-    <ClInclude Include="canvas\commands\flip_canvas.h" />
-    <ClInclude Include="canvas\commands\rotate_canvas.h" />
     <ClInclude Include="dialogs\dlg_resize_image.h">
       <Filter>Source Files\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\rotate_canvas.h">
+      <Filter>Source Files\canvas\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\flip_canvas.h">
+      <Filter>Source Files\canvas\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\commands\resize_image.h">
+      <Filter>Source Files\canvas\commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -231,7 +238,7 @@
     <ClCompile Include="func_crop\panel\page_expander.cpp">
       <Filter>Source Files\func_crop\panel</Filter>
     </ClCompile>
-    <ClCompile Include="func_crop\panel\rotate_page.cpp">
+    <ClCompile Include="func_crop\panel\transform_page.cpp">
       <Filter>Source Files\func_crop\panel</Filter>
     </ClCompile>
     <ClCompile Include="func_crop\panel\shape_page.cpp">
@@ -365,7 +372,12 @@
     <None Include="res\crop_cancel.svg">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\setting_icon.svg" />
+    <None Include="res\resize.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\setting_icon.svg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\PhoxoEditDoc.ico">

@@ -72,7 +72,7 @@ void CMainView::OnDraw(CDC* paintdc)
     }
     else
     {
-        if (m_welcome)
+        if (m_welcome && theRuntime.m_post_init_finished)
             m_welcome->Draw(memdc);
     }
 }
@@ -119,9 +119,15 @@ void CMainView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
 void CMainView::OnFilePrint()
 {
-    // TODO: ÊµÏÖ´òÓ¡
-    if (auto canvas = GetCanvas())
+    auto   canvas = GetCanvas();
+    if (!canvas)
+        return;
+
+    CString   file = FCFile::CreateTempFilename(L".jpg");
+    FCImage   img = canvas->BuildCanvasImage(FCColor(0xFFFFFFFF));
+    if (ImageFileIO::SaveFile(file, img, 85))
     {
+        PhoxoUtils::CreatePrintImageThread(file);
     }
 }
 
