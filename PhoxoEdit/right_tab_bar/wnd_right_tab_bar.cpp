@@ -42,7 +42,10 @@ void WndRightTabBar::Create(CWnd* parent)
 {
     int   init_width = DPICalculator::Cast(BAR_WIDTH);
     DWORD   dock = theConfig.PanelDockStyle();
-    CBCGPOutlookBar::Create(L"", parent, CRect(0, 0, init_width, init_width), ID_RIGHT_TAB_BAR, WS_CHILD | WS_VISIBLE | dock);
+    CBCGPOutlookBar::Create(L"", parent, CRect(0, 0, init_width, init_width),
+        ID_RIGHT_TAB_BAR,
+        WS_CHILD | WS_VISIBLE | dock,
+        0); // default is CBRS_BCGP_RESIZE
 
     auto   container = DYNAMIC_DOWNCAST(CBCGPOutlookWnd, GetUnderlinedWindow());
     container->HideSingleTab(true);

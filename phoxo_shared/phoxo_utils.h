@@ -12,4 +12,6 @@ public:
 
     static FCImage LoadSvgWithDpi(UINT res_id, std::optional<FCColor> fill_color = std::nullopt);
     static FCColor GetIconColor(ThemeMode theme = ThemeMode::FollowBCG);
+
+    static void EnableWndDragDrop(HWND wnd);
 };

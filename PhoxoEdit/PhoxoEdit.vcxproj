@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="base\app_config.h" />
     <ClInclude Include="base\app_define.h" />
+    <ClInclude Include="base\command_line.h" />
     <ClInclude Include="base\fixed_aspect_ratio.h" />
     <ClInclude Include="base\runtime_context.h" />
     <ClInclude Include="canvas\canvas.h" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\app_config.cpp" />
+    <ClCompile Include="base\command_line.cpp" />
     <ClCompile Include="base\runtime_context.cpp" />
     <ClCompile Include="canvas\canvas.cpp" />
     <ClCompile Include="canvas\canvas_viewport.cpp" />

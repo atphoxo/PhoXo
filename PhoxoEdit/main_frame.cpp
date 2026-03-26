@@ -3,6 +3,7 @@
 #include "main_frame.h"
 #include "tool_manager.h"
 #include "dialogs/dlg_settings.h"
+#include "base/command_line.h"
 
 static_assert(ID_TAB_CROP_ROTATE == 20000); // ID_TAB_CROP_ROTATE 必须是range第一个
 
@@ -32,10 +33,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     __super::OnCreate(lpCreateStruct);
     SetMenu(NULL);
-
-    ChangeWindowMessageFilterEx(m_hWnd, WM_DROPFILES, MSGFLT_ALLOW, NULL);
-    ChangeWindowMessageFilterEx(m_hWnd, 0x0049, MSGFLT_ALLOW, NULL); // WM_COPYGLOBALDATA: allow low-privilege Explorer to drag files in when app is running with high privileges
-    DragAcceptFiles(TRUE);
+    PhoxoUtils::EnableWndDragDrop(m_hWnd);
 
     m_top_toolbar.Create(this);
     return 0;
@@ -91,15 +89,17 @@ LRESULT CMainFrame::OnPostCanvasReloaded(WPARAM, LPARAM)
     return 0;
 }
 
-LRESULT CMainFrame::OnPostInit(WPARAM wParam, LPARAM)
+LRESULT CMainFrame::OnPostInit(WPARAM, LPARAM)
 {
     m_right_tab_bar.Create(this);
     OnRightTab(ID_TAB_CROP_ROTATE);
 
-    unique_ptr<CString>   cmd{ (CString*)wParam };
-    if (cmd->GetLength())
+    CommandLine   cmds;
+    theApp.ParseCommandLine(cmds);
+    cmds.NotifyEditorReady();
+    if (CString file = cmds.GetStartupOpenFile(); !file.IsEmpty())
     {
-        theApp.OpenDocumentFile(*cmd);
+        theApp.OpenDocumentFile(file);
     }
 
     HICON   icon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);

@@ -197,6 +197,9 @@
     <ClInclude Include="canvas\commands\resize_image.h">
       <Filter>Source Files\canvas\commands</Filter>
     </ClInclude>
+    <ClInclude Include="base\command_line.h">
+      <Filter>Source Files\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhoxoEdit.cpp">
@@ -291,6 +294,9 @@
     </ClCompile>
     <ClCompile Include="dialogs\dlg_resize_image.cpp">
       <Filter>Source Files\dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="base\command_line.cpp">
+      <Filter>Source Files\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

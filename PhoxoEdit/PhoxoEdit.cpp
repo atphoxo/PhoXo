@@ -8,7 +8,7 @@
 CPhoxoEditApp theApp;
 
 BEGIN_MESSAGE_MAP(CPhoxoEditApp, CBCGPWinApp)
- 	ON_COMMAND(ID_CREATE_IMAGE, OnCreateImage)
+    ON_COMMAND(ID_CREATE_IMAGE, OnCreateImage)
     ON_COMMAND(ID_FILE_OPEN, CBCGPWinApp::OnFileOpen)
     ON_COMMAND(ID_NEW_FROM_CLIPBOARD, OnPasteFromClipboard)
     ON_UPDATE_COMMAND_UI(ID_NEW_FROM_CLIPBOARD, OnUpdatePasteFromClipboard)
@@ -20,16 +20,19 @@ END_MESSAGE_MAP()
 
 namespace
 {
+    FCMessageWindow   g_exitNotifyWindow; // Used during uninstall to locate this instance and force it to exit
 }
 
 CPhoxoEditApp::CPhoxoEditApp()
 {
+    g_exitNotifyWindow.CreateMessageWindow(AppDefine::UNIQUE_NAME_FLAG);
+
     AppConfig::GetInstance(); // init load config
-	m_bSaveState = FALSE; // 不保存界面元素，一堆 BCG... 开头的键值
+    m_bSaveState = FALSE; // 不保存界面元素，一堆 BCG... 开头的键值
     m_bAfxStoreDockSate = FALSE; // 禁止保存 MFC 框架的停靠窗口状态 Settings\ControlBars-Summary
     m_bMSAASupport = FALSE;
 
-	EnableLoadKeyboardAccelerators(FALSE);
+    EnableLoadKeyboardAccelerators(FALSE);
     SetVisualTheme(theConfig.GetVisualTheme());
 }
 
@@ -39,43 +42,60 @@ BOOL CPhoxoEditApp::InitInstance()
     EnableD2DSupport(D2D1_FACTORY_TYPE_MULTI_THREADED);
     phoxo::CoreLib::InitD2D(AfxGetD2DState()->GetDirect2dFactory());
 
-	__super::InitInstance();
+    __super::InitInstance();
 
-	EnableTaskbarInteraction(FALSE);
-	SetRegistryKey(L"PhoXo");
+    EnableTaskbarInteraction(FALSE);
+    SetRegistryKey(L"PhoXo");
     free((void*)m_pszProfileName);
     m_pszProfileName = _tcsdup(L"edit");
-	SetRegistryBase(L"Settings");
-	LoadStdProfileSettings(10);  // Load standard INI file options (including MRU)
+    SetRegistryBase(L"Settings");
+    LoadStdProfileSettings(10);  // Load standard INI file options (including MRU)
 
     // Register the application's document templates.
     ASSERT(!m_pDocManager);
     m_pDocManager = new CMainDocManager;
-	AddDocTemplate(new CSingleDocTemplate(IDR_MAINFRAME, RUNTIME_CLASS(CMainDoc), RUNTIME_CLASS(CMainFrame), RUNTIME_CLASS(CMainView)));
+    AddDocTemplate(new CSingleDocTemplate(IDR_MAINFRAME, RUNTIME_CLASS(CMainDoc), RUNTIME_CLASS(CMainFrame), RUNTIME_CLASS(CMainView)));
 
-	CCommandLineInfo   cmd;
+    CCommandLineInfo   cmd;
     ProcessShellCommand(cmd); // 先打开一个空的
-    ParseCommandLine(cmd); // 解析cmd
 
     // Performs some delayed initialization (e.g., opening an image)
-    m_pMainWnd->PostMessage(MSG_MAINWND_POST_INIT, (WPARAM)new CString(cmd.m_strFileName));
+    m_pMainWnd->PostMessage(MSG_MAINWND_POST_INIT);
 
-	// The one and only window has been initialized, so show and update it
-	m_pMainWnd->ShowWindow(SW_SHOW);
-	m_pMainWnd->UpdateWindow();
-	return TRUE;
+    // The one and only window has been initialized, so show and update it
+    m_pMainWnd->ShowWindow(SW_SHOW);
+    m_pMainWnd->UpdateWindow();
+    return TRUE;
 }
 
 int CPhoxoEditApp::ExitInstance()
 {
     ImageFileIO::Cleanup();
     phoxo::CoreLib::Uninit();
+    g_exitNotifyWindow.DestroyMessageWindow();
     return __super::ExitInstance();
 }
 
-BOOL CPhoxoEditApp::LoadWindowPlacement(CRect& normal, int& nFflags, int& nShowCmd)
+namespace
 {
-    return __super::LoadWindowPlacement(normal, nFflags, nShowCmd);
+    CRect GetDefaultWindowRect()
+    {
+        CRect   rc;
+        SystemParametersInfo(SPI_GETWORKAREA, sizeof(rc), &rc, 0);
+        rc.DeflateRect(rc.Width() / 12, rc.Height() / 18);
+        return rc;
+    }
+}
+
+BOOL CPhoxoEditApp::LoadWindowPlacement(CRect& normal, int& nFlags, int& nShowCmd)
+{
+    if (__super::LoadWindowPlacement(normal, nFlags, nShowCmd))
+        return TRUE;
+
+    normal = GetDefaultWindowRect(); // First run: use a default window placement
+    nFlags = 0;
+    nShowCmd = SW_SHOWNORMAL;
+    return TRUE;
 }
 
 void CPhoxoEditApp::OnAppAbout()

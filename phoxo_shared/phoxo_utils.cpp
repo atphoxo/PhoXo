@@ -116,3 +116,10 @@ FCColor PhoxoUtils::GetIconColor(ThemeMode theme)
 #endif
     return FCColor{ (theme == Dark) ? 0xEEEEEE : 0x333333 };
 }
+
+void PhoxoUtils::EnableWndDragDrop(HWND wnd)
+{
+    ChangeWindowMessageFilterEx(wnd, WM_DROPFILES, MSGFLT_ALLOW, NULL);
+    ChangeWindowMessageFilterEx(wnd, 0x0049, MSGFLT_ALLOW, NULL); // WM_COPYGLOBALDATA: allow low-privilege Explorer to drag files in when app is running with high privileges
+    ::DragAcceptFiles(wnd, TRUE);
+}

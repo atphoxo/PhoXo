@@ -14,7 +14,7 @@ private:
     HINSTANCE LoadAppLangResourceDLL() override { return NULL; } // not used
     BOOL LoadSysPolicies() override { m_dwPolicies = 0; return TRUE; } // not used
     //CDocument* OpenDocumentFile(LPCTSTR lpszFileName) override;
-    BOOL LoadWindowPlacement(CRect& normal, int& nFflags, int& nShowCmd) override;
+    BOOL LoadWindowPlacement(CRect& normal, int& nFlags, int& nShowCmd) override;
 
     afx_msg void OnAppAbout();
     afx_msg void OnClearRecentFiles();
