@@ -17,3 +17,19 @@ BOOL oxo_webp_save(PCWSTR filepath, float quality, IWICBitmap* src)
     }
     return result;
 }
+
+void* oxo_webp_save_to_memory(IWICBitmap* src, float quality, UINT32* out_size)
+{
+    if (WIC::BitmapLock lock(src); lock.IsFormat32bpp())
+    {
+        uint8_t*   out{};
+        *out_size = (UINT32)WebPEncodeBGRA(lock.m_data, lock.m_width, lock.m_height, lock.m_stride, quality, &out);
+        return out;
+    }
+    return nullptr;
+}
+
+void oxo_webp_free(void* data)
+{
+    WebPFree(data);
+}

@@ -64,8 +64,8 @@ namespace
 
     bool SaveWithWIC(PCWSTR filepath, const Image& img, int jpeg_quality)
     {
-        CWICFileEncoder   encoder(filepath, jpeg_quality);
-        return encoder.WriteFile(WIC::CreateBitmapFromHBITMAP(img, WICBitmapUseAlpha));
+        WIC::ImageEncoder   encoder(filepath, jpeg_quality);
+        return encoder.Write(WIC::CreateBitmapFromHBITMAP(img, WICBitmapUseAlpha));
     }
 }
 
