@@ -34,12 +34,12 @@ public:
         return nullptr;
     }
 
-    IWICBitmapPtr CreateBitmapWithWidth(int output_width) const
-    {
-        if (m_image_size.width > 0)
-        {
-            return CreateBitmap((float)output_width / m_image_size.width);
-        }
-        return nullptr;
-    }
+//     IWICBitmapPtr CreateBitmapWithWidth(int output_width) const
+//     {
+//         if (m_image_size.width > 0)
+//         {
+//             return CreateBitmap((float)output_width / m_image_size.width);
+//         }
+//         return nullptr;
+//     }
 };

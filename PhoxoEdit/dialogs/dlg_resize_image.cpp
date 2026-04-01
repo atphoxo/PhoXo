@@ -33,8 +33,8 @@ DlgResizeImage::DlgResizeImage(CSize original_size)
 
 void DlgResizeImage::EnableOKButton()
 {
-    INT64   bytes = m_width * (INT64)m_height * 4;
-    BOOL   enable = (bytes && (bytes < 3000000000)); // < 3Gb
+    INT64   pixels = m_width * (INT64)m_height;
+    BOOL   enable = (pixels && (pixels < WIC::MAX_BITMAP_PIXELS));
     ::EnableWindow(::GetDlgItem(m_hWnd, IDOK), enable);
 }
 
@@ -82,7 +82,7 @@ void DlgResizeImage::OnChangeWidth()
 {
     UpdateData();
     double   ratio = m_width / (double)m_original_size.cx;
-    m_width_percent = lround(100 * ratio);
+    m_width_percent = (int)ceil(100 * ratio);
     if (m_keep_ratio)
     {
         m_height_percent = m_width_percent;
@@ -95,7 +95,7 @@ void DlgResizeImage::OnChangeHeight()
 {
     UpdateData();
     double   ratio = m_height / (double)m_original_size.cy;
-    m_height_percent = lround(100 * ratio);
+    m_height_percent = (int)ceil(100 * ratio);
     if (m_keep_ratio)
     {
         m_width_percent = m_height_percent;
@@ -108,11 +108,11 @@ void DlgResizeImage::OnChangeWidthPercent()
 {
     UpdateData();
     double   ratio = m_width_percent / (double)100;
-    m_width = (int)(m_original_size.cx * ratio);
+    m_width = lround(m_original_size.cx * ratio);
     if (m_keep_ratio)
     {
         m_height_percent = m_width_percent;
-        m_height = (int)(ratio * m_original_size.cy);
+        m_height = lround(ratio * m_original_size.cy);
     }
     UpdateData(FALSE);
 }
@@ -121,11 +121,11 @@ void DlgResizeImage::OnChangeHeightPercent()
 {
     UpdateData();
     double   ratio = m_height_percent / (double)100;
-    m_height = (int)(m_original_size.cy * ratio);
+    m_height = lround(m_original_size.cy * ratio);
     if (m_keep_ratio)
     {
         m_width_percent = m_height_percent;
-        m_width = (int)(ratio * m_original_size.cx);
+        m_width = lround(ratio * m_original_size.cx);
     }
     UpdateData(FALSE);
 }
