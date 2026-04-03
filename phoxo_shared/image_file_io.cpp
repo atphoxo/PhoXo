@@ -103,7 +103,6 @@ bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img, int jpeg_quality)
 
     switch (ImageFileExtParser::GetType(filepath))
     {
-        case Bmp:
         case Jpeg:
         case Png:
         case Tiff:
@@ -114,6 +113,7 @@ bool ImageFileIO::SaveFile(PCWSTR filepath, const Image& img, int jpeg_quality)
         case Jxl:
         case Dds:
         case Gif:
+        case Bmp:
             return SaveWithWIC(filepath, img, jpeg_quality);
         default:
             assert(false);
