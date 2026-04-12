@@ -9,13 +9,8 @@ namespace
 
     CString LoadTip(UINT id, int sub_index)
     {
-        LanguageTextGroup   group(L"TAB", id);
-        CString   t = group[sub_index];
-        if (sub_index == 1) // tooltip may contain \n, which needs to be replaced with actual newlines
-        {
-            t.Replace(LR"(\n)", L"\n");
-        }
-        return t;
+        LanguageTextGroup   group(L"TAB", id, LanguageText::TextStyle::ReplaceNewline);
+        return group[sub_index];
     }
 }
 

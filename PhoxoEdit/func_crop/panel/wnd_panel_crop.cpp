@@ -174,7 +174,12 @@ BCGImageButton& WndPanelCrop::AddImageButton(int id)
 
 void WndPanelCrop::UpdateKeepAspectButton()
 {
-    LanguageTextGroup   stat(PanelCropText(5));
+    static CString   stat[2];
+    if (stat[0].IsEmpty())
+    {
+        LanguageTextSplitter(PanelCropText(5)).Fill(stat);
+    }
+
     auto&   btn = *m_image_buttons[ID_KEEP_ASPECT];
     btn.SetTooltip(m_lock_aspect ? stat[0] : stat[1], PanelCropText(4), TRUE);
     btn.SetImageEx(PhoxoUtils::LoadSvgWithDpi(m_lock_aspect ? IDSVG_CROP_LINK : IDSVG_CROP_UNLINK, PhoxoUtils::GetIconColor()));

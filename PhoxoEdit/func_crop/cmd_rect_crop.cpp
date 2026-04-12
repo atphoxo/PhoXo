@@ -57,8 +57,8 @@ namespace
             mask.Create(m_cropped.Size(), 32);
             GenerateShapeMask(BitmapHDC(mask));
 
-            auto   src = (const Color*)mask.GetMemStart();
-            auto   dst = (Color*)m_cropped.GetMemStart();
+            auto   src = (const Color*)mask.PixelBase();
+            auto   dst = (Color*)m_cropped.PixelBase();
             int   count = m_cropped.Width() * m_cropped.Height();
             std::for_each_n(src, count, [&dst](Color c) {
                 dst->a = (BYTE)(dst->a * c.r / 255);
