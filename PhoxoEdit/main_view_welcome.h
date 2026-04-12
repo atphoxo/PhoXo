@@ -7,15 +7,15 @@ namespace main_view
     private:
         HWND   m_wnd;
         FCImage   m_icon;
-        CFont   m_font;
+        FCFont   m_font;
         const CString   m_text{ theConfig.AppText(L"welcome") };
 
     public:
         WelcomeRender(HWND wnd) : m_wnd{ wnd }
         {
-            FCIcon   ico{ IDR_MAINFRAME, DPICalculator::Cast(100) };
+            FCIcon   ico{ IDR_MAINFRAME, DPICalculator::Cast(72) };
             m_icon = phoxo::ImageHandler::Make(ico.CreateBitmap(), WICPremultiplied32bpp);
-            m_font.CreatePointFont(280, L"Georgia");
+            m_font.CreatePointFontWithDPI(22, L"Segoe UI Semibold");
         }
 
         COLORREF TitleColor() const

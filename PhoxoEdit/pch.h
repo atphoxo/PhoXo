@@ -28,6 +28,7 @@
 
 using FCColor = phoxo::Color;
 using FCImage = phoxo::Image;
+using GColor = Gdiplus::Color;
 
 using std::unique_ptr, std::make_unique;
 using std::shared_ptr, std::make_shared;
