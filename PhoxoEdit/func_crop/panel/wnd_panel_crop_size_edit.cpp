@@ -55,7 +55,7 @@ void WndPanelCrop::UpdateSizeEdit()
 
 void WndPanelCrop::ApplyCropSizeFromSingleEdit(HWND edit_ctrl)
 {
-    auto   canvas = theRuntime.GetCurrentCanvas();
+    auto   canvas = g_runtime.GetCurrentCanvas();
     if (!canvas)
         return;
 

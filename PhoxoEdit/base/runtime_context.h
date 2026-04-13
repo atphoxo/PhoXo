@@ -18,4 +18,4 @@ public:
     void OnThemeChanged();
 };
 
-#define theRuntime RuntimeContext::GetInstance()
+#define g_runtime RuntimeContext::GetInstance()

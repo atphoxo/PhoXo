@@ -1,7 +1,28 @@
 #include "pch.h"
 #include "image.h"
 #include <webp/encode.h>
+#include <webp/decode.h>
 #include <webp/mux.h>
+
+IWICBitmap* oxo_webp_load_from_memory(LPCVOID data, SIZE_T size, IWICImagingFactory* factory)
+{
+    int   w = 0, h = 0;
+    uint8_t*   decoded = WebPDecodeBGRA((const uint8_t*)data, size, &w, &h);
+    if (!decoded)
+        return nullptr;
+
+    IWICBitmap*   bmp = nullptr;
+    factory->CreateBitmapFromMemory(
+        w,
+        h,
+        WICNormal32bpp,
+        w * 4,
+        w * 4 * h,
+        decoded,
+        &bmp);
+    WebPFree(decoded);
+    return bmp;
+}
 
 BOOL oxo_webp_save(PCWSTR filepath, float quality, IWICBitmap* src)
 {

@@ -52,8 +52,8 @@ BOOL DlgResizeImage::OnInitDialog()
     SetDlgItemText(IDC_WIDTH_TEXT, text[1]);
     SetDlgItemText(IDC_HEIGHT_TEXT, text[2]);
     SetDlgItemText(IDC_KEEP_ASPECT_RATIO, text[3]);
-    SetDlgItemText(IDOK, theConfig.AppText(L"ok"));
-    SetDlgItemText(IDCANCEL, theConfig.AppText(L"cancel"));
+    SetDlgItemText(IDOK, g_config.AppText(L"ok"));
+    SetDlgItemText(IDCANCEL, g_config.AppText(L"cancel"));
 
     BOOL   NCArea = !globalData.bIsWindows11;
     EnableVisualManagerStyle(TRUE, NCArea); // Use Win32 to set caption for Windows 11 and later

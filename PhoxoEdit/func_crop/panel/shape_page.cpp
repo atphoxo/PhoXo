@@ -97,7 +97,7 @@ void ShapePage::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
     ASSERT(m_shape_index == 1);
     ToolCrop::s_roundness = m_roundness.GetPos();
     UpdateRoundnessValue();
-    theRuntime.InvalidateView();
+    g_runtime.InvalidateView();
 }
 
 LRESULT ShapePage::OnChangeVisualManager(WPARAM wp, LPARAM lp)
@@ -114,7 +114,7 @@ void ShapePage::OnSelectShape(UINT id)
     if (sel != ToolCrop::s_crop_shape)
     {
         ToolCrop::s_crop_shape = sel;
-        theRuntime.InvalidateView();
+        g_runtime.InvalidateView();
     }
     UpdateRoundRectControlsVisibility();
 }

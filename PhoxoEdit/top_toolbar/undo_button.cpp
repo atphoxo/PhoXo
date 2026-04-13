@@ -4,7 +4,7 @@
 void topbar::UndoButton::OnShowPopupMenu()
 {
     CleanUpUndoList();
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         for (auto& cmd : canvas->CommandMgr().UndoList() | std::views::reverse)
         {

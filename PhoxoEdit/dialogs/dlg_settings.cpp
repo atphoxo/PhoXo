@@ -23,7 +23,7 @@ DlgSettings::DlgSettings() : CBCGPPropertySheet(LoadText(0), NULL)
 BOOL DlgSettings::OnInitDialog()
 {
     ::ShowWindow(::GetDlgItem(m_hWnd, IDOK), SW_HIDE);
-    SetDlgItemText(IDCANCEL, theConfig.AppText(L"close"));
+    SetDlgItemText(IDCANCEL, g_config.AppText(L"close"));
 
     BCGUtils::SyncCaptionWithVisualManager(m_hWnd);
 

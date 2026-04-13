@@ -63,16 +63,16 @@ void CMainView::OnDraw(CDC* paintdc)
 
     if (auto ctx = CreateViewportContext())
     {
-        GetCanvas()->Draw(memdc, theRuntime.m_canvas_back, *ctx);
+        GetCanvas()->Draw(memdc, g_runtime.m_canvas_back, *ctx);
 
-        if (auto tool = theToolManager.GetActiveTool())
+        if (auto tool = g_tool_manager.GetActiveTool())
         {
             tool->OnDrawToolOverlay(memdc, *ctx);
         }
     }
     else
     {
-        if (m_welcome && theRuntime.m_post_init_finished)
+        if (m_welcome && g_runtime.m_post_init_finished)
             m_welcome->Draw(memdc);
     }
 }
@@ -152,7 +152,7 @@ void CMainView::OnContextMenu(CWnd*, CPoint point)
     if (CBCGPPopupMenu::GetActiveMenu() != NULL)
         return;
 
-    if (auto tool = theToolManager.GetActiveTool(); tool && theRuntime.GetCurrentCanvas())
+    if (auto tool = g_tool_manager.GetActiveTool(); tool && g_runtime.GetCurrentCanvas())
     {
         tool->OnContextMenu(point);
     }
@@ -161,7 +161,7 @@ void CMainView::OnContextMenu(CWnd*, CPoint point)
 void CMainView::OnLButtonDown(UINT nFlags, CPoint point)
 {
     auto   ctx = CreateViewportContext();
-    auto   tool = theToolManager.GetActiveTool();
+    auto   tool = g_tool_manager.GetActiveTool();
     if (ctx && tool)
     {
         tool->OnLButtonDown(*ctx, nFlags, point);
@@ -173,7 +173,7 @@ void CMainView::OnLButtonDown(UINT nFlags, CPoint point)
 void CMainView::OnLButtonUp(UINT nFlags, CPoint point)
 {
     auto   ctx = CreateViewportContext();
-    auto   tool = theToolManager.GetActiveTool();
+    auto   tool = g_tool_manager.GetActiveTool();
     if (ctx && tool)
     {
         tool->OnLButtonUp(*ctx, nFlags, point);
@@ -188,7 +188,7 @@ void CMainView::OnLButtonUp(UINT nFlags, CPoint point)
 
 LRESULT CMainView::OnCaptureChanged(WPARAM, LPARAM lParam)
 {
-    if (auto tool = theToolManager.GetActiveTool())
+    if (auto tool = g_tool_manager.GetActiveTool())
     {
         tool->OnCaptureChanged();
     }
@@ -198,7 +198,7 @@ LRESULT CMainView::OnCaptureChanged(WPARAM, LPARAM lParam)
 BOOL CMainView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 {
     auto   ctx = CreateViewportContext();
-    auto   tool = theToolManager.GetActiveTool();
+    auto   tool = g_tool_manager.GetActiveTool();
     if (tool && ctx && (nHitTest == HTCLIENT))
     {
         ::SetCursor(tool->GetToolCursor(*ctx));
@@ -210,7 +210,7 @@ BOOL CMainView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CMainView::OnMouseMove(UINT nFlags, CPoint point)
 {
     auto   ctx = CreateViewportContext();
-    auto   tool = theToolManager.GetActiveTool();
+    auto   tool = g_tool_manager.GetActiveTool();
     if (ctx && tool)
     {
         tool->OnMouseMove(*ctx, nFlags, point);
@@ -221,7 +221,7 @@ void CMainView::OnMouseMove(UINT nFlags, CPoint point)
 void CMainView::OnMouseLeave()
 {
     auto   ctx = CreateViewportContext();
-    auto   tool = theToolManager.GetActiveTool();
+    auto   tool = g_tool_manager.GetActiveTool();
     if (ctx && tool)
     {
         tool->OnMouseMove(*ctx, 0, { -0xFFFFFF,-0xFFFFFF });
@@ -231,7 +231,7 @@ void CMainView::OnMouseLeave()
 
 void CMainView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-    if (auto tool = theToolManager.GetActiveTool())
+    if (auto tool = g_tool_manager.GetActiveTool())
     {
         if (tool->OnKeyDown(nChar, nFlags))
             return;

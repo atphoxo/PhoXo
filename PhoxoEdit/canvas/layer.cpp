@@ -8,7 +8,7 @@ void Layer::RenderPixel(GPointF canvas_pt, Color& target, double ratio) const
     GPointF   pt = CanvasToLayer(canvas_pt);
     if (ratio < 1)
     {
-        if(theConfig.m_render_preference == RenderPreference::Quality)
+        if(g_config.m_render_preference == RenderPreference::Quality)
             AreaBlend(pt, target, ratio);
         else
             NearestBlend(pt, target);

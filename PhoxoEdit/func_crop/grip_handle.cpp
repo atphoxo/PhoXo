@@ -102,7 +102,7 @@ namespace
 
 void GripHandle::Draw(HDC hdc, const CRect& crop_on_view) const
 {
-    HBRUSH   paint = m_hovered ? theRuntime.m_accent_brush : (HBRUSH)GetStockObject(WHITE_BRUSH);
+    HBRUSH   paint = m_hovered ? g_runtime.m_accent_brush : (HBRUSH)GetStockObject(WHITE_BRUSH);
     GripBorder   calc(crop_on_view);
     switch (m_type)
     {

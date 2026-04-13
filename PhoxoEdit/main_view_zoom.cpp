@@ -5,8 +5,9 @@
 
 namespace
 {
-    double CalcRatioByMouseWheel(double current, int wheel_delta, double step)
+    double CalcRatioByMouseWheel(double current, short zDelta, double step)
     {
+        int   wheel_delta = FCWnd::WheelDeltaToStep(zDelta);
         double   coef = 1;
         if (wheel_delta >= 1)
             coef = std::pow(step, wheel_delta);
@@ -102,7 +103,7 @@ BOOL CMainView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
     if (nFlags & MK_CONTROL)
     {
         ScreenToClient(&pt); // screen -> view
-        double   newzoom = CalcRatioByMouseWheel(canvas->ZoomRatio(), zDelta / WHEEL_DELTA, 1.25);
+        double   newzoom = CalcRatioByMouseWheel(canvas->ZoomRatio(), zDelta, 1.25);
         UpdateZoomRatio(newzoom, ZoomChangedBy::MouseWheel, pt);
         return 0;
     }

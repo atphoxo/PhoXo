@@ -9,7 +9,7 @@ namespace
 {
     void ZoomForCropMode(const Canvas& canvas)
     {
-        CMainView&   view = *theRuntime.GetActiveView();
+        CMainView&   view = *g_runtime.GetActiveView();
         CRect   rc = FCWnd::GetClientRect(view);
         rc.DeflateRect(DPICalculator::Cast(10), DPICalculator::Cast(10)); // margin
         float   ratio = phoxo::Utils::CalcFitZoomRatio(rc.Size(), canvas.Size());
@@ -31,7 +31,7 @@ ToolCrop::ToolCrop()
 
 void ToolCrop::SetCropOnCanvas(const CRect& rc)
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && !rc.IsRectEmpty())
+    if (auto canvas = g_runtime.GetCurrentCanvas(); canvas && !rc.IsRectEmpty())
     {
         s_crop_on_canvas.IntersectRect(CRect({}, canvas->Size()), rc);
     }
@@ -41,13 +41,13 @@ void ToolCrop::SetCropOnCanvas(const CRect& rc)
     }
 
     // 用户可能输入一个无效的rc，但仍会触发刷新/事件以便 UI 恢复显示
-    theRuntime.InvalidateView();
+    g_runtime.InvalidateView();
     IEventObserverBase::FireEvent(AppEvent::CropRectChanged);
 }
 
 void ToolCrop::ApplyCropAspectRatio(int width, int height)
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && width && height)
+    if (auto canvas = g_runtime.GetCurrentCanvas(); canvas && width && height)
     {
         s_aspect_ratio.Lock(width, height);
         SetCropOnCanvas(s_aspect_ratio.FitCanvas(canvas->Size()));
@@ -97,7 +97,7 @@ void ToolCrop::OnMouseMove(const ViewportContext& ctx, UINT, CPoint point)
     {
         if (m_handle_overlay.OnMouseMove(point, CropOnView(ctx)))
         {
-            theRuntime.InvalidateView();
+            g_runtime.InvalidateView();
         }
     }
 }
@@ -147,7 +147,7 @@ void ToolCrop::ResetForNewImage()
     s_crop_on_canvas = {};
     s_aspect_ratio.Unlock();
 
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         ZoomForCropMode(*canvas);
         s_crop_on_canvas = CRect({}, canvas->Size());

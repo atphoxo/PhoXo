@@ -44,22 +44,22 @@ void CMainFrame::OnAppSettings()
     DlgSettings   dlg;
     dlg.DoModal();
 
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         canvas->InvalidateViewport();
-        theRuntime.InvalidateView();
+        g_runtime.InvalidateView();
     }
 }
 
 void CMainFrame::OnSelectTheme(UINT id)
 {
     int   new_theme_index = id - ID_THEME_01;
-    if (theConfig.m_theme_index == new_theme_index)
+    if (g_config.m_theme_index == new_theme_index)
         return;
 
-    theConfig.m_theme_index = new_theme_index;
-    theApp.SetVisualTheme(theConfig.GetVisualTheme());
-    theRuntime.OnThemeChanged();
+    g_config.m_theme_index = new_theme_index;
+    theApp.SetVisualTheme(g_config.GetVisualTheme());
+    g_runtime.OnThemeChanged();
 }
 
 void CMainFrame::OnRightTab(UINT id)
@@ -77,12 +77,12 @@ void CMainFrame::OnUpdateRightTab(CCmdUI* pCmdUI)
 
 void CMainFrame::OnEnableIfCanvasValid(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(theRuntime.GetCurrentCanvas() != NULL);
+    pCmdUI->Enable(g_runtime.GetCurrentCanvas() != NULL);
 }
 
 LRESULT CMainFrame::OnPostCanvasReloaded(WPARAM, LPARAM)
 {
-    if (auto tool = theToolManager.GetActiveTool())
+    if (auto tool = g_tool_manager.GetActiveTool())
     {
         tool->OnCanvasReloaded();
     }
@@ -106,7 +106,7 @@ LRESULT CMainFrame::OnPostInit(WPARAM, LPARAM)
     SetIcon(icon, TRUE);	// Set big icon
     SetIcon(icon, FALSE);	// Set small icon
 
-    theRuntime.m_post_init_finished = true;
+    g_runtime.m_post_init_finished = true;
 
     // Bug fix: when starting in full-screen mode, failing to refresh the title bar may cause issues
     if (IsZoomed())
@@ -131,7 +131,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
     if (nType == SIZE_MINIMIZED)
         return;
 
-    if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && canvas->IsCurrentFitView())
+    if (auto canvas = g_runtime.GetCurrentCanvas(); canvas && canvas->IsCurrentFitView())
     {
         SendMessage(WM_COMMAND, ID_TOP_ZOOM_FIT_WINDOW);
     }
@@ -144,8 +144,8 @@ BOOL CMainFrame::OnShowPopupMenu(CBCGPPopupMenu* popmenu)
 
 void CMainFrame::OnDestroy()
 {
-    theToolManager.Shutdown();
-    theConfig.Save();
+    g_tool_manager.Shutdown();
+    g_config.Save();
     __super::OnDestroy();
 }
 
@@ -158,5 +158,5 @@ LRESULT CMainFrame::OnDPIChanged(WPARAM wParam, LPARAM lParam)
 void CMainFrame::OnUpdateSelectTheme(CCmdUI* pCmdUI)
 {
     int   curr = (int)(pCmdUI->m_nID - ID_THEME_01);
-    pCmdUI->SetCheck(theConfig.m_theme_index == curr);
+    pCmdUI->SetCheck(g_config.m_theme_index == curr);
 }

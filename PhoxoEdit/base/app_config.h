@@ -24,4 +24,4 @@ private:
     void ProcessIntConfigs(FCRegKey& reg, bool is_load);
 };
 
-#define theConfig AppConfig::GetInstance()
+#define g_config AppConfig::GetInstance()

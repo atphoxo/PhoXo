@@ -2,44 +2,41 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PhoXoSee"
-#define MyAppVersion "1.9.26.3"
+#define MyAppVersion "1.10.26.4"
 #define MyAppPublisher "FULI"
+#define MyAppURL "https://phoxo.com/"
 #define MyAppExeName "PhoXoSee.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{405A2551-1951-4DAE-8902-93FCBEB115EF}
+AppId={{4C68682F-B547-46BC-9D0A-43379A5594D7}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
 AppCopyright=Copyright (C) 2026 FULI
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 DefaultGroupName={#MyAppName}
 DisableReadyPage=yes
 
-;DisableFinishedPage=no
-;DisableWelcomePage=no
-OutputDir=.\bin\
+OutputDir=.\
 OutputBaseFilename=phoxosee_{#MyAppVersion}
 SolidCompression=yes
-;UsePreviousAppDir=yes
 SetupIconFile=..\..\PhoXoSee\res\PhoXoSee.ico
-WizardStyle=modern
+WizardStyle=modern dynamic
 UninstallDisplayName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 VersionInfoVersion={#MyAppVersion}
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 WizardImageFile=WizardImageFile.png,WizardImageFile2.png,WizardImageFile3.png,WizardImageFile4.png,WizardImageFile5.png
-;WizardSmallImageFile=WizardSmallImageFile.bmp
-ShowLanguageDialog=auto
+ShowLanguageDialog=no
 MinVersion=10.0
 CloseApplications=force
-;PrivilegesRequired=admin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -53,23 +50,17 @@ Name: "korean"; MessagesFile: "compiler:Languages\Korean.isl"
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
-;Name: "vietnam"; MessagesFile: "compiler:Languages\Vietnamese.isl"
-Name: "ukraine"; MessagesFile: "compiler:Languages\Ukrainian.isl"
-Name: "Polish"; MessagesFile: "compiler:Languages\Polish.isl"
+;Name: "vietnamese"; MessagesFile: "compiler:Languages\Vietnamese.isl"
+Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
+Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
+Name: "slovenian"; MessagesFile: "compiler:Languages\Slovenian.isl"
 
 [Files]
 Source: "..\bin\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-;Source: "..\bin\PhoXoSee.exe"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "..\bin\image.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "..\bin\ShellMenu.dll"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "..\bin\language\*"; DestDir: "{app}\language"; Flags: ignoreversion recursesubdirs createallsubdirs
-;Source: "..\bin\res\*"; DestDir: "{app}\res"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-;Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Parameters: "/install"; Flags: waituntilterminated
@@ -77,22 +68,3 @@ Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 Filename: "{app}\{#MyAppExeName}"; Parameters: "/uninstall"; RunOnceId: "phoxoseeuninstall"
-
-;--------------------------------
-; Code (替代 NSIS System::Call DLL)
-[Code]
-procedure RunBeforeInstall();
-external 'RunBeforeInstall@files:SetupHelper.dll stdcall';
-
-function InitializeSetup(): Boolean;
-begin
-  ExtractTemporaryFile('SetupHelper.dll');
-
-  try
-    RunBeforeInstall();
-  except
-    MsgBox('SetupHelper.dll call failed.', mbError, MB_OK);
-  end;
-
-  Result := True;
-end;

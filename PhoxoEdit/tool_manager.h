@@ -13,4 +13,4 @@ private:
     unique_ptr<ToolBase>   m_activeTool;
 };
 
-#define theToolManager ToolManager::GetInstance()
+#define g_tool_manager ToolManager::GetInstance()

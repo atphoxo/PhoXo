@@ -82,7 +82,7 @@ void PanelManager::OnClickTab(CBCGPFrameWnd& main_wnd, UINT tab_id)
     auto   tool_name = ToolNameFromTabId(tab_id);
     if (m_current_panel)
     {
-        theToolManager.ActivateTool(tool_name);
+        g_tool_manager.ActivateTool(tool_name);
     }
 }
 

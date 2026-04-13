@@ -67,51 +67,51 @@ LRESULT TransformPage::OnChangeVisualManager(WPARAM wp, LPARAM lp)
 
 void TransformPage::OnResizeImage()
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         DlgResizeImage   dlg(canvas->Size());
         if (dlg.DoModal() == IDOK)
         {
             ToolCrop::SetCropOnCanvas(CRect());
-            theRuntime.GetActiveDoc()->Execute(make_unique<phoxo::CmdResizeImage>(*canvas, dlg.GetScaledSize(), LanguageText::Get(L"cmd", L"resize")));
+            g_runtime.GetActiveDoc()->Execute(make_unique<phoxo::CmdResizeImage>(*canvas, dlg.GetScaledSize(), LanguageText::Get(L"cmd", L"resize")));
         }
     }
 }
 
 void TransformPage::OnFlipHorz()
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         ToolCrop::SetCropOnCanvas(CRect());
-        theRuntime.GetActiveDoc()->Execute(make_unique<phoxo::CmdFlipHorizontalCanvas>(*canvas, LanguageText::Get(L"cmd", L"fliph")));
+        g_runtime.GetActiveDoc()->Execute(make_unique<phoxo::CmdFlipHorizontalCanvas>(*canvas, LanguageText::Get(L"cmd", L"fliph")));
     }
 }
 
 void TransformPage::OnFlipVert()
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         ToolCrop::SetCropOnCanvas(CRect());
-        theRuntime.GetActiveDoc()->Execute(make_unique<phoxo::CmdFlipVerticalCanvas>(*canvas, LanguageText::Get(L"cmd", L"flipv")));
+        g_runtime.GetActiveDoc()->Execute(make_unique<phoxo::CmdFlipVerticalCanvas>(*canvas, LanguageText::Get(L"cmd", L"flipv")));
     }
 }
 
 void TransformPage::OnRotateCW()
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         ToolCrop::SetCropOnCanvas(CRect());
-        theRuntime.GetActiveDoc()->Execute(make_unique<phoxo::CmdRotate90Canvas>(*canvas, LanguageText::Get(L"cmd", L"r90")));
+        g_runtime.GetActiveDoc()->Execute(make_unique<phoxo::CmdRotate90Canvas>(*canvas, LanguageText::Get(L"cmd", L"r90")));
         AfxGetMainWnd()->PostMessage(WM_COMMAND, ID_TOP_ZOOM_FIT_WINDOW);
     }
 }
 
 void TransformPage::OnRotateCCW()
 {
-    if (auto canvas = theRuntime.GetCurrentCanvas())
+    if (auto canvas = g_runtime.GetCurrentCanvas())
     {
         ToolCrop::SetCropOnCanvas(CRect());
-        theRuntime.GetActiveDoc()->Execute(make_unique<phoxo::CmdRotate270Canvas>(*canvas, LanguageText::Get(L"cmd", L"r270")));
+        g_runtime.GetActiveDoc()->Execute(make_unique<phoxo::CmdRotate270Canvas>(*canvas, LanguageText::Get(L"cmd", L"r270")));
         AfxGetMainWnd()->PostMessage(WM_COMMAND, ID_TOP_ZOOM_FIT_WINDOW);
     }
 }

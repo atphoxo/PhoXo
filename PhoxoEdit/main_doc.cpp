@@ -37,7 +37,7 @@ BOOL CMainDoc::OnNewDocument()
         return FALSE;
 
     SetModifiedFlag(FALSE);
-    SetTitle(theConfig.AppText(L"untitled"));
+    SetTitle(g_config.AppText(L"untitled"));
 
     // 启动时候创建的空doc直接返回，避免post image changed消息
     if (!m_canvas && !theApp.m_pending_new)

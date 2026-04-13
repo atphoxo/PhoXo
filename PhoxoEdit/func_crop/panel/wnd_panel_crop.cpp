@@ -104,7 +104,7 @@ void WndPanelCrop::Create(CWnd* parent)
     CBCGPDialogBar::Create(NULL, parent,
         FALSE,                             // bHasGripper: Hide the move gripper
         MAKEINTRESOURCE(IDD_PANEL_CROP),
-        WS_VISIBLE | WS_CHILD | theConfig.PanelDockStyle() | CBRS_HIDE_INPLACE, // left/right dock
+        WS_VISIBLE | WS_CHILD | g_config.PanelDockStyle() | CBRS_HIDE_INPLACE, // left/right dock
         ID_PANEL_CROP_ROTATE,
         CBRS_BCGP_REGULAR_TABS,
         CBRS_BCGP_AUTOHIDE
@@ -130,7 +130,7 @@ namespace
             dx *= 10; dy *= 10; // Hold Shift to move 10 times faster
         }
 
-        if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && ToolCrop::HasCropRect())
+        if (auto canvas = g_runtime.GetCurrentCanvas(); canvas && ToolCrop::HasCropRect())
         {
             CRect   rc = ToolCrop::s_crop_on_canvas;
             rc.OffsetRect(dx, dy);
@@ -238,13 +238,13 @@ void WndPanelCrop::OnPostUpdateKeepAspect()
 
 void WndPanelCrop::OnEnableIfCanvasValid(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(theRuntime.GetCurrentCanvas() != NULL);
+    pCmdUI->Enable(g_runtime.GetCurrentCanvas() != NULL);
 }
 
 void WndPanelCrop::OnEnableIfCropValid(CCmdUI* pCmdUI)
 {
     BOOL   enable = FALSE;
-    if (auto canvas = theRuntime.GetCurrentCanvas(); canvas && ToolCrop::HasCropRect())
+    if (auto canvas = g_runtime.GetCurrentCanvas(); canvas && ToolCrop::HasCropRect())
     {
         if (ToolCrop::s_crop_shape == CropShape::Rectangle)
             enable = (CRect({}, canvas->Size()) != ToolCrop::s_crop_on_canvas);
@@ -278,7 +278,7 @@ void WndPanelCrop::OnRatioButton(UINT id)
     if ((m_ratio_index == (int)(id - ID_CROP_FREE)) && ToolCrop::HasCropRect())
         return; // no change
 
-    auto   canvas = theRuntime.GetCurrentCanvas();
+    auto   canvas = g_runtime.GetCurrentCanvas();
     if (!canvas)
         return;
 
@@ -336,7 +336,7 @@ void WndPanelCrop::OnApplyCrop()
     if (!ToolCrop::HasCropRect())
         return;
 
-    if (auto doc = theRuntime.GetActiveDoc())
+    if (auto doc = g_runtime.GetActiveDoc())
     {
         doc->Execute(make_unique<cmd::CmdRectCrop>(ToolCrop::s_crop_on_canvas, *doc->GetCanvas(), m_ratio_index));
     }

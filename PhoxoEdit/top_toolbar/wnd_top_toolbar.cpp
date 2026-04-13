@@ -212,7 +212,7 @@ void WndTopToolbar::AddAppGroup(CBCGPRibbonPanel& panel)
 
 void WndTopToolbar::OnZoomRatioChanged(ZoomChangedBy sender)
 {
-    auto   canvas = theRuntime.GetCurrentCanvas();
+    auto   canvas = g_runtime.GetCurrentCanvas();
     if (!canvas)
         return;
 

@@ -33,7 +33,7 @@ CPhoxoEditApp::CPhoxoEditApp()
     m_bMSAASupport = FALSE;
 
     EnableLoadKeyboardAccelerators(FALSE);
-    SetVisualTheme(theConfig.GetVisualTheme());
+    SetVisualTheme(g_config.GetVisualTheme());
 }
 
 BOOL CPhoxoEditApp::InitInstance()

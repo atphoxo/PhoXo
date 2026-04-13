@@ -8,7 +8,7 @@ namespace main_view
         HWND   m_wnd;
         FCImage   m_icon;
         FCFont   m_font;
-        const CString   m_text{ theConfig.AppText(L"welcome") };
+        const CString   m_text{ g_config.AppText(L"welcome") };
 
     public:
         WelcomeRender(HWND wnd) : m_wnd{ wnd }

@@ -55,10 +55,10 @@ BOOL DlgSettingPageGeneral::OnInitDialog()
 void DlgSettingPageGeneral::DoDataExchange(CDataExchange* pDX)
 {
     __super::DoDataExchange(pDX);
-    DDX_CBIndex(pDX, IDC_RENDER_PREFERENCE_COMBOBOX, (int&)theConfig.m_render_preference);
-    DDX_CBIndex(pDX, IDC_PANEL_DOCK_COMBOBOX, (int&)theConfig.m_panel_dock);
+    DDX_CBIndex(pDX, IDC_RENDER_PREFERENCE_COMBOBOX, (int&)g_config.m_render_preference);
+    DDX_CBIndex(pDX, IDC_PANEL_DOCK_COMBOBOX, (int&)g_config.m_panel_dock);
 
-    FCWnd::DDX_Text_NoTip(pDX, IDC_MAX_ZOOM_EDIT, theConfig.m_max_zoom_ratio, 16);
-    theConfig.m_max_zoom_ratio = std::clamp(theConfig.m_max_zoom_ratio, 4, 99);
-    phoxo::ZoomMapper::s_max_ratio = theConfig.m_max_zoom_ratio;
+    FCWnd::DDX_Text_NoTip(pDX, IDC_MAX_ZOOM_EDIT, g_config.m_max_zoom_ratio, 16);
+    g_config.m_max_zoom_ratio = std::clamp(g_config.m_max_zoom_ratio, 4, 99);
+    phoxo::ZoomMapper::s_max_ratio = g_config.m_max_zoom_ratio;
 }

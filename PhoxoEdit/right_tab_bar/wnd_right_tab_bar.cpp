@@ -36,7 +36,7 @@ void WndRightTabBar::ButtonPanel::GetMessageString(UINT nID, CString& desp) cons
 void WndRightTabBar::Create(CWnd* parent)
 {
     int   init_width = DPICalculator::Cast(BAR_WIDTH);
-    DWORD   dock = theConfig.PanelDockStyle();
+    DWORD   dock = g_config.PanelDockStyle();
     CBCGPOutlookBar::Create(L"", parent, CRect(0, 0, init_width, init_width),
         ID_RIGHT_TAB_BAR,
         WS_CHILD | WS_VISIBLE | dock,
