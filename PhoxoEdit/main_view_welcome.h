@@ -21,7 +21,7 @@ namespace main_view
         COLORREF TitleColor() const
         {
             BOOL   is_dark = CBCGPVisualManager::GetInstance()->IsDarkTheme();
-            FCColor   c{ is_dark ? Gdiplus::Color::White : 0x202020 };
+            FCColor   c{ is_dark ? GColor::White : 0x202020 };
             return c.ToCOLORREF();
         }
 

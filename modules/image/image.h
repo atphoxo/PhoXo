@@ -25,6 +25,7 @@ extern "C"
 
     IMAGE_API IWICBitmap* oxo_3rd_load(PCWSTR filepath, IWICImagingFactory* factory);
     IMAGE_API BOOL oxo_3rd_save(PCWSTR filepath, IWICBitmap* img, IWICImagingFactory* factory);
+    // IMAGE_API SIZE oxo_3rd_get_image_size(PCWSTR filepath);
 
     IMAGE_API void* oxo_webp_save_to_memory(IWICBitmap* src, float quality, UINT32* out_size);
     IMAGE_API void oxo_webp_free(void* data);

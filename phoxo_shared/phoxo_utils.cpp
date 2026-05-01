@@ -94,6 +94,17 @@ void PhoxoUtils::CreatePrintImageThread(CString imagefile)
     t.detach();
 }
 
+FCImage PhoxoUtils::LoadSvgWithDpi(PCWSTR filepath)
+{
+    FCImage   img;
+    if (FCFileMapping mem{ filepath })
+    {
+        FCResource   loader(mem.m_data, (UINT)mem.m_size.QuadPart);
+        img = phoxo::ImageHandler::Make(loader.LoadSvgWithDpi(), WICNormal32bpp);
+    }
+    return img;
+}
+
 FCImage PhoxoUtils::LoadSvgWithDpi(UINT res_id, std::optional<FCColor> fill_color)
 {
     FCResource   svg(res_id, L"SVG");
@@ -114,7 +125,7 @@ FCColor PhoxoUtils::GetIconColor(ThemeMode theme)
     else if (theme == InverseBCG)
         theme = CBCGPVisualManager::GetInstance()->IsDarkTheme() ? Light : Dark;
 #endif
-    return FCColor{ (theme == Dark) ? 0xEEEEEE : 0x333333 };
+    return FCColor{ (theme == Dark) ? 0xEEEEEEu : 0x333333u };
 }
 
 void PhoxoUtils::EnableWndDragDrop(HWND wnd)

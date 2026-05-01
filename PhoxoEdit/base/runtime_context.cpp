@@ -7,8 +7,7 @@ namespace
 {
     void CreateCanvasGridBack(CBrush& br)
     {
-        using namespace Gdiplus;
-        phoxo::effect::CheckerFill   eff(FCColor(Color::Silver), FCColor(Color::White), 16);
+        phoxo::effect::CheckerFill   eff(FCColor(GColor::Silver), FCColor(GColor::White), 16);
         FCImage   img;
         img.Create(32, 32);
         img.ApplyEffect(eff);

@@ -118,7 +118,7 @@ void CPhoxoEditApp::OnClearRecentFiles()
 void CPhoxoEditApp::OnCreateImage()
 {
     m_pending_new.Create(500, 300);
-    phoxo::ImageFastPixel::FillColor(m_pending_new, FCColor(Gdiplus::Color::Orange));
+    phoxo::ImageFastPixel::FillColor(m_pending_new, FCColor(GColor::Orange));
     OnFileNew();
 }
 

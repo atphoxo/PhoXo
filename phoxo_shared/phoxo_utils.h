@@ -10,6 +10,7 @@ public:
     static void WIAPopScanImageDialog(PCWSTR savefile);
     static void CreatePrintImageThread(CString imagefile);
 
+    static FCImage LoadSvgWithDpi(PCWSTR filepath);
     static FCImage LoadSvgWithDpi(UINT res_id, std::optional<FCColor> fill_color = std::nullopt);
     static FCColor GetIconColor(ThemeMode theme = ThemeMode::FollowBCG);
 

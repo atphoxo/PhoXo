@@ -21,13 +21,6 @@ IWICBitmap* oxo_3rd_load(PCWSTR filepath, IWICImagingFactory* factory)
 
         case OpenJpeg:
             return oxo_jpeg2000_load(filepath, factory);
-
-        case Webp:
-            if (FCFileMapping mem(filepath); mem.m_data && mem.m_size.QuadPart)
-            {
-                return oxo_webp_load_from_memory(mem.m_data, mem.m_size.QuadPart, factory);
-            }
-            break;
     }
     return nullptr;
 }

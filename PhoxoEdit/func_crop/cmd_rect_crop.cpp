@@ -37,7 +37,8 @@ namespace
     private:
         void GenerateShapeMask(HDC dc) const
         {
-            auto   target = D2D::CreateDCRenderTarget(D2D1_RENDER_TARGET_TYPE_SOFTWARE, dc);
+            auto   target = D2D::CreateDCRenderTarget(D2D1_RENDER_TARGET_TYPE_SOFTWARE);
+            target->BindDC(dc, CRect({}, m_cropped.Size()));
             ID2D1SolidColorBrushPtr   br;
             target->CreateSolidColorBrush(ColorF(ColorF::White), &br);
 
